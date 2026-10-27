@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Portofolio · Laravel Web Developer</title>
     <style>
         /* ---------- RESET & GLOBAL ---------- */
@@ -38,6 +38,8 @@
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
             overflow: hidden;
+            overflow-x: hidden;
+            overscroll-behavior: none;
         }
 
         /* ---------- PAGE SLIDER ---------- */
@@ -45,6 +47,7 @@
             display: flex;
             width: 200%;
             height: 100vh;
+            height: 100dvh;
             transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: transform;
         }
@@ -56,8 +59,10 @@
         .page {
             width: 50%;
             height: 100vh;
+            height: 100dvh;
             overflow-y: auto;
             overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -103,6 +108,7 @@
             color: var(--text-secondary);
             cursor: pointer;
             transition: background 0.15s ease, color 0.15s ease;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .lang-switcher button:hover {
@@ -563,6 +569,7 @@
             box-shadow: 0 6px 22px rgba(177, 62, 62, 0.35);
             transition: background 0.15s ease, opacity 0.25s ease;
             font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .side-arrow:hover {
@@ -640,7 +647,6 @@
             margin-bottom: 1.8rem;
             padding-bottom: 1.2rem;
             border-bottom: 1px solid var(--border-light);
-            /* leave room for the CV page language switcher */
             padding-right: 7rem;
         }
 
@@ -673,6 +679,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.3rem;
+            word-break: break-word;
         }
 
         .cv-section {
@@ -767,76 +774,201 @@
             color: var(--text-secondary);
         }
 
-        /* ---------- RESPONSIVE ---------- */
+        /* ---------- TABLET (<= 900px) ---------- */
+        @media (max-width: 900px) {
+            .portfolio,
+            .cv-page-wrap {
+                padding: 2rem 1.6rem;
+            }
+
+            .cv-header {
+                padding-right: 6rem;
+            }
+        }
+
+        /* ---------- MOBILE (<= 700px) ---------- */
         @media (max-width: 700px) {
             .page {
-                padding: 1rem 0.75rem;
+                padding: 0.75rem 0.6rem 5rem; /* extra bottom room for the arrows */
             }
 
             .portfolio,
             .cv-page-wrap {
-                padding: 1.8rem 1.2rem;
+                padding: 1.4rem 1rem;
+                border-radius: 20px;
             }
 
+            /* Language switcher — visible but tucked */
             .lang-switcher {
-                top: 1rem;
-                right: 1rem;
+                top: 0.9rem;
+                right: 0.9rem;
+                padding: 2px;
+            }
+            .lang-switcher button {
+                font-size: 0.72rem;
+                padding: 0.28rem 0.65rem;
+                min-width: 36px;
+                min-height: 32px;
             }
 
-            h1 {
-                font-size: 2.2rem;
-            }
+            /* Typography scale-down */
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.2rem; margin-bottom: 1rem; }
+            .subhead { font-size: 1rem; margin-bottom: 1.1rem; }
+            p { font-size: 0.95rem; }
 
+            /* Header — reserve space for switcher */
             .profile-header {
-                flex-direction: column-reverse;
-                align-items: flex-start;
-                gap: 1rem;
-                margin-top: 2rem;
-            }
-
-            .two-col-section {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .contact-section {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 1rem;
+                margin-top: 1.8rem;
+                margin-bottom: 1.4rem;
             }
 
+            .badge-group {
+                gap: 0.35rem;
+                margin-top: 0.6rem;
+            }
+            .badge {
+                font-size: 0.78rem;
+                padding: 0.2rem 0.7rem;
+            }
+
+            /* Intro */
+            .portfolio > p[data-i18n="intro"] {
+                font-size: 0.95rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+
+            /* Projects */
             .project-grid {
                 grid-template-columns: 1fr;
+                gap: 1.2rem;
+                margin: 1.4rem 0 1.8rem 0;
             }
-
+            .card-content {
+                padding: 1rem 1rem 1.2rem;
+            }
+            .project-title { font-size: 1.05rem; }
+            .project-desc { font-size: 0.88rem; }
             .project-link {
                 align-self: stretch;
                 justify-content: center;
+                padding: 0.55rem 1rem;
+                font-size: 0.88rem;
             }
 
+            /* Two-column → single column */
+            .two-col-section {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin: 1.8rem 0 0.5rem 0;
+            }
+            .item-title { font-size: 0.95rem; }
+            .item-sub { font-size: 0.85rem; }
+
+            /* Skill chips */
+            .skill-chips span {
+                font-size: 0.78rem;
+                padding: 0.28rem 0.8rem;
+            }
+
+            /* Pricing */
+            .pricing-section { margin-top: 1.8rem; }
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin-top: 0.8rem;
+            }
+            .pricing-card {
+                padding: 1.3rem 1.1rem 1.4rem;
+            }
+            .pricing-price { font-size: 1.45rem; }
+            .pricing-features li { font-size: 0.85rem; }
+            .pricing-note { font-size: 0.78rem; }
+            .pricing-category { font-size: 0.98rem; }
+
+            /* Contact */
+            .contact-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                margin-top: 2rem;
+                padding-top: 1.2rem;
+            }
+            .contact-links {
+                gap: 0.9rem;
+                flex-wrap: wrap;
+            }
+            .contact-links a { font-size: 0.9rem; }
+            .footer-note { font-size: 0.8rem; }
+
+            /* ---- ARROWS: bottom corners, circular, compact ---- */
             .side-arrow {
-                padding: 1.2rem 0.5rem;
-                min-height: 140px;
+                top: auto;
+                bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+                transform: none;
+                width: 52px;
+                height: 52px;
+                padding: 0;
+                min-height: 0;
+                border-radius: 50%;
+                gap: 0;
             }
             .side-arrow .side-arrow-chevron {
                 font-size: 1.6rem;
+                line-height: 1;
             }
             .side-arrow .side-arrow-label {
                 display: none;
             }
             .cv-arrow {
-                right: 0.6rem;
+                right: 0.9rem;
             }
             .portfolio-arrow {
-                left: 0.6rem;
+                left: 0.9rem;
             }
 
+            /* CV page */
             .cv-header {
                 padding-right: 0;
-                /* on mobile give the switcher its own space above the title */
-                padding-top: 2.5rem;
+                padding-top: 2.2rem; /* room for lang switcher above title */
+                margin-bottom: 1.4rem;
             }
-            .cv-header h2 {
-                font-size: 1.6rem;
+            .cv-header h2 { font-size: 1.5rem; }
+            .cv-header .cv-role { font-size: 0.82rem; }
+            .cv-contact {
+                font-size: 0.82rem;
+                gap: 0.4rem 0.9rem;
+            }
+            .cv-section { margin-bottom: 1.4rem; }
+            .cv-entry-title { font-size: 0.95rem; }
+            .cv-entry-sub { font-size: 0.82rem; }
+            .cv-entry-desc { font-size: 0.85rem; }
+            .cv-entry-meta { font-size: 0.72rem; }
+            .cv-skill-list span { font-size: 0.76rem; }
+
+            /* Hide hover scale on touch to avoid sticky hover state */
+            .project-card:hover {
+                transform: none;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01);
+            }
+            .project-card:hover .card-image img {
+                transform: none;
+            }
+        }
+
+        /* ---------- SMALL PHONES (<= 380px) ---------- */
+        @media (max-width: 380px) {
+            h1 { font-size: 1.8rem; }
+            .portfolio,
+            .cv-page-wrap {
+                padding: 1.2rem 0.85rem;
+            }
+            .project-tags span,
+            .skill-chips span {
+                font-size: 0.72rem;
             }
         }
 
@@ -1504,7 +1636,6 @@
             document.documentElement.lang = lang;
             document.title = titleText[lang] || titleText.id;
 
-            // sync BOTH language switchers (portfolio + CV)
             document.querySelectorAll('.lang-switcher button').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
@@ -1515,7 +1646,6 @@
         const savedLang = localStorage.getItem('portfolio-lang') || 'id';
         applyLanguage(savedLang);
 
-        // bind ALL language switcher buttons (both pages)
         document.querySelectorAll('.lang-switcher button').forEach(btn => {
             btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
         });
@@ -1570,7 +1700,7 @@
             cvPageTouchX = e.touches[0].clientX;
         }, { passive: true });
         cvPageEl.addEventListener('touchend', (e) => {
-            const dx = e.changedTouches[0].clientX - cvTouchX;
+            const dx = e.changedTouches[0].clientX - cvPageTouchX;
             if (dx > 60) showPortfolio();
         }, { passive: true });
     </script>
