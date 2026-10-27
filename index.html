@@ -542,7 +542,7 @@
             opacity: 0.8;
         }
 
-        /* ---------- SIDE NAV ARROWS (CV + PORTFOLIO) ---------- */
+        /* ---------- SIDE NAV ARROWS ---------- */
         .side-arrow {
             position: fixed;
             top: 50%;
@@ -551,15 +551,17 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.4rem;
+            justify-content: center;
+            gap: 0.6rem;
             background: var(--accent);
             color: #fff;
             border: none;
             cursor: pointer;
-            padding: 1rem 0.55rem;
+            padding: 1.8rem 0.7rem;
+            min-height: 180px;
             border-radius: 40px;
             box-shadow: 0 6px 22px rgba(177, 62, 62, 0.35);
-            transition: background 0.15s ease, opacity 0.2s ease;
+            transition: background 0.15s ease, opacity 0.25s ease;
             font-family: inherit;
         }
 
@@ -568,14 +570,14 @@
         }
 
         .side-arrow .side-arrow-chevron {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             line-height: 1;
         }
 
         .side-arrow .side-arrow-label {
-            font-size: 0.6rem;
+            font-size: 0.68rem;
             font-weight: 700;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
             writing-mode: vertical-rl;
             text-transform: uppercase;
         }
@@ -586,19 +588,19 @@
             animation: blinkPulse 1.4s ease-in-out infinite;
         }
 
-        /* Portfolio arrow — fixed left, blinking, visible when CV is active */
+        /* Portfolio arrow — fixed left, ONLY visible when CV page is active */
         .portfolio-arrow {
             left: 1.2rem;
             opacity: 0;
             pointer-events: none;
-            animation: blinkPulse 1.4s ease-in-out infinite;
+            animation: none;
         }
 
         .portfolio-arrow .side-arrow-label {
             transform: rotate(180deg);
         }
 
-        /* Visibility toggling between pages */
+        /* Visibility toggling */
         .page-track.show-cv ~ .cv-arrow {
             opacity: 0;
             pointer-events: none;
@@ -608,6 +610,7 @@
         .page-track.show-cv ~ .portfolio-arrow {
             opacity: 1;
             pointer-events: auto;
+            animation: blinkPulse 1.4s ease-in-out infinite;
         }
 
         @keyframes blinkPulse {
@@ -637,6 +640,8 @@
             margin-bottom: 1.8rem;
             padding-bottom: 1.2rem;
             border-bottom: 1px solid var(--border-light);
+            /* leave room for the CV page language switcher */
+            padding-right: 7rem;
         }
 
         .cv-header h2 {
@@ -730,6 +735,23 @@
             line-height: 1.5;
         }
 
+        .cv-entry-roles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-top: 0.5rem;
+        }
+
+        .cv-entry-roles span {
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.15rem 0.65rem;
+            border-radius: 30px;
+            letter-spacing: 0.02em;
+        }
+
         .cv-skill-list {
             display: flex;
             flex-wrap: wrap;
@@ -792,10 +814,11 @@
             }
 
             .side-arrow {
-                padding: 0.8rem 0.4rem;
+                padding: 1.2rem 0.5rem;
+                min-height: 140px;
             }
             .side-arrow .side-arrow-chevron {
-                font-size: 1.4rem;
+                font-size: 1.6rem;
             }
             .side-arrow .side-arrow-label {
                 display: none;
@@ -807,6 +830,11 @@
                 left: 0.6rem;
             }
 
+            .cv-header {
+                padding-right: 0;
+                /* on mobile give the switcher its own space above the title */
+                padding-top: 2.5rem;
+            }
             .cv-header h2 {
                 font-size: 1.6rem;
             }
@@ -834,7 +862,7 @@
         <div class="page">
             <main class="portfolio">
 
-                <!-- LANGUAGE SWITCHER -->
+                <!-- LANGUAGE SWITCHER (portfolio) -->
                 <div class="lang-switcher" role="group" aria-label="Language / Bahasa">
                     <button type="button" data-lang="id" class="active">ID</button>
                     <button type="button" data-lang="en">EN</button>
@@ -1136,14 +1164,20 @@
         <div class="page">
             <main class="cv-page-wrap">
 
+                <!-- LANGUAGE SWITCHER (CV) -->
+                <div class="lang-switcher" role="group" aria-label="Language / Bahasa">
+                    <button type="button" data-lang="id" class="active">ID</button>
+                    <button type="button" data-lang="en">EN</button>
+                </div>
+
                 <header class="cv-header">
                     <h2>Rizoctdev</h2>
                     <div class="cv-role" data-i18n="cv_role">App Developer</div>
                     <div class="cv-contact">
-                        <span>📧 rizoctdev@gmail.com</span>
-                        <span>📱 +62 878-5992-5122</span>
-                        <span>📍 <span data-i18n="cv_location">Indonesia</span></span>
-                        <span>🔗 github.com/Rizoct</span>
+                        <span>rizoctdev@gmail.com</span>
+                        <span>+62 878-5992-5122</span>
+                        <span><span data-i18n="cv_location">Indonesia</span></span>
+                        <span>github.com/Rizoct</span>
                     </div>
                 </header>
 
@@ -1151,10 +1185,9 @@
                 <section class="cv-section">
                     <h3 data-i18n="cv_summary_heading">Profil Singkat</h3>
                     <p class="cv-entry-desc" data-i18n="cv_summary_text">
-                        App Developer dengan pengalaman membangun aplikasi web dan mobile siap produksi, 
-                        berfokus pada Laravel, sistem e-commerce, POS, ERP, dan company profile. 
-                        Berpengalaman integrasi payment gateway QRIS, WhatsApp OTP/Business API, 
-                        serta pengembangan aplikasi mobile cross-platform dengan Flutter.
+                        Full Stack Developer dan AI Automation Engineer dengan pengalaman lintas peran — Business Analyst, 
+                        Project Manager, dan Mobile Developer. Berpengalaman membangun ERP internal, otomasi AI, aplikasi 
+                        mobile Flutter, dan platform e-commerce siap produksi dengan Laravel.
                     </p>
                 </section>
 
@@ -1164,26 +1197,27 @@
 
                     <div class="cv-entry">
                         <div class="cv-entry-header">
-                            <span class="cv-entry-title" data-i18n="cv_job1_title">Freelance App Developer</span>
-                            <span class="cv-entry-meta" data-i18n="cv_job1_period">2022 – Sekarang</span>
+                            <span class="cv-entry-title" data-i18n="cv_job1_title">PT Tridente Berkah Abadi</span>
+                            <span class="cv-entry-meta" data-i18n="cv_job1_period">2024 – Sekarang</span>
                         </div>
-                        <div class="cv-entry-sub" data-i18n="cv_job1_company">Remote · Indonesia</div>
+                        <div class="cv-entry-sub" data-i18n="cv_job1_company">Business Analyst · Project Manager · Full Stack Developer · AI Automation Engineer · Mobile Developer</div>
                         <p class="cv-entry-desc" data-i18n="cv_job1_desc">
-                            Mengembangkan platform e-commerce, company profile, sistem POS, dan ERP berbasis Laravel. 
-                            Menangani integrasi QRIS payment gateway, WhatsApp OTP, multi-user role system, 
-                            serta aplikasi mobile Flutter untuk klien bisnis.
+                            Mengembangkan aplikasi internal perusahaan: sistem ERP, otomasi AI (AI Automation), 
+                            aplikasi mobile dengan Flutter, dan website e-commerce. Menangani peran dari analisis bisnis, 
+                            manajemen proyek, hingga pengembangan full-stack dan mobile.
                         </p>
                     </div>
 
                     <div class="cv-entry">
                         <div class="cv-entry-header">
-                            <span class="cv-entry-title" data-i18n="cv_job2_title">Web Developer</span>
-                            <span class="cv-entry-meta" data-i18n="cv_job2_period">2020 – 2022</span>
+                            <span class="cv-entry-title" data-i18n="cv_job2_title">Freelance App Developer</span>
+                            <span class="cv-entry-meta" data-i18n="cv_job2_period">2022 – Sekarang</span>
                         </div>
-                        <div class="cv-entry-sub" data-i18n="cv_job2_company">Software House · Indonesia</div>
+                        <div class="cv-entry-sub" data-i18n="cv_job2_company">Remote · Indonesia</div>
                         <p class="cv-entry-desc" data-i18n="cv_job2_desc">
-                            Membangun aplikasi web internal untuk klien enterprise menggunakan Laravel, MySQL, 
-                            dan Bootstrap. Berkolaborasi dengan tim UI/UX dan QA untuk delivery tepat waktu.
+                            Mengerjakan berbagai proyek aplikasi, termasuk Warship Engine Simulator untuk 
+                            Akademi Angkatan Laut Surabaya, website Company Profile dengan SEO, 
+                            School Management System, dan platform E-Commerce.
                         </p>
                     </div>
                 </section>
@@ -1195,12 +1229,9 @@
                     <div class="cv-entry">
                         <div class="cv-entry-header">
                             <span class="cv-entry-title" data-i18n="cv_edu1_title">S1 Teknik Informatika</span>
-                            <span class="cv-entry-meta" data-i18n="cv_edu1_period">2016 – 2020</span>
+                            <span class="cv-entry-meta" data-i18n="cv_edu1_period">GPA 3.58</span>
                         </div>
-                        <div class="cv-entry-sub" data-i18n="cv_edu1_school">Universitas · Indonesia</div>
-                        <p class="cv-entry-desc" data-i18n="cv_edu1_desc">
-                            Fokus pada rekayasa perangkat lunak, basis data, dan pengembangan aplikasi web.
-                        </p>
+                        <div class="cv-entry-sub" data-i18n="cv_edu1_school">Binus University · Indonesia</div>
                     </div>
                 </section>
 
@@ -1233,13 +1264,11 @@
     </div>
 
     <!-- ================= FIXED SIDE ARROWS ================= -->
-    <!-- CV arrow (right) — visible when portfolio active -->
     <button class="side-arrow cv-arrow" id="cvArrow" aria-label="Open CV">
         <span class="side-arrow-chevron">‹</span>
         <span class="side-arrow-label" data-i18n="cv_arrow_label">CV</span>
     </button>
 
-    <!-- Portfolio arrow (left) — visible when CV active -->
     <button class="side-arrow portfolio-arrow" id="portfolioArrow" aria-label="Back to portfolio">
         <span class="side-arrow-chevron">›</span>
         <span class="side-arrow-label" data-i18n="portfolio_arrow_label">Portfolio</span>
@@ -1320,27 +1349,30 @@
                 request_quote: "minta penawaran",
                 pricing_note: "Harga adalah estimasi awal dalam IDR — penawaran final tergantung fitur, revisi, dan timeline. Domain & hosting ditagih terpisah.",
                 footer_note: "Portofolio buatan Rizoct · © 2026",
-                /* CV + arrows */
                 cv_arrow_label: "CV",
                 portfolio_arrow_label: "Portfolio",
                 cv_role: "App Developer",
                 cv_location: "Indonesia",
                 cv_summary_heading: "Profil Singkat",
-                cv_summary_text: "App Developer dengan pengalaman membangun aplikasi web dan mobile siap produksi, berfokus pada Laravel, sistem e-commerce, POS, ERP, dan company profile. Berpengalaman integrasi payment gateway QRIS, WhatsApp OTP/Business API, serta pengembangan aplikasi mobile cross-platform dengan Flutter.",
+                cv_summary_text: "Full Stack Developer dan AI Automation Engineer dengan pengalaman lintas peran — Business Analyst, Project Manager, dan Mobile Developer. Berpengalaman membangun ERP internal, otomasi AI, aplikasi mobile Flutter, dan platform e-commerce siap produksi dengan Laravel.",
                 cv_experience_heading: "Pengalaman Kerja",
-                cv_job1_title: "Freelance App Developer",
-                cv_job1_period: "2022 – Sekarang",
-                cv_job1_company: "Remote · Indonesia",
-                cv_job1_desc: "Mengembangkan platform e-commerce, company profile, sistem POS, dan ERP berbasis Laravel. Menangani integrasi QRIS payment gateway, WhatsApp OTP, multi-user role system, serta aplikasi mobile Flutter untuk klien bisnis.",
-                cv_job2_title: "Web Developer",
-                cv_job2_period: "2020 – 2022",
-                cv_job2_company: "Software House · Indonesia",
-                cv_job2_desc: "Membangun aplikasi web internal untuk klien enterprise menggunakan Laravel, MySQL, dan Bootstrap. Berkolaborasi dengan tim UI/UX dan QA untuk delivery tepat waktu.",
+                cv_job1_title: "PT Tridente Berkah Abadi",
+                cv_job1_period: "2024 – Sekarang",
+                cv_job1_company: "Business Analyst · Project Manager · Full Stack Developer · AI Automation Engineer · Mobile Developer",
+                cv_job1_role1: "Business Analyst",
+                cv_job1_role2: "Project Manager",
+                cv_job1_role3: "Full Stack Developer",
+                cv_job1_role4: "AI Automation Engineer",
+                cv_job1_role5: "Mobile Developer",
+                cv_job1_desc: "Mengembangkan aplikasi internal perusahaan: sistem ERP, otomasi AI (AI Automation), aplikasi mobile dengan Flutter, dan website e-commerce. Menangani peran dari analisis bisnis, manajemen proyek, hingga pengembangan full-stack dan mobile.",
+                cv_job2_title: "Freelance App Developer",
+                cv_job2_period: "2022 – Sekarang",
+                cv_job2_company: "Remote · Indonesia",
+                cv_job2_desc: "Mengerjakan berbagai proyek aplikasi, termasuk Warship Engine Simulator untuk Akademi Angkatan Laut Surabaya, website Company Profile dengan SEO, School Management System, dan platform E-Commerce.",
                 cv_education_heading: "Pendidikan",
                 cv_edu1_title: "S1 Teknik Informatika",
-                cv_edu1_period: "2016 – 2020",
-                cv_edu1_school: "Universitas · Indonesia",
-                cv_edu1_desc: "Fokus pada rekayasa perangkat lunak, basis data, dan pengembangan aplikasi web.",
+                cv_edu1_period: "GPA 3.58",
+                cv_edu1_school: "Binus University · Indonesia",
                 cv_skills_heading: "Keahlian"
             },
             en: {
@@ -1416,27 +1448,30 @@
                 request_quote: "request quote",
                 pricing_note: "Prices are starting estimates in IDR — final quote depends on features, revisions, and timeline. Domain & hosting billed separately.",
                 footer_note: "Handcrafted Portfolio by Rizoct · © 2026",
-                /* CV + arrows */
                 cv_arrow_label: "CV",
                 portfolio_arrow_label: "Portfolio",
                 cv_role: "App Developer",
                 cv_location: "Indonesia",
                 cv_summary_heading: "Summary",
-                cv_summary_text: "App Developer experienced in building production-ready web and mobile applications, focused on Laravel, e-commerce systems, POS, ERP, and company profiles. Experienced in QRIS payment gateway integration, WhatsApp OTP/Business API, and cross-platform mobile development with Flutter.",
+                cv_summary_text: "Full Stack Developer and AI Automation Engineer with cross-functional experience as Business Analyst, Project Manager, and Mobile Developer. Experienced in building internal ERP systems, AI automation, Flutter mobile apps, and production-ready e-commerce platforms with Laravel.",
                 cv_experience_heading: "Work Experience",
-                cv_job1_title: "Freelance App Developer",
-                cv_job1_period: "2022 – Present",
-                cv_job1_company: "Remote · Indonesia",
-                cv_job1_desc: "Developed e-commerce platforms, company profiles, POS systems, and Laravel-based ERP. Handled QRIS payment gateway integration, WhatsApp OTP, multi-user role systems, and Flutter mobile apps for business clients.",
-                cv_job2_title: "Web Developer",
-                cv_job2_period: "2020 – 2022",
-                cv_job2_company: "Software House · Indonesia",
-                cv_job2_desc: "Built internal web applications for enterprise clients using Laravel, MySQL, and Bootstrap. Collaborated with UI/UX and QA teams for on-time delivery.",
+                cv_job1_title: "PT Tridente Berkah Abadi",
+                cv_job1_period: "2024 – Present",
+                cv_job1_company: "Business Analyst · Project Manager · Full Stack Developer · AI Automation Engineer · Mobile Developer",
+                cv_job1_role1: "Business Analyst",
+                cv_job1_role2: "Project Manager",
+                cv_job1_role3: "Full Stack Developer",
+                cv_job1_role4: "AI Automation Engineer",
+                cv_job1_role5: "Mobile Developer",
+                cv_job1_desc: "Developed internal company applications: ERP system, AI Automation, Flutter mobile apps, and e-commerce website. Handled roles from business analysis and project management through full-stack and mobile development.",
+                cv_job2_title: "Freelance App Developer",
+                cv_job2_period: "2022 – Present",
+                cv_job2_company: "Remote · Indonesia",
+                cv_job2_desc: "Delivered various application projects, including a Warship Engine Simulator for the Indonesian Naval Academy (Akademi Angkatan Laut) Surabaya, SEO-optimized Company Profile websites, School Management Systems, and E-Commerce platforms.",
                 cv_education_heading: "Education",
                 cv_edu1_title: "Bachelor of Informatics Engineering",
-                cv_edu1_period: "2016 – 2020",
-                cv_edu1_school: "University · Indonesia",
-                cv_edu1_desc: "Focused on software engineering, databases, and web application development.",
+                cv_edu1_period: "GPA 3.58",
+                cv_edu1_school: "Binus University · Indonesia",
                 cv_skills_heading: "Skills"
             }
         };
@@ -1469,6 +1504,7 @@
             document.documentElement.lang = lang;
             document.title = titleText[lang] || titleText.id;
 
+            // sync BOTH language switchers (portfolio + CV)
             document.querySelectorAll('.lang-switcher button').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
@@ -1479,6 +1515,7 @@
         const savedLang = localStorage.getItem('portfolio-lang') || 'id';
         applyLanguage(savedLang);
 
+        // bind ALL language switcher buttons (both pages)
         document.querySelectorAll('.lang-switcher button').forEach(btn => {
             btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
         });
@@ -1503,14 +1540,12 @@
         cvArrow.addEventListener('click', showCV);
         portfolioArrow.addEventListener('click', showPortfolio);
 
-        // Escape returns to portfolio
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && pageTrack.classList.contains('show-cv')) {
                 showPortfolio();
             }
         });
 
-        // Swipe left on CV arrow → open CV
         let cvTouchX = 0;
         cvArrow.addEventListener('touchstart', (e) => {
             cvTouchX = e.touches[0].clientX;
@@ -1520,7 +1555,6 @@
             if (dx < -20) showCV();
         }, { passive: true });
 
-        // Swipe right on portfolio arrow → back to portfolio
         let pfTouchX = 0;
         portfolioArrow.addEventListener('touchstart', (e) => {
             pfTouchX = e.touches[0].clientX;
@@ -1530,14 +1564,13 @@
             if (dx > 20) showPortfolio();
         }, { passive: true });
 
-        // Swipe right on CV page → back to portfolio
         const cvPageEl = pageTrack.children[1];
         let cvPageTouchX = 0;
         cvPageEl.addEventListener('touchstart', (e) => {
             cvPageTouchX = e.touches[0].clientX;
         }, { passive: true });
         cvPageEl.addEventListener('touchend', (e) => {
-            const dx = e.changedTouches[0].clientX - cvPageTouchX;
+            const dx = e.changedTouches[0].clientX - cvTouchX;
             if (dx > 60) showPortfolio();
         }, { passive: true });
     </script>
