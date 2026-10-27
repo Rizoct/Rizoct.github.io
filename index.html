@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio · Laravel Web Developer</title>
+    <title>Portofolio · Laravel Web Developer</title>
     <style>
         /* ---------- RESET & GLOBAL ---------- */
         * {
@@ -27,19 +27,45 @@
             --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         }
 
+        html, body {
+            height: 100%;
+        }
+
         body {
             background-color: var(--bg);
             color: var(--text-primary);
             font-family: var(--font-sans);
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
-            padding: 2rem 1.5rem;
-            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ---------- PAGE SLIDER ---------- */
+        .page-track {
+            display: flex;
+            width: 200%;
+            height: 100vh;
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform;
+        }
+
+        .page-track.show-cv {
+            transform: translateX(-50%);
+        }
+
+        .page {
+            width: 50%;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 2rem 1.5rem;
+            flex-shrink: 0;
         }
 
+        /* ---------- PORTFOLIO PAGE ---------- */
         .portfolio {
             max-width: 1150px;
             width: 100%;
@@ -48,6 +74,49 @@
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border-light);
             padding: 2.5rem 2.2rem;
+            position: relative;
+        }
+
+        /* ---------- LANGUAGE SWITCHER ---------- */
+        .lang-switcher {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.8rem;
+            display: inline-flex;
+            background: var(--bg);
+            border: 1px solid var(--border-light);
+            border-radius: 40px;
+            padding: 3px;
+            gap: 2px;
+            z-index: 10;
+        }
+
+        .lang-switcher button {
+            font-family: inherit;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            padding: 0.3rem 0.75rem;
+            border-radius: 40px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+
+        .lang-switcher button:hover {
+            color: var(--text-primary);
+        }
+
+        .lang-switcher button.active {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .lang-switcher button:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
         }
 
         /* ---------- TYPOGRAPHY ---------- */
@@ -107,21 +176,6 @@
             flex: 1 1 300px;
         }
 
-        .avatar {
-            width: 90px;
-            height: 90px;
-            background: var(--accent-soft);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.2rem;
-            font-weight: 500;
-            color: var(--accent);
-            border: 1px solid var(--border-light);
-            flex-shrink: 0;
-        }
-
         .badge-group {
             display: flex;
             flex-wrap: wrap;
@@ -163,7 +217,6 @@
             border-color: #d5cec6;
         }
 
-        /* image area */
         .card-image {
             width: 100%;
             aspect-ratio: 16 / 10;
@@ -305,15 +358,6 @@
             color: var(--text-primary);
         }
 
-        .item-meta {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            background: var(--bg);
-            padding: 0.1rem 0.6rem;
-            border-radius: 30px;
-            border: 1px solid var(--border-light);
-        }
-
         .item-sub {
             font-size: 0.9rem;
             color: var(--text-secondary);
@@ -334,6 +378,132 @@
             font-size: 0.85rem;
             border: 1px solid var(--border-light);
             color: var(--text-secondary);
+        }
+
+        /* ---------- PRICELIST ---------- */
+        .pricing-section {
+            margin-top: 2.5rem;
+        }
+
+        .pricing-group {
+            margin-bottom: 2rem;
+        }
+
+        .pricing-group:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .pricing-category {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            margin-bottom: 0.9rem;
+            padding-left: 0.7rem;
+            border-left: 3px solid var(--accent);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .pricing-card {
+            background: var(--bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 1.6rem 1.4rem 1.8rem;
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+        }
+
+        .pricing-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-3px);
+            border-color: #d5cec6;
+        }
+
+        .pricing-card.featured {
+            border-color: #dcb8b8;
+            background: linear-gradient(160deg, var(--accent-soft) 0%, var(--bg) 55%);
+            position: relative;
+        }
+
+        .pricing-card.featured::before {
+            content: attr(data-featured-label);
+            position: absolute;
+            top: -0.7rem;
+            left: 1.2rem;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+        }
+
+        .pricing-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+
+        .pricing-price {
+            font-size: 1.65rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .pricing-price small {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            letter-spacing: 0;
+            margin-top: 0.15rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 1.1rem 0 1.4rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .pricing-features li {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            padding-left: 1.25rem;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .pricing-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.82rem;
+        }
+
+        .pricing-note {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            opacity: 0.9;
+            margin-top: 1.2rem;
         }
 
         /* ---------- FOOTER ---------- */
@@ -372,14 +542,223 @@
             opacity: 0.8;
         }
 
+        /* ---------- SIDE NAV ARROWS (CV + PORTFOLIO) ---------- */
+        .side-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            padding: 1rem 0.55rem;
+            border-radius: 40px;
+            box-shadow: 0 6px 22px rgba(177, 62, 62, 0.35);
+            transition: background 0.15s ease, opacity 0.2s ease;
+            font-family: inherit;
+        }
+
+        .side-arrow:hover {
+            background: #8d2e2e;
+        }
+
+        .side-arrow .side-arrow-chevron {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .side-arrow .side-arrow-label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            writing-mode: vertical-rl;
+            text-transform: uppercase;
+        }
+
+        /* CV arrow — fixed right, blinking, visible when portfolio is active */
+        .cv-arrow {
+            right: 1.2rem;
+            animation: blinkPulse 1.4s ease-in-out infinite;
+        }
+
+        /* Portfolio arrow — fixed left, blinking, visible when CV is active */
+        .portfolio-arrow {
+            left: 1.2rem;
+            opacity: 0;
+            pointer-events: none;
+            animation: blinkPulse 1.4s ease-in-out infinite;
+        }
+
+        .portfolio-arrow .side-arrow-label {
+            transform: rotate(180deg);
+        }
+
+        /* Visibility toggling between pages */
+        .page-track.show-cv ~ .cv-arrow {
+            opacity: 0;
+            pointer-events: none;
+            animation: none;
+        }
+
+        .page-track.show-cv ~ .portfolio-arrow {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        @keyframes blinkPulse {
+            0%, 100% {
+                box-shadow: 0 6px 22px rgba(177, 62, 62, 0.35);
+                opacity: 1;
+            }
+            50% {
+                box-shadow: 0 6px 34px rgba(177, 62, 62, 0.7);
+                opacity: 0.65;
+            }
+        }
+
+        /* ---------- CV PAGE ---------- */
+        .cv-page-wrap {
+            max-width: 900px;
+            width: 100%;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            padding: 2.5rem 2.2rem;
+            position: relative;
+        }
+
+        .cv-header {
+            margin-bottom: 1.8rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .cv-header h2 {
+            border: none;
+            padding: 0;
+            margin-bottom: 0.4rem;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .cv-header .cv-role {
+            color: var(--accent);
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+
+        .cv-contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.2rem;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+        }
+
+        .cv-contact span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .cv-section {
+            margin-bottom: 1.8rem;
+        }
+
+        .cv-section h3 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.9rem;
+            padding-bottom: 0.35rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .cv-entry {
+            margin-bottom: 1.1rem;
+        }
+
+        .cv-entry:last-child {
+            margin-bottom: 0;
+        }
+
+        .cv-entry-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 0.3rem 0.8rem;
+        }
+
+        .cv-entry-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .cv-entry-meta {
+            font-size: 0.78rem;
+            color: var(--accent);
+            font-weight: 600;
+            background: var(--accent-soft);
+            padding: 0.1rem 0.6rem;
+            border-radius: 30px;
+            white-space: nowrap;
+        }
+
+        .cv-entry-sub {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-top: 0.15rem;
+        }
+
+        .cv-entry-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-top: 0.35rem;
+            line-height: 1.5;
+        }
+
+        .cv-skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .cv-skill-list span {
+            background: var(--bg);
+            border: 1px solid var(--border-light);
+            padding: 0.2rem 0.75rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
         /* ---------- RESPONSIVE ---------- */
         @media (max-width: 700px) {
-            body {
+            .page {
                 padding: 1rem 0.75rem;
             }
 
-            .portfolio {
+            .portfolio,
+            .cv-page-wrap {
                 padding: 1.8rem 1.2rem;
+            }
+
+            .lang-switcher {
+                top: 1rem;
+                right: 1rem;
             }
 
             h1 {
@@ -390,12 +769,7 @@
                 flex-direction: column-reverse;
                 align-items: flex-start;
                 gap: 1rem;
-            }
-
-            .avatar {
-                width: 70px;
-                height: 70px;
-                font-size: 1.8rem;
+                margin-top: 2rem;
             }
 
             .two-col-section {
@@ -416,10 +790,30 @@
                 align-self: stretch;
                 justify-content: center;
             }
+
+            .side-arrow {
+                padding: 0.8rem 0.4rem;
+            }
+            .side-arrow .side-arrow-chevron {
+                font-size: 1.4rem;
+            }
+            .side-arrow .side-arrow-label {
+                display: none;
+            }
+            .cv-arrow {
+                right: 0.6rem;
+            }
+            .portfolio-arrow {
+                left: 0.6rem;
+            }
+
+            .cv-header h2 {
+                font-size: 1.6rem;
+            }
         }
 
         /* focus ring */
-        a:focus-visible, .project-card:focus-within {
+        a:focus-visible, .project-card:focus-within, button:focus-visible {
             outline: 2px solid var(--accent);
             outline-offset: 2px;
             border-radius: 8px;
@@ -432,213 +826,720 @@
     </style>
 </head>
 <body>
-    <main class="portfolio">
-        <!-- header -->
-        <div class="profile-header">
-            <div class="profile-info">
-                <h1>Rizoct</h1>
-                <p class="subhead">Laravel web developer · e-commerce, POS &amp; multi-user systems</p>
-                <div class="badge-group">
-                    <span class="badge">📍 Indonesia</span>
-                    <span class="badge">🟢 available for projects</span>
-                    <span class="badge">Laravel specialist</span>
-                </div>
-            </div>
-            <div class="avatar" aria-hidden="true">RZ</div>
-        </div>
 
-        <!-- UPDATED INTRO PARAGRAPH -->
-        <p style="font-size: 1.05rem; max-width: 750px; margin-bottom: 2rem;">
-            I build complete web and mobile applications with Laravel — from e-commerce platforms with dynamic QRIS
-            payment gateways and full cart systems, to company profiles with advanced SEO, multi-user course platforms
-            with WhatsApp OTP registration, and point-of-sale systems with inventory management. I also develop
-            cross-platform mobile apps with Flutter and Supabase/MySQL. Below are my live projects.
-        </p>
+    <!-- ================= PAGE TRACK ================= -->
+    <div class="page-track" id="pageTrack">
 
-        <!-- PROJECTS -->
-        <h2>live projects</h2>
-        <div class="project-grid">
+        <!-- ============ PAGE 1: PORTFOLIO ============ -->
+        <div class="page">
+            <main class="portfolio">
 
-            <!-- 1. marwavogue.com -->
-            <article class="project-card">
-                <div class="card-image">
-                    <img src="https://picsum.photos/seed/marwavogue/600/375" alt="Marwavogue e-commerce project preview" loading="lazy">
+                <!-- LANGUAGE SWITCHER -->
+                <div class="lang-switcher" role="group" aria-label="Language / Bahasa">
+                    <button type="button" data-lang="id" class="active">ID</button>
+                    <button type="button" data-lang="en">EN</button>
                 </div>
-                <div class="card-content">
-                    <span class="project-type">E-Commerce</span>
-                    <div class="project-title">marwavogue.com</div>
-                    <p class="project-desc">
-                        Fashion e-commerce platform with a complete cart system, product gallery,
-                        admin dashboard, standard SEO, and dynamic QRIS payment gateway.
-                    </p>
-                    <div class="project-tags">
-                        <span>Laravel</span>
-                        <span>QRIS</span>
-                        <span>Cart System</span>
-                        <span>Admin</span>
-                        <span>SEO</span>
-                    </div>
-                    <a href="https://marwavogue.com" target="_blank" rel="noopener noreferrer" class="project-link">
-                        visit website <span class="arrow">↗</span>
-                    </a>
-                </div>
-            </article>
 
-            <!-- 2. yastowingservice.com -->
-            <article class="project-card">
-                <div class="card-image">
-                    <img src="https://picsum.photos/seed/yastowingservice/600/375" alt="Yasto Wing Service company profile preview" loading="lazy">
-                </div>
-                <div class="card-content">
-                    <span class="project-type">Company Profile</span>
-                    <div class="project-title">yastowingservice.com</div>
-                    <p class="project-desc">
-                        Company profile website for an aviation wing service provider,
-                        built with Laravel and advanced SEO optimization.
-                    </p>
-                    <div class="project-tags">
-                        <span>Laravel</span>
-                        <span>Advanced SEO</span>
-                        <span>Company Profile</span>
+                <!-- header -->
+                <div class="profile-header">
+                    <div class="profile-info">
+                        <h1>Rizoctdev</h1>
+                        <p class="subhead" data-i18n="subhead">App Developer · e-commerce, POS &amp; sistem multi-user, ERP, company profile</p>
+                        <div class="badge-group">
+                            <span class="badge" data-i18n="badge_location">📍 Indonesia</span>
+                            <span class="badge" data-i18n="badge_available">🟢 tersedia untuk proyek</span>
+                            <span class="badge" data-i18n="badge_specialist">Spesialis Laravel</span>
+                        </div>
                     </div>
-                    <a href="https://yastowingservice.com" target="_blank" rel="noopener noreferrer" class="project-link">
-                        visit website <span class="arrow">↗</span>
-                    </a>
                 </div>
-            </article>
 
-            <!-- 3. jualrokokkretek.com -->
-            <article class="project-card">
-                <div class="card-image">
-                    <img src="https://picsum.photos/seed/jualrokokkretek/600/375" alt="Jual Rokok Kretek e-commerce project preview" loading="lazy">
-                </div>
-                <div class="card-content">
-                    <span class="project-type">E-Commerce</span>
-                    <div class="project-title">jualrokokkretek.com</div>
-                    <p class="project-desc">
-                        E-commerce store for kretek cigarettes with admin dashboard,
-                        cart system, standard SEO, and dynamic QRIS payment gateway.
-                    </p>
-                    <div class="project-tags">
-                        <span>Laravel</span>
-                        <span>QRIS</span>
-                        <span>Cart System</span>
-                        <span>Admin</span>
-                        <span>SEO</span>
-                    </div>
-                    <a href="https://jualrokokkretek.com" target="_blank" rel="noopener noreferrer" class="project-link">
-                        visit website <span class="arrow">↗</span>
-                    </a>
-                </div>
-            </article>
-
-            <!-- 4. edu.tridenteberkahabadi.com -->
-            <article class="project-card">
-                <div class="card-image">
-                    <img src="https://picsum.photos/seed/tridente/600/375" alt="Tridente Berkahabadi course website preview" loading="lazy">
-                </div>
-                <div class="card-content">
-                    <span class="project-type">Course Website</span>
-                    <div class="project-title">edu.tridenteberkahabadi.com</div>
-                    <p class="project-desc">
-                        Online course platform with multi-user roles, cart system,
-                        standard SEO, and registration verified via WhatsApp OTP.
-                    </p>
-                    <div class="project-tags">
-                        <span>Laravel</span>
-                        <span>Multi User</span>
-                        <span>Cart System</span>
-                        <span>WhatsApp OTP</span>
-                        <span>SEO</span>
-                    </div>
-                    <a href="https://edu.tridenteberkahabadi.com" target="_blank" rel="noopener noreferrer" class="project-link">
-                        visit website <span class="arrow">↗</span>
-                    </a>
-                </div>
-            </article>
-
-        </div>
-
-        <!-- experience + skills -->
-        <div class="two-col-section">
-            <div>
-                <h2 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-light);">what I do</h2>
-                <div class="list-item">
-                    <div class="item-header">
-                        <span class="item-title">E-Commerce Development</span>
-                    </div>
-                    <div class="item-sub">Cart systems, product galleries, admin dashboards, and dynamic QRIS payment integration.</div>
-                </div>
-                <div class="list-item">
-                    <div class="item-header">
-                        <span class="item-title">Company Profiles</span>
-                    </div>
-                    <div class="item-sub">Company profile websites with modern design and functionality.</div>
-                </div>
-                <div class="list-item">
-                    <div class="item-header">
-                        <span class="item-title">SEO &amp; Performance</span>
-                    </div>
-                    <div class="item-sub">Standard and advanced SEO implementations for better search visibility.</div>
-                </div>
-                <div class="list-item">
-                    <div class="item-header">
-                        <span class="item-title">Cashier Point of Sales System &amp; Inventory Management</span>
-                    </div>
-                    <div class="item-sub">Efficient cash handling and sales tracking solutions.</div>
-                </div>
-                <div class="list-item">
-                    <div class="item-header">
-                        <span class="item-title">Multi-User Systems</span>
-                    </div>
-                    <div class="item-sub">Role-based access control for different user types.</div>
-                </div>
-                <div class="list-item">
-                    <div class="item-header">
-                        <span class="item-title">Mobile Applications</span>
-                    </div>
-                    <div class="item-sub">Cross-platform mobile applications for iOS and Android.</div>
-                </div>
-            </div>
-            <div>
-                <h2 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-light);">tech stack</h2>
-                <div class="skill-chips" style="margin-top: 0.5rem;">
-                    <span>Laravel</span>
-                    <span>PHP</span>
-                    <span>MySQL</span>
-                    <span>Blade</span>
-                    <span>Tailwind CSS</span>
-                    <span>Alpine.js</span>
-                    <span>JavaScript</span>
-                    <span>Flutter</span>
-                    <span>Supabase</span>
-                    <span>Unity C#</span>
-                    <span>Payment Gateway</span>
-                    <span>WhatsApp OTP</span>
-                    <span>WhatsApp Business API</span>
-                    <span>SEO</span>
-                    <span>Admin Dashboards</span>
-                    <span>Multi-User Systems</span>
-                    <span>Cart Systems</span>
-                </div>
-                <p style="margin-top: 1.5rem; font-size: 0.95rem;">
-                    I focus on building production-ready Laravel applications that are fast, secure, and easy for
-                    clients to manage.
+                <!-- INTRO -->
+                <p style="font-size: 1.05rem; max-width: 750px; margin-bottom: 2rem;" data-i18n="intro">
+                    Saya membangun aplikasi web dan mobile lengkap dengan Laravel — mulai dari platform e-commerce dengan
+                    payment gateway QRIS dinamis dan sistem keranjang penuh, company profile dengan SEO lanjutan, platform
+                    kursus multi-user dengan registrasi OTP WhatsApp, hingga sistem point-of-sale dengan manajemen inventori.
+                    Saya juga mengembangkan aplikasi mobile cross-platform dengan Flutter dan Supabase/MySQL. Berikut proyek
+                    live saya.
                 </p>
-            </div>
+
+                <!-- PROJECTS -->
+                <h2 data-i18n="projects_heading">proyek live</h2>
+                <div class="project-grid">
+
+                    <!-- 1. marwavogue.com -->
+                    <article class="project-card">
+                        <div class="card-image">
+                            <img src="assets/img/projects/marwavogue_1.png" alt="Marwavogue e-commerce project preview" loading="lazy">
+                        </div>
+                        <div class="card-content">
+                            <span class="project-type" data-i18n="type_ecommerce">E-Commerce</span>
+                            <div class="project-title">marwavogue.com</div>
+                            <p class="project-desc" data-i18n="desc_marwavogue">
+                                Platform e-commerce fashion dengan sistem keranjang lengkap, galeri produk,
+                                dashboard admin, SEO standar, dan payment gateway QRIS dinamis.
+                            </p>
+                            <div class="project-tags">
+                                <span>Laravel</span>
+                                <span>QRIS</span>
+                                <span data-i18n="tag_cart">Sistem Keranjang</span>
+                                <span data-i18n="tag_admin">Admin</span>
+                                <span>SEO</span>
+                            </div>
+                            <a href="https://marwavogue.com" target="_blank" rel="noopener noreferrer" class="project-link">
+                                <span data-i18n="visit_website">kunjungi website</span> <span class="arrow">↗</span>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- 2. yastowingservice.com -->
+                    <article class="project-card">
+                        <div class="card-image">
+                            <img src="assets/img/projects/yastowing_1.png" alt="Yasto Wing Service company profile preview" loading="lazy">
+                        </div>
+                        <div class="card-content">
+                            <span class="project-type" data-i18n="type_company">Company Profile</span>
+                            <div class="project-title">yastowingservice.com</div>
+                            <p class="project-desc" data-i18n="desc_yastowing">
+                                Website company profile untuk penyedia layanan aviation wing service,
+                                dibangun dengan Laravel dan optimasi SEO lanjutan.
+                            </p>
+                            <div class="project-tags">
+                                <span>Laravel</span>
+                                <span data-i18n="tag_adv_seo">SEO Lanjutan</span>
+                                <span data-i18n="type_company">Company Profile</span>
+                            </div>
+                            <a href="https://yastowingservice.com" target="_blank" rel="noopener noreferrer" class="project-link">
+                                <span data-i18n="visit_website">kunjungi website</span> <span class="arrow">↗</span>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- 3. jualrokokkretek.com -->
+                    <article class="project-card">
+                        <div class="card-image">
+                            <img src="assets/img/projects/jualrokokkretek_1.png" alt="Jual Rokok Kretek e-commerce project preview" loading="lazy">
+                        </div>
+                        <div class="card-content">
+                            <span class="project-type" data-i18n="type_ecommerce">E-Commerce</span>
+                            <div class="project-title">jualrokokkretek.com</div>
+                            <p class="project-desc" data-i18n="desc_jualrokok">
+                                Toko e-commerce untuk rokok kretek dengan dashboard admin,
+                                sistem keranjang, SEO standar, dan payment gateway QRIS dinamis.
+                            </p>
+                            <div class="project-tags">
+                                <span>Laravel</span>
+                                <span>QRIS</span>
+                                <span data-i18n="tag_cart">Sistem Keranjang</span>
+                                <span data-i18n="tag_admin">Admin</span>
+                                <span>SEO</span>
+                            </div>
+                            <a href="https://jualrokokkretek.com" target="_blank" rel="noopener noreferrer" class="project-link">
+                                <span data-i18n="visit_website">kunjungi website</span> <span class="arrow">↗</span>
+                            </a>
+                        </div>
+                    </article>
+
+                </div>
+
+                <!-- experience + skills -->
+                <div class="two-col-section">
+                    <div>
+                        <h2 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-light);" data-i18n="what_i_do_heading">apa yang saya lakukan</h2>
+                        <div class="list-item">
+                            <div class="item-header">
+                                <span class="item-title" data-i18n="do_ecommerce_title">Pengembangan E-Commerce</span>
+                            </div>
+                            <div class="item-sub" data-i18n="do_ecommerce_desc">Sistem keranjang, galeri produk, dashboard admin, dan integrasi payment gateway QRIS dinamis.</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="item-header">
+                                <span class="item-title" data-i18n="do_company_title">Company Profile</span>
+                            </div>
+                            <div class="item-sub" data-i18n="do_company_desc">Website company profile dengan desain modern dan fungsionalitas lengkap.</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="item-header">
+                                <span class="item-title" data-i18n="do_seo_title">SEO &amp; Performa</span>
+                            </div>
+                            <div class="item-sub" data-i18n="do_seo_desc">Implementasi SEO standar dan lanjutan untuk visibilitas pencarian yang lebih baik.</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="item-header">
+                                <span class="item-title" data-i18n="do_pos_title">Sistem Kasir (POS) &amp; Manajemen Inventori</span>
+                            </div>
+                            <div class="item-sub" data-i18n="do_pos_desc">Solusi penanganan kas dan pelacakan penjualan yang efisien.</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="item-header">
+                                <span class="item-title" data-i18n="do_multiuser_title">Sistem Multi-User</span>
+                            </div>
+                            <div class="item-sub" data-i18n="do_multiuser_desc">Kontrol akses berbasis role untuk berbagai tipe pengguna.</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="item-header">
+                                <span class="item-title" data-i18n="do_mobile_title">Aplikasi Mobile</span>
+                            </div>
+                            <div class="item-sub" data-i18n="do_mobile_desc">Aplikasi mobile cross-platform untuk iOS dan Android.</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-light);" data-i18n="tech_stack_heading">tech stack</h2>
+                        <div class="skill-chips" style="margin-top: 0.5rem;">
+                            <span>Laravel</span>
+                            <span>PHP</span>
+                            <span>MySQL</span>
+                            <span>Blade</span>
+                            <span>Tailwind CSS</span>
+                            <span>Alpine.js</span>
+                            <span>JavaScript</span>
+                            <span>Flutter</span>
+                            <span>Supabase</span>
+                            <span>Unity C#</span>
+                            <span>Delphi</span>
+                            <span>Bootstrap</span>
+                            <span>Python</span>
+                            <span data-i18n="chip_payment">Payment Gateway</span>
+                            <span data-i18n="chip_wa_otp">WhatsApp OTP</span>
+                            <span data-i18n="chip_wa_api">WhatsApp Business API</span>
+                            <span>SEO</span>
+                            <span data-i18n="chip_admin_dash">Dashboard Admin</span>
+                            <span data-i18n="chip_multiuser">Sistem Multi-User</span>
+                            <span data-i18n="chip_cart">Sistem Keranjang</span>
+                        </div>
+                        <p style="margin-top: 1.5rem; font-size: 0.95rem;" data-i18n="tech_stack_desc">
+                            Saya fokus membangun aplikasi Laravel siap produksi yang cepat, aman, dan mudah dikelola klien.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- pricelist -->
+                <section class="pricing-section">
+                    <h2 data-i18n="pricelist_heading">daftar harga</h2>
+
+                    <!-- COMPANY PROFILE -->
+                    <div class="pricing-group">
+                        <h3 class="pricing-category" data-i18n="cat_company">Company Profile</h3>
+                        <div class="pricing-grid">
+
+                            <article class="pricing-card">
+                                <div class="pricing-name" data-i18n="cp_static_name">Static</div>
+                                <div class="pricing-price">
+                                    Rp 500.000
+                                    <small data-i18n="starting_from">mulai dari</small>
+                                </div>
+                                <ul class="pricing-features">
+                                    <li data-i18n="cp_static_f1">Desain modern responsif</li>
+                                    <li data-i18n="cp_static_f2">Hingga 5 halaman statis</li>
+                                    <li data-i18n="cp_static_f3">Setup SEO dasar</li>
+                                    <li data-i18n="cp_static_f4">Integrasi kontak &amp; WhatsApp</li>
+                                    <li data-i18n="cp_static_f5">Konten disediakan klien</li>
+                                </ul>
+                                <a href="https://wa.me/6287859925122?text=Halo%20Rizoct%2C%20saya%20tertarik%20dengan%20paket%20Company%20Profile%20Static." target="_blank" rel="noopener noreferrer" class="project-link">
+                                    <span data-i18n="inquire">tanya</span> <span class="arrow">↗</span>
+                                </a>
+                            </article>
+
+                            <article class="pricing-card">
+                                <div class="pricing-name" data-i18n="cp_content_name">Dengan Pembuatan Konten</div>
+                                <div class="pricing-price">
+                                    Rp 1.000.000
+                                    <small data-i18n="starting_from">mulai dari</small>
+                                </div>
+                                <ul class="pricing-features">
+                                    <li data-i18n="cp_content_f1">Semua fitur paket Static</li>
+                                    <li data-i18n="cp_content_f2">Copywriting untuk semua halaman</li>
+                                    <li data-i18n="cp_content_f3">Setup SEO dasar</li>
+                                    <li data-i18n="cp_content_f4">Pencarian &amp; optimasi gambar</li>
+                                    <li data-i18n="cp_content_f5">Panel admin untuk konten</li>
+                                </ul>
+                                <a href="https://wa.me/6287859925122?text=Halo%20Rizoct%2C%20saya%20tertarik%20dengan%20paket%20Company%20Profile%20dengan%20Pembuatan%20Konten." target="_blank" rel="noopener noreferrer" class="project-link">
+                                    <span data-i18n="inquire">tanya</span> <span class="arrow">↗</span>
+                                </a>
+                            </article>
+
+                        </div>
+                    </div>
+
+                    <!-- E-COMMERCE -->
+                    <div class="pricing-group">
+                        <h3 class="pricing-category" data-i18n="cat_ecommerce">E-Commerce</h3>
+                        <div class="pricing-grid">
+
+                            <article class="pricing-card featured" data-featured-label="paling populer">
+                                <div class="pricing-name" data-i18n="ec_std_name">Standard</div>
+                                <div class="pricing-price">
+                                    Rp 3.500.000
+                                    <small data-i18n="starting_from">mulai dari</small>
+                                </div>
+                                <ul class="pricing-features">
+                                    <li data-i18n="ec_std_f1">Sistem keranjang &amp; checkout lengkap</li>
+                                    <li data-i18n="ec_std_f2">Galeri produk &amp; kategori</li>
+                                    <li data-i18n="ec_std_f3">Dashboard admin</li>
+                                    <li data-i18n="ec_std_f4">Payment gateway QRIS dinamis</li>
+                                    <li data-i18n="ec_std_f5">Optimasi SEO standar</li>
+                                    <li data-i18n="ec_std_f6">Manajemen pesanan</li>
+                                </ul>
+                                <a href="https://wa.me/6287859925122?text=Halo%20Rizoct%2C%20saya%20tertarik%20dengan%20paket%20E-Commerce%20Standard." target="_blank" rel="noopener noreferrer" class="project-link">
+                                    <span data-i18n="inquire">tanya</span> <span class="arrow">↗</span>
+                                </a>
+                            </article>
+
+                        </div>
+                    </div>
+
+                    <!-- CUSTOM -->
+                    <div class="pricing-group">
+                        <h3 class="pricing-category" data-i18n="cat_custom">Sistem Custom</h3>
+                        <div class="pricing-grid">
+
+                            <article class="pricing-card">
+                                <div class="pricing-name" data-i18n="custom_name">POS &amp; Sistem Custom</div>
+                                <div class="pricing-price">
+                                    <span data-i18n="custom_price">Custom</span>
+                                    <small data-i18n="custom_price_sub">disesuaikan dengan scope</small>
+                                </div>
+                                <ul class="pricing-features">
+                                    <li data-i18n="custom_f1">Point-of-sale &amp; inventori</li>
+                                    <li data-i18n="custom_f2">Manajemen role multi-user</li>
+                                    <li data-i18n="custom_f3">WhatsApp OTP / Business API</li>
+                                    <li data-i18n="custom_f4">Integrasi &amp; laporan custom</li>
+                                    <li data-i18n="custom_f5">Aplikasi mobile (Flutter) opsional</li>
+                                </ul>
+                                <a href="https://wa.me/6287859925122?text=Halo%20Rizoct%2C%20saya%20ingin%20minta%20penawaran%20untuk%20sistem%20custom." target="_blank" rel="noopener noreferrer" class="project-link">
+                                    <span data-i18n="request_quote">minta penawaran</span> <span class="arrow">↗</span>
+                                </a>
+                            </article>
+
+                        </div>
+                    </div>
+
+                    <p class="pricing-note" data-i18n="pricing_note">
+                        Harga adalah estimasi awal dalam IDR — penawaran final tergantung fitur, revisi, dan timeline. Domain &amp; hosting ditagih terpisah.
+                    </p>
+                </section>
+
+                <!-- footer -->
+                <div class="contact-section">
+                    <div class="contact-links">
+                        <a href="mailto:rizoctdev@gmail.com">rizoctdev@gmail.com</a>
+                        <a href="https://wa.me/6287859925122" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                        <a href="https://github.com/Rizoct" target="_blank" rel="noopener noreferrer">Github</a>
+                    </div>
+                    <div class="footer-note" data-i18n="footer_note">
+                        Portofolio buatan Rizoct · &copy; 2026
+                    </div>
+                </div>
+            </main>
         </div>
 
-        <!-- footer -->
-        <div class="contact-section">
-            <div class="contact-links">
-                <a href="mailto:rizoctdev@gmail.com">rizoctdev@gmail.com</a>
-                <a href="https://wa.me/6287859925122" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-                <a href="https://github.com/Rizoct" target="_blank" rel="noopener noreferrer">Github</a>
-            </div>
-            <div class="footer-note">
-                Handcrafted Portfolio by Rizoct · &copy; 2026
-            </div>
+        <!-- ============ PAGE 2: CV ============ -->
+        <div class="page">
+            <main class="cv-page-wrap">
+
+                <header class="cv-header">
+                    <h2>Rizoctdev</h2>
+                    <div class="cv-role" data-i18n="cv_role">App Developer</div>
+                    <div class="cv-contact">
+                        <span>📧 rizoctdev@gmail.com</span>
+                        <span>📱 +62 878-5992-5122</span>
+                        <span>📍 <span data-i18n="cv_location">Indonesia</span></span>
+                        <span>🔗 github.com/Rizoct</span>
+                    </div>
+                </header>
+
+                <!-- Personal Summary -->
+                <section class="cv-section">
+                    <h3 data-i18n="cv_summary_heading">Profil Singkat</h3>
+                    <p class="cv-entry-desc" data-i18n="cv_summary_text">
+                        App Developer dengan pengalaman membangun aplikasi web dan mobile siap produksi, 
+                        berfokus pada Laravel, sistem e-commerce, POS, ERP, dan company profile. 
+                        Berpengalaman integrasi payment gateway QRIS, WhatsApp OTP/Business API, 
+                        serta pengembangan aplikasi mobile cross-platform dengan Flutter.
+                    </p>
+                </section>
+
+                <!-- Work Experience -->
+                <section class="cv-section">
+                    <h3 data-i18n="cv_experience_heading">Pengalaman Kerja</h3>
+
+                    <div class="cv-entry">
+                        <div class="cv-entry-header">
+                            <span class="cv-entry-title" data-i18n="cv_job1_title">Freelance App Developer</span>
+                            <span class="cv-entry-meta" data-i18n="cv_job1_period">2022 – Sekarang</span>
+                        </div>
+                        <div class="cv-entry-sub" data-i18n="cv_job1_company">Remote · Indonesia</div>
+                        <p class="cv-entry-desc" data-i18n="cv_job1_desc">
+                            Mengembangkan platform e-commerce, company profile, sistem POS, dan ERP berbasis Laravel. 
+                            Menangani integrasi QRIS payment gateway, WhatsApp OTP, multi-user role system, 
+                            serta aplikasi mobile Flutter untuk klien bisnis.
+                        </p>
+                    </div>
+
+                    <div class="cv-entry">
+                        <div class="cv-entry-header">
+                            <span class="cv-entry-title" data-i18n="cv_job2_title">Web Developer</span>
+                            <span class="cv-entry-meta" data-i18n="cv_job2_period">2020 – 2022</span>
+                        </div>
+                        <div class="cv-entry-sub" data-i18n="cv_job2_company">Software House · Indonesia</div>
+                        <p class="cv-entry-desc" data-i18n="cv_job2_desc">
+                            Membangun aplikasi web internal untuk klien enterprise menggunakan Laravel, MySQL, 
+                            dan Bootstrap. Berkolaborasi dengan tim UI/UX dan QA untuk delivery tepat waktu.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Education -->
+                <section class="cv-section">
+                    <h3 data-i18n="cv_education_heading">Pendidikan</h3>
+
+                    <div class="cv-entry">
+                        <div class="cv-entry-header">
+                            <span class="cv-entry-title" data-i18n="cv_edu1_title">S1 Teknik Informatika</span>
+                            <span class="cv-entry-meta" data-i18n="cv_edu1_period">2016 – 2020</span>
+                        </div>
+                        <div class="cv-entry-sub" data-i18n="cv_edu1_school">Universitas · Indonesia</div>
+                        <p class="cv-entry-desc" data-i18n="cv_edu1_desc">
+                            Fokus pada rekayasa perangkat lunak, basis data, dan pengembangan aplikasi web.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Skills -->
+                <section class="cv-section">
+                    <h3 data-i18n="cv_skills_heading">Keahlian</h3>
+                    <div class="cv-skill-list">
+                        <span>Laravel</span>
+                        <span>PHP</span>
+                        <span>MySQL</span>
+                        <span>Blade</span>
+                        <span>Tailwind CSS</span>
+                        <span>Alpine.js</span>
+                        <span>JavaScript</span>
+                        <span>Flutter</span>
+                        <span>Supabase</span>
+                        <span>Unity C#</span>
+                        <span>Delphi</span>
+                        <span>Bootstrap</span>
+                        <span>Python</span>
+                        <span data-i18n="chip_payment">Payment Gateway</span>
+                        <span data-i18n="chip_wa_otp">WhatsApp OTP</span>
+                        <span data-i18n="chip_wa_api">WhatsApp Business API</span>
+                        <span>SEO</span>
+                    </div>
+                </section>
+            </main>
         </div>
-    </main>
+
+    </div>
+
+    <!-- ================= FIXED SIDE ARROWS ================= -->
+    <!-- CV arrow (right) — visible when portfolio active -->
+    <button class="side-arrow cv-arrow" id="cvArrow" aria-label="Open CV">
+        <span class="side-arrow-chevron">‹</span>
+        <span class="side-arrow-label" data-i18n="cv_arrow_label">CV</span>
+    </button>
+
+    <!-- Portfolio arrow (left) — visible when CV active -->
+    <button class="side-arrow portfolio-arrow" id="portfolioArrow" aria-label="Back to portfolio">
+        <span class="side-arrow-chevron">›</span>
+        <span class="side-arrow-label" data-i18n="portfolio_arrow_label">Portfolio</span>
+    </button>
+
+    <script>
+        const translations = {
+            id: {
+                subhead: "App Developer · e-commerce, POS, sistem multi-user, ERP, company profile",
+                badge_location: "📍 Indonesia",
+                badge_available: "🟢 tersedia untuk proyek",
+                badge_specialist: "Spesialis Laravel",
+                intro: "Saya membangun aplikasi web dan mobile lengkap dengan Laravel — mulai dari platform e-commerce dengan payment gateway QRIS dinamis dan sistem keranjang penuh, company profile dengan SEO lanjutan, platform kursus multi-user dengan registrasi OTP WhatsApp, hingga sistem point-of-sale dengan manajemen inventori. Saya juga mengembangkan aplikasi mobile cross-platform dengan Flutter dan Supabase/MySQL. Berikut proyek live saya.",
+                projects_heading: "proyek live",
+                type_ecommerce: "E-Commerce",
+                type_company: "Company Profile",
+                desc_marwavogue: "Platform e-commerce fashion dengan sistem keranjang lengkap, galeri produk, dashboard admin, SEO standar, dan payment gateway QRIS dinamis.",
+                desc_yastowing: "Website company profile untuk penyedia layanan aviation wing service, dibangun dengan Laravel dan optimasi SEO lanjutan.",
+                desc_jualrokok: "Toko e-commerce untuk rokok kretek dengan dashboard admin, sistem keranjang, SEO standar, dan payment gateway QRIS dinamis.",
+                tag_cart: "Sistem Keranjang",
+                tag_admin: "Admin",
+                tag_adv_seo: "SEO Lanjutan",
+                visit_website: "kunjungi website",
+                what_i_do_heading: "apa yang saya lakukan",
+                do_ecommerce_title: "Pengembangan E-Commerce",
+                do_ecommerce_desc: "Sistem keranjang, galeri produk, dashboard admin, dan integrasi payment gateway QRIS dinamis.",
+                do_company_title: "Company Profile",
+                do_company_desc: "Website company profile dengan desain modern dan fungsionalitas lengkap.",
+                do_seo_title: "SEO & Performa",
+                do_seo_desc: "Implementasi SEO standar dan lanjutan untuk visibilitas pencarian yang lebih baik.",
+                do_pos_title: "Sistem Kasir (POS) & Manajemen Inventori",
+                do_pos_desc: "Solusi penanganan kas dan pelacakan penjualan yang efisien.",
+                do_multiuser_title: "Sistem Multi-User",
+                do_multiuser_desc: "Kontrol akses berbasis role untuk berbagai tipe pengguna.",
+                do_mobile_title: "Aplikasi Mobile",
+                do_mobile_desc: "Aplikasi mobile cross-platform untuk iOS dan Android.",
+                tech_stack_heading: "tech stack",
+                chip_payment: "Payment Gateway",
+                chip_wa_otp: "WhatsApp OTP",
+                chip_wa_api: "WhatsApp Business API",
+                chip_admin_dash: "Dashboard Admin",
+                chip_multiuser: "Sistem Multi-User",
+                chip_cart: "Sistem Keranjang",
+                tech_stack_desc: "Saya fokus membangun aplikasi Laravel siap produksi yang cepat, aman, dan mudah dikelola klien.",
+                pricelist_heading: "daftar harga",
+                cat_company: "Company Profile",
+                cat_ecommerce: "E-Commerce",
+                cat_custom: "Sistem Custom",
+                starting_from: "mulai dari",
+                cp_static_name: "Static",
+                cp_static_f1: "Desain modern responsif",
+                cp_static_f2: "Hingga 5 halaman statis",
+                cp_static_f3: "Setup SEO dasar",
+                cp_static_f4: "Integrasi kontak & WhatsApp",
+                cp_static_f5: "Konten disediakan klien",
+                cp_content_name: "Dengan Pembuatan Konten",
+                cp_content_f1: "Semua fitur paket Static",
+                cp_content_f2: "Copywriting untuk semua halaman",
+                cp_content_f3: "Setup SEO dasar",
+                cp_content_f4: "Pencarian & optimasi gambar",
+                cp_content_f5: "Panel admin untuk konten",
+                ec_std_name: "Standard",
+                ec_std_f1: "Sistem keranjang & checkout lengkap",
+                ec_std_f2: "Galeri produk & kategori",
+                ec_std_f3: "Dashboard admin",
+                ec_std_f4: "Payment gateway QRIS dinamis",
+                ec_std_f5: "Optimasi SEO standar",
+                ec_std_f6: "Manajemen pesanan",
+                custom_name: "POS & Sistem Custom",
+                custom_price: "Custom",
+                custom_price_sub: "disesuaikan dengan scope",
+                custom_f1: "Point-of-sale & inventori",
+                custom_f2: "Manajemen role multi-user",
+                custom_f3: "WhatsApp OTP / Business API",
+                custom_f4: "Integrasi & laporan custom",
+                custom_f5: "Aplikasi mobile (Flutter) opsional",
+                inquire: "tanya",
+                request_quote: "minta penawaran",
+                pricing_note: "Harga adalah estimasi awal dalam IDR — penawaran final tergantung fitur, revisi, dan timeline. Domain & hosting ditagih terpisah.",
+                footer_note: "Portofolio buatan Rizoct · © 2026",
+                /* CV + arrows */
+                cv_arrow_label: "CV",
+                portfolio_arrow_label: "Portfolio",
+                cv_role: "App Developer",
+                cv_location: "Indonesia",
+                cv_summary_heading: "Profil Singkat",
+                cv_summary_text: "App Developer dengan pengalaman membangun aplikasi web dan mobile siap produksi, berfokus pada Laravel, sistem e-commerce, POS, ERP, dan company profile. Berpengalaman integrasi payment gateway QRIS, WhatsApp OTP/Business API, serta pengembangan aplikasi mobile cross-platform dengan Flutter.",
+                cv_experience_heading: "Pengalaman Kerja",
+                cv_job1_title: "Freelance App Developer",
+                cv_job1_period: "2022 – Sekarang",
+                cv_job1_company: "Remote · Indonesia",
+                cv_job1_desc: "Mengembangkan platform e-commerce, company profile, sistem POS, dan ERP berbasis Laravel. Menangani integrasi QRIS payment gateway, WhatsApp OTP, multi-user role system, serta aplikasi mobile Flutter untuk klien bisnis.",
+                cv_job2_title: "Web Developer",
+                cv_job2_period: "2020 – 2022",
+                cv_job2_company: "Software House · Indonesia",
+                cv_job2_desc: "Membangun aplikasi web internal untuk klien enterprise menggunakan Laravel, MySQL, dan Bootstrap. Berkolaborasi dengan tim UI/UX dan QA untuk delivery tepat waktu.",
+                cv_education_heading: "Pendidikan",
+                cv_edu1_title: "S1 Teknik Informatika",
+                cv_edu1_period: "2016 – 2020",
+                cv_edu1_school: "Universitas · Indonesia",
+                cv_edu1_desc: "Fokus pada rekayasa perangkat lunak, basis data, dan pengembangan aplikasi web.",
+                cv_skills_heading: "Keahlian"
+            },
+            en: {
+                subhead: "App Developer · e-commerce, POS, multi-user systems, ERP, company profile",
+                badge_location: "📍 Indonesia",
+                badge_available: "🟢 available for projects",
+                badge_specialist: "Laravel specialist",
+                intro: "I build complete web and mobile applications with Laravel — from e-commerce platforms with dynamic QRIS payment gateways and full cart systems, to company profiles with advanced SEO, multi-user course platforms with WhatsApp OTP registration, and point-of-sale systems with inventory management. I also develop cross-platform mobile apps with Flutter and Supabase/MySQL. Below are my live projects.",
+                projects_heading: "live projects",
+                type_ecommerce: "E-Commerce",
+                type_company: "Company Profile",
+                desc_marwavogue: "Fashion e-commerce platform with a complete cart system, product gallery, admin dashboard, standard SEO, and dynamic QRIS payment gateway.",
+                desc_yastowing: "Company profile website for an aviation wing service provider, built with Laravel and advanced SEO optimization.",
+                desc_jualrokok: "E-commerce store for kretek cigarettes with admin dashboard, cart system, standard SEO, and dynamic QRIS payment gateway.",
+                tag_cart: "Cart System",
+                tag_admin: "Admin",
+                tag_adv_seo: "Advanced SEO",
+                visit_website: "visit website",
+                what_i_do_heading: "what I do",
+                do_ecommerce_title: "E-Commerce Development",
+                do_ecommerce_desc: "Cart systems, product galleries, admin dashboards, and dynamic QRIS payment integration.",
+                do_company_title: "Company Profiles",
+                do_company_desc: "Company profile websites with modern design and functionality.",
+                do_seo_title: "SEO & Performance",
+                do_seo_desc: "Standard and advanced SEO implementations for better search visibility.",
+                do_pos_title: "Cashier Point of Sales System & Inventory Management",
+                do_pos_desc: "Efficient cash handling and sales tracking solutions.",
+                do_multiuser_title: "Multi-User Systems",
+                do_multiuser_desc: "Role-based access control for different user types.",
+                do_mobile_title: "Mobile Applications",
+                do_mobile_desc: "Cross-platform mobile applications for iOS and Android.",
+                tech_stack_heading: "tech stack",
+                chip_payment: "Payment Gateway",
+                chip_wa_otp: "WhatsApp OTP",
+                chip_wa_api: "WhatsApp Business API",
+                chip_admin_dash: "Admin Dashboards",
+                chip_multiuser: "Multi-User Systems",
+                chip_cart: "Cart Systems",
+                tech_stack_desc: "I focus on building production-ready Laravel applications that are fast, secure, and easy for clients to manage.",
+                pricelist_heading: "pricelist",
+                cat_company: "Company Profile",
+                cat_ecommerce: "E-Commerce",
+                cat_custom: "Custom Systems",
+                starting_from: "starting from",
+                cp_static_name: "Static",
+                cp_static_f1: "Modern responsive design",
+                cp_static_f2: "Up to 5 static pages",
+                cp_static_f3: "Basic SEO setup",
+                cp_static_f4: "Contact & WhatsApp integration",
+                cp_static_f5: "Content provided by client",
+                cp_content_name: "With Content Making",
+                cp_content_f1: "Everything in Static",
+                cp_content_f2: "Copywriting for all pages",
+                cp_content_f3: "Basic SEO setup",
+                cp_content_f4: "Image sourcing & optimization",
+                cp_content_f5: "Admin panel for content",
+                ec_std_name: "Standard",
+                ec_std_f1: "Full cart & checkout system",
+                ec_std_f2: "Product gallery & categories",
+                ec_std_f3: "Admin dashboard",
+                ec_std_f4: "Dynamic QRIS payment gateway",
+                ec_std_f5: "Standard SEO optimization",
+                ec_std_f6: "Order management",
+                custom_name: "POS & Custom System",
+                custom_price: "Custom",
+                custom_price_sub: "quoted per scope",
+                custom_f1: "Point-of-sale & inventory",
+                custom_f2: "Multi-user role management",
+                custom_f3: "WhatsApp OTP / Business API",
+                custom_f4: "Custom integrations & reports",
+                custom_f5: "Mobile app (Flutter) optional",
+                inquire: "inquire",
+                request_quote: "request quote",
+                pricing_note: "Prices are starting estimates in IDR — final quote depends on features, revisions, and timeline. Domain & hosting billed separately.",
+                footer_note: "Handcrafted Portfolio by Rizoct · © 2026",
+                /* CV + arrows */
+                cv_arrow_label: "CV",
+                portfolio_arrow_label: "Portfolio",
+                cv_role: "App Developer",
+                cv_location: "Indonesia",
+                cv_summary_heading: "Summary",
+                cv_summary_text: "App Developer experienced in building production-ready web and mobile applications, focused on Laravel, e-commerce systems, POS, ERP, and company profiles. Experienced in QRIS payment gateway integration, WhatsApp OTP/Business API, and cross-platform mobile development with Flutter.",
+                cv_experience_heading: "Work Experience",
+                cv_job1_title: "Freelance App Developer",
+                cv_job1_period: "2022 – Present",
+                cv_job1_company: "Remote · Indonesia",
+                cv_job1_desc: "Developed e-commerce platforms, company profiles, POS systems, and Laravel-based ERP. Handled QRIS payment gateway integration, WhatsApp OTP, multi-user role systems, and Flutter mobile apps for business clients.",
+                cv_job2_title: "Web Developer",
+                cv_job2_period: "2020 – 2022",
+                cv_job2_company: "Software House · Indonesia",
+                cv_job2_desc: "Built internal web applications for enterprise clients using Laravel, MySQL, and Bootstrap. Collaborated with UI/UX and QA teams for on-time delivery.",
+                cv_education_heading: "Education",
+                cv_edu1_title: "Bachelor of Informatics Engineering",
+                cv_edu1_period: "2016 – 2020",
+                cv_edu1_school: "University · Indonesia",
+                cv_edu1_desc: "Focused on software engineering, databases, and web application development.",
+                cv_skills_heading: "Skills"
+            }
+        };
+
+        const featuredLabels = {
+            id: "paling populer",
+            en: "most popular"
+        };
+
+        const titleText = {
+            id: "Portofolio · Laravel Web Developer",
+            en: "Portfolio · Laravel Web Developer"
+        };
+
+        function applyLanguage(lang) {
+            const dict = translations[lang] || translations.id;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key] !== undefined) {
+                    el.textContent = dict[key];
+                }
+            });
+
+            const featured = document.querySelector('.pricing-card.featured');
+            if (featured) {
+                featured.setAttribute('data-featured-label', featuredLabels[lang] || featuredLabels.id);
+            }
+
+            document.documentElement.lang = lang;
+            document.title = titleText[lang] || titleText.id;
+
+            document.querySelectorAll('.lang-switcher button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            localStorage.setItem('portfolio-lang', lang);
+        }
+
+        const savedLang = localStorage.getItem('portfolio-lang') || 'id';
+        applyLanguage(savedLang);
+
+        document.querySelectorAll('.lang-switcher button').forEach(btn => {
+            btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
+        });
+
+        /* ---------- PAGE SLIDE LOGIC ---------- */
+        const pageTrack = document.getElementById('pageTrack');
+        const cvArrow = document.getElementById('cvArrow');
+        const portfolioArrow = document.getElementById('portfolioArrow');
+
+        function showCV() {
+            pageTrack.classList.add('show-cv');
+            const cvPage = pageTrack.children[1];
+            if (cvPage) cvPage.scrollTop = 0;
+            portfolioArrow.focus();
+        }
+
+        function showPortfolio() {
+            pageTrack.classList.remove('show-cv');
+            cvArrow.focus();
+        }
+
+        cvArrow.addEventListener('click', showCV);
+        portfolioArrow.addEventListener('click', showPortfolio);
+
+        // Escape returns to portfolio
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && pageTrack.classList.contains('show-cv')) {
+                showPortfolio();
+            }
+        });
+
+        // Swipe left on CV arrow → open CV
+        let cvTouchX = 0;
+        cvArrow.addEventListener('touchstart', (e) => {
+            cvTouchX = e.touches[0].clientX;
+        }, { passive: true });
+        cvArrow.addEventListener('touchend', (e) => {
+            const dx = e.changedTouches[0].clientX - cvTouchX;
+            if (dx < -20) showCV();
+        }, { passive: true });
+
+        // Swipe right on portfolio arrow → back to portfolio
+        let pfTouchX = 0;
+        portfolioArrow.addEventListener('touchstart', (e) => {
+            pfTouchX = e.touches[0].clientX;
+        }, { passive: true });
+        portfolioArrow.addEventListener('touchend', (e) => {
+            const dx = e.changedTouches[0].clientX - pfTouchX;
+            if (dx > 20) showPortfolio();
+        }, { passive: true });
+
+        // Swipe right on CV page → back to portfolio
+        const cvPageEl = pageTrack.children[1];
+        let cvPageTouchX = 0;
+        cvPageEl.addEventListener('touchstart', (e) => {
+            cvPageTouchX = e.touches[0].clientX;
+        }, { passive: true });
+        cvPageEl.addEventListener('touchend', (e) => {
+            const dx = e.changedTouches[0].clientX - cvPageTouchX;
+            if (dx > 60) showPortfolio();
+        }, { passive: true });
+    </script>
 </body>
 </html>
