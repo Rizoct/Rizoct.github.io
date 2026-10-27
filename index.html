@@ -1,98 +1,644 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Brand</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700&amp;display=swap">
-    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio · Laravel Web Developer</title>
+    <style>
+        /* ---------- RESET & GLOBAL ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f6f4f1;
+            --surface: #ffffff;
+            --text-primary: #1c1c1c;
+            --text-secondary: #5d5d5d;
+            --border-light: #e7e3de;
+            --accent: #b13e3e;
+            --accent-soft: #f4e3e3;
+            --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.03);
+            --shadow-hover: 0 10px 28px rgba(0, 0, 0, 0.05), 0 3px 8px rgba(0, 0, 0, 0.03);
+            --radius-lg: 28px;
+            --radius-md: 18px;
+            --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .portfolio {
+            max-width: 1150px;
+            width: 100%;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            padding: 2.5rem 2.2rem;
+        }
+
+        /* ---------- TYPOGRAPHY ---------- */
+        h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 0.4rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 0.5rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .subhead {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.15s ease, color 0.15s ease;
+        }
+
+        a:hover {
+            border-bottom-color: var(--accent);
+            color: #8d2e2e;
+        }
+
+        /* ---------- HEADER ---------- */
+        .profile-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            gap: 1.5rem;
+        }
+
+        .profile-info {
+            flex: 1 1 300px;
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            background: var(--accent-soft);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: var(--accent);
+            border: 1px solid var(--border-light);
+            flex-shrink: 0;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.7rem;
+        }
+
+        .badge {
+            background: var(--bg);
+            border: 1px solid var(--border-light);
+            padding: 0.25rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* ---------- PROJECT GRID ---------- */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 1.75rem;
+            margin: 2rem 0 2.5rem 0;
+        }
+
+        .project-card {
+            background: var(--bg);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01);
+        }
+
+        .project-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-3px);
+            border-color: #d5cec6;
+        }
+
+        /* image area */
+        .card-image {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            background: #ebe7e1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.25s ease;
+        }
+
+        .project-card:hover .card-image img {
+            transform: scale(1.03);
+        }
+
+        .card-content {
+            padding: 1.3rem 1.3rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .project-title {
+            font-weight: 600;
+            font-size: 1.15rem;
+            margin-bottom: 0.35rem;
+            color: var(--text-primary);
+            word-break: break-word;
+        }
+
+        .project-type {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-soft);
+            padding: 0.15rem 0.7rem;
+            border-radius: 30px;
+            margin-bottom: 0.7rem;
+            align-self: flex-start;
+        }
+
+        .project-desc {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            flex: 1;
+            line-height: 1.45;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1.1rem;
+        }
+
+        .project-tags span {
+            background: var(--surface);
+            padding: 0.15rem 0.75rem;
+            border-radius: 40px;
+            font-size: 0.72rem;
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            letter-spacing: 0.01em;
+        }
+
+        .project-link {
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            align-self: flex-start;
+            padding: 0.4rem 1rem;
+            background: var(--accent-soft);
+            border-radius: 40px;
+            color: var(--accent);
+            border: 1px solid transparent;
+            transition: background 0.15s ease, border-color 0.15s ease;
+            margin-top: auto;
+            text-decoration: none;
+            border-bottom: none;
+        }
+
+        .project-link:hover {
+            background: #ecd4d4;
+            border-color: #dcb8b8;
+            color: #8d2e2e;
+            border-bottom: none;
+        }
+
+        .project-link .arrow {
+            font-size: 1rem;
+            line-height: 1;
+            transition: transform 0.15s ease;
+        }
+
+        .project-link:hover .arrow {
+            transform: translateX(2px);
+        }
+
+        /* ---------- EXPERIENCE / SKILLS ---------- */
+        .two-col-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            margin: 2.5rem 0 1rem 0;
+        }
+
+        .list-item {
+            display: flex;
+            flex-direction: column;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .item-title {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .item-meta {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: var(--bg);
+            padding: 0.1rem 0.6rem;
+            border-radius: 30px;
+            border: 1px solid var(--border-light);
+        }
+
+        .item-sub {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+        }
+
+        .skill-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .skill-chips span {
+            background: var(--bg);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+        }
+
+        /* ---------- FOOTER ---------- */
+        .contact-section {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .contact-links a {
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            border-bottom: 1px solid transparent;
+        }
+
+        .contact-links a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .footer-note {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 700px) {
+            body {
+                padding: 1rem 0.75rem;
+            }
+
+            .portfolio {
+                padding: 1.8rem 1.2rem;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .profile-header {
+                flex-direction: column-reverse;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .avatar {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
+            }
+
+            .two-col-section {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .contact-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-link {
+                align-self: stretch;
+                justify-content: center;
+            }
+        }
+
+        /* focus ring */
+        a:focus-visible, .project-card:focus-within {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+            border-radius: 8px;
+        }
+
+        ::selection {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+    </style>
 </head>
-
 <body>
-    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient">
-        <div class="container"><a class="navbar-brand logo" href="#">rizoctdev</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navbarNav"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="projects-grid-cards.html">Projects</a></li>
-                    <li class="nav-item"><a class="nav-link" href="cv.html">CV</a></li>
-                    <li class="nav-item"><a class="nav-link" href="hire-me.html">Hire me</a></li>
-                </ul>
+    <main class="portfolio">
+        <!-- header -->
+        <div class="profile-header">
+            <div class="profile-info">
+                <h1>Rizoct</h1>
+                <p class="subhead">Laravel web developer · e-commerce, POS &amp; multi-user systems</p>
+                <div class="badge-group">
+                    <span class="badge">📍 Indonesia</span>
+                    <span class="badge">🟢 available for projects</span>
+                    <span class="badge">Laravel specialist</span>
+                </div>
             </div>
+            <div class="avatar" aria-hidden="true">RZ</div>
         </div>
-    </nav>
-    <main class="page lanidng-page">
-        <section class="portfolio-block block-intro">
-            <div class="container">
-                <div class="avatar" style="background-image: url(&quot;assets/img/avatars/avatar_1.jpg&quot;);"></div>
-                <div class="about-me">
-                    <p>Hello! I am <strong>Rizky Octavian Dwipratama</strong>. I work as Programmer. I have passion for Game Programming, Mobile Programming, and Desktop Programming.</p>
-                </div>
-            </div>
-        </section>
-        <section class="portfolio-block photography">
-            <div class="container">
-                <div class="row g-0">
-                    <div class="col-md-6 col-lg-4 item zoom-on-hover"><a href="https://www.figma.com/proto/xnLA8ZDQAx8px2GIJZzuTm/HiBye?node-id=3%3A29&amp;starting-point-node-id=3%3A29"><img class="img-fluid image" src="assets/img/tech/port_1.png"></a></div>
-                    <div class="col-md-6 col-lg-4 item zoom-on-hover"><a href="http://rizoct.github.io/rakitsendiri/"><img class="img-fluid image" src="assets/img/tech/port_2.png"></a></div>
-                    <div class="col-md-6 col-lg-4 item zoom-on-hover"><a href="#"><img class="img-fluid image" src="assets/img/tech/port_3.png"></a></div>
-                </div>
-            </div>
-        </section>
-        <section class="portfolio-block call-to-action border-bottom">
-            <div class="container">
-                <div class="d-flex justify-content-center align-items-center content"></div>
-            </div>
-        </section>
-        <section class="portfolio-block skills">
-            <div class="container">
-                <div class="heading">
-                    <h2>Special Skills</h2>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card special-skill-item border-0">
-                            <div class="card-header bg-transparent border-0"><i class="icon ion-ios-star-outline"></i></div>
-                            <div class="card-body">
-                                <h3 class="card-title">Full Stack Programming</h3>
-                                <p class="card-text">I can do both Front-end and Back-end programming, using React, Flutter, Laravel, Code Igniter and many more</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card special-skill-item border-0">
-                            <div class="card-header bg-transparent border-0"><i class="icon ion-ios-lightbulb-outline"></i></div>
-                            <div class="card-body">
-                                <h3 class="card-title">Fast Learner</h3>
-                                <p class="card-text">I only need 1-2 weeks to learn completely new Language or Framework</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card special-skill-item border-0">
-                            <div class="card-header bg-transparent border-0"><i class="icon ion-ios-gear-outline"></i></div>
-                            <div class="card-body">
-                                <h3 class="card-title">Hard Worker</h3>
-                                <p class="card-text">With my experience, I will always make some progress everyday, and not stopping until found a solution for my problem</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-    <footer class="page-footer">
-        <div class="container">
-            <div class="links"></div>
-            <div class="social-icons"><a href="#"><i class="icon ion-social-facebook"></i></a><a href="#"><i class="icon ion-social-instagram-outline"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a></div>
-        </div>
-    </footer>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
-    <script src="assets/js/theme.js"></script>
-</body>
 
+        <!-- UPDATED INTRO PARAGRAPH -->
+        <p style="font-size: 1.05rem; max-width: 750px; margin-bottom: 2rem;">
+            I build complete web and mobile applications with Laravel — from e-commerce platforms with dynamic QRIS
+            payment gateways and full cart systems, to company profiles with advanced SEO, multi-user course platforms
+            with WhatsApp OTP registration, and point-of-sale systems with inventory management. I also develop
+            cross-platform mobile apps with Flutter and Supabase/MySQL. Below are my live projects.
+        </p>
+
+        <!-- PROJECTS -->
+        <h2>live projects</h2>
+        <div class="project-grid">
+
+            <!-- 1. marwavogue.com -->
+            <article class="project-card">
+                <div class="card-image">
+                    <img src="https://picsum.photos/seed/marwavogue/600/375" alt="Marwavogue e-commerce project preview" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <span class="project-type">E-Commerce</span>
+                    <div class="project-title">marwavogue.com</div>
+                    <p class="project-desc">
+                        Fashion e-commerce platform with a complete cart system, product gallery,
+                        admin dashboard, standard SEO, and dynamic QRIS payment gateway.
+                    </p>
+                    <div class="project-tags">
+                        <span>Laravel</span>
+                        <span>QRIS</span>
+                        <span>Cart System</span>
+                        <span>Admin</span>
+                        <span>SEO</span>
+                    </div>
+                    <a href="https://marwavogue.com" target="_blank" rel="noopener noreferrer" class="project-link">
+                        visit website <span class="arrow">↗</span>
+                    </a>
+                </div>
+            </article>
+
+            <!-- 2. yastowingservice.com -->
+            <article class="project-card">
+                <div class="card-image">
+                    <img src="https://picsum.photos/seed/yastowingservice/600/375" alt="Yasto Wing Service company profile preview" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <span class="project-type">Company Profile</span>
+                    <div class="project-title">yastowingservice.com</div>
+                    <p class="project-desc">
+                        Company profile website for an aviation wing service provider,
+                        built with Laravel and advanced SEO optimization.
+                    </p>
+                    <div class="project-tags">
+                        <span>Laravel</span>
+                        <span>Advanced SEO</span>
+                        <span>Company Profile</span>
+                    </div>
+                    <a href="https://yastowingservice.com" target="_blank" rel="noopener noreferrer" class="project-link">
+                        visit website <span class="arrow">↗</span>
+                    </a>
+                </div>
+            </article>
+
+            <!-- 3. jualrokokkretek.com -->
+            <article class="project-card">
+                <div class="card-image">
+                    <img src="https://picsum.photos/seed/jualrokokkretek/600/375" alt="Jual Rokok Kretek e-commerce project preview" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <span class="project-type">E-Commerce</span>
+                    <div class="project-title">jualrokokkretek.com</div>
+                    <p class="project-desc">
+                        E-commerce store for kretek cigarettes with admin dashboard,
+                        cart system, standard SEO, and dynamic QRIS payment gateway.
+                    </p>
+                    <div class="project-tags">
+                        <span>Laravel</span>
+                        <span>QRIS</span>
+                        <span>Cart System</span>
+                        <span>Admin</span>
+                        <span>SEO</span>
+                    </div>
+                    <a href="https://jualrokokkretek.com" target="_blank" rel="noopener noreferrer" class="project-link">
+                        visit website <span class="arrow">↗</span>
+                    </a>
+                </div>
+            </article>
+
+            <!-- 4. edu.tridenteberkahabadi.com -->
+            <article class="project-card">
+                <div class="card-image">
+                    <img src="https://picsum.photos/seed/tridente/600/375" alt="Tridente Berkahabadi course website preview" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <span class="project-type">Course Website</span>
+                    <div class="project-title">edu.tridenteberkahabadi.com</div>
+                    <p class="project-desc">
+                        Online course platform with multi-user roles, cart system,
+                        standard SEO, and registration verified via WhatsApp OTP.
+                    </p>
+                    <div class="project-tags">
+                        <span>Laravel</span>
+                        <span>Multi User</span>
+                        <span>Cart System</span>
+                        <span>WhatsApp OTP</span>
+                        <span>SEO</span>
+                    </div>
+                    <a href="https://edu.tridenteberkahabadi.com" target="_blank" rel="noopener noreferrer" class="project-link">
+                        visit website <span class="arrow">↗</span>
+                    </a>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- experience + skills -->
+        <div class="two-col-section">
+            <div>
+                <h2 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-light);">what I do</h2>
+                <div class="list-item">
+                    <div class="item-header">
+                        <span class="item-title">E-Commerce Development</span>
+                    </div>
+                    <div class="item-sub">Cart systems, product galleries, admin dashboards, and dynamic QRIS payment integration.</div>
+                </div>
+                <div class="list-item">
+                    <div class="item-header">
+                        <span class="item-title">Company Profiles</span>
+                    </div>
+                    <div class="item-sub">Company profile websites with modern design and functionality.</div>
+                </div>
+                <div class="list-item">
+                    <div class="item-header">
+                        <span class="item-title">SEO &amp; Performance</span>
+                    </div>
+                    <div class="item-sub">Standard and advanced SEO implementations for better search visibility.</div>
+                </div>
+                <div class="list-item">
+                    <div class="item-header">
+                        <span class="item-title">Cashier Point of Sales System &amp; Inventory Management</span>
+                    </div>
+                    <div class="item-sub">Efficient cash handling and sales tracking solutions.</div>
+                </div>
+                <div class="list-item">
+                    <div class="item-header">
+                        <span class="item-title">Multi-User Systems</span>
+                    </div>
+                    <div class="item-sub">Role-based access control for different user types.</div>
+                </div>
+                <div class="list-item">
+                    <div class="item-header">
+                        <span class="item-title">Mobile Applications</span>
+                    </div>
+                    <div class="item-sub">Cross-platform mobile applications for iOS and Android.</div>
+                </div>
+            </div>
+            <div>
+                <h2 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-light);">tech stack</h2>
+                <div class="skill-chips" style="margin-top: 0.5rem;">
+                    <span>Laravel</span>
+                    <span>PHP</span>
+                    <span>MySQL</span>
+                    <span>Blade</span>
+                    <span>Tailwind CSS</span>
+                    <span>Alpine.js</span>
+                    <span>JavaScript</span>
+                    <span>Flutter</span>
+                    <span>Supabase</span>
+                    <span>Unity C#</span>
+                    <span>Payment Gateway</span>
+                    <span>WhatsApp OTP</span>
+                    <span>WhatsApp Business API</span>
+                    <span>SEO</span>
+                    <span>Admin Dashboards</span>
+                    <span>Multi-User Systems</span>
+                    <span>Cart Systems</span>
+                </div>
+                <p style="margin-top: 1.5rem; font-size: 0.95rem;">
+                    I focus on building production-ready Laravel applications that are fast, secure, and easy for
+                    clients to manage.
+                </p>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <div class="contact-section">
+            <div class="contact-links">
+                <a href="mailto:rizoctdev@gmail.com">rizoctdev@gmail.com</a>
+                <a href="https://wa.me/6287859925122" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                <a href="https://github.com/Rizoct" target="_blank" rel="noopener noreferrer">Github</a>
+            </div>
+            <div class="footer-note">
+                Handcrafted Portfolio by Rizoct · &copy; 2026
+            </div>
+        </div>
+    </main>
+</body>
 </html>
