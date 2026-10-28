@@ -28,8 +28,7 @@
             --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         }
 
-        html,
-        body {
+        html, body {
             height: 100%;
         }
 
@@ -42,13 +41,15 @@
             overflow: hidden;
             overflow-x: hidden;
             overscroll-behavior: none;
-            /* prevent the horizontal drag / swipe from peeking the CV */
             touch-action: pan-y;
-            -webkit-user-select: none;
-            user-select: none;
         }
 
-        /* ---------- PAGE SLIDER ---------- */
+        /* ---------- MOBILE TAB BAR (Hidden on Desktop) ---------- */
+        .mobile-tabs {
+            display: none;
+        }
+
+        /* ---------- DESKTOP PAGE SLIDER ---------- */
         .page-track {
             display: flex;
             width: 200%;
@@ -183,7 +184,6 @@
             gap: 0.6rem;
             margin-top: 1.8rem;
             margin-bottom: 0;
-            /* Changed from 0.8rem to 0 */
         }
 
         .profile-info {
@@ -556,7 +556,7 @@
             opacity: 0.8;
         }
 
-        /* ---------- SIDE NAV ARROWS ---------- */
+        /* ---------- SIDE NAV ARROWS (DESKTOP ONLY) ---------- */
         .side-arrow {
             position: fixed;
             top: 50%;
@@ -599,13 +599,11 @@
             text-transform: uppercase;
         }
 
-        /* CV arrow — fixed right, blinking, visible when portfolio is active */
         .cv-arrow {
             right: 1rem;
             animation: blinkPulse 1.4s ease-in-out infinite;
         }
 
-        /* Portfolio arrow — fixed left, ONLY visible when CV page is active */
         .portfolio-arrow {
             left: 1rem;
             opacity: 0;
@@ -617,7 +615,7 @@
             transform: rotate(180deg);
         }
 
-        /* Visibility toggling */
+        /* Desktop visibility toggling */
         .page-track.show-cv~.cv-arrow {
             opacity: 0;
             pointer-events: none;
@@ -631,13 +629,10 @@
         }
 
         @keyframes blinkPulse {
-
-            0%,
-            100% {
+            0%, 100% {
                 box-shadow: 0 6px 22px rgba(177, 62, 62, 0.35);
                 opacity: 1;
             }
-
             50% {
                 box-shadow: 0 6px 34px rgba(177, 62, 62, 0.7);
                 opacity: 0.65;
@@ -755,23 +750,6 @@
             line-height: 1.5;
         }
 
-        .cv-entry-roles {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.35rem;
-            margin-top: 0.5rem;
-        }
-
-        .cv-entry-roles span {
-            background: var(--accent-soft);
-            color: var(--accent);
-            font-size: 0.72rem;
-            font-weight: 600;
-            padding: 0.15rem 0.65rem;
-            border-radius: 30px;
-            letter-spacing: 0.02em;
-        }
-
         .cv-skill-list {
             display: flex;
             flex-wrap: wrap;
@@ -789,7 +767,6 @@
 
         /* ---------- TABLET (<= 900px) ---------- */
         @media (max-width: 900px) {
-
             .portfolio,
             .cv-page-wrap {
                 padding: 2rem 1.6rem;
@@ -800,76 +777,120 @@
             }
         }
 
-        /* ---------- MOBILE (<= 700px) ---------- */
+        /* =========================================================
+           MOBILE SPECIFIC (<= 700px) - STANDARD TABS
+           ========================================================= */
         @media (max-width: 700px) {
+            /* 1. Hide side arrows completely on mobile */
+            .side-arrow {
+                display: none !important;
+            }
+
+            /* 2. Show the Tab Bar */
+            .mobile-tabs {
+                display: flex;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                background: var(--bg);
+                padding: 0.8rem 1rem;
+                z-index: 1000;
+                border-bottom: 1px solid var(--border-light);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            }
+
+            .mobile-tabs button {
+                flex: 1;
+                font-family: inherit;
+                font-size: 0.9rem;
+                font-weight: 600;
+                padding: 0.6rem;
+                background: transparent;
+                border: none;
+                color: var(--text-secondary);
+                border-radius: 12px;
+                transition: all 0.2s ease;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .mobile-tabs button.active {
+                background: var(--surface);
+                color: var(--accent);
+                box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            }
+
+            /* 3. Setup Tab Environment (No Stacking) */
+            .page-track {
+                display: block;
+                width: 100%;
+                height: 100vh;
+                height: 100dvh;
+                padding-top: 4rem; /* Space for the fixed tab bar */
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                transform: none !important; /* Kill desktop slide */
+                position: relative;
+            }
+
             .page {
-                /* reserve side space so the fixed arrows never overlap content */
-                padding: 0.75rem 2.6rem;
+                width: 100%;
+                height: auto;
+                min-height: calc(100vh - 4rem);
+                padding: 1rem 1.2rem 3rem 1.2rem;
+                position: relative;
             }
 
-            .portfolio,
-            .cv-page-wrap {
-                padding: 1.4rem 1rem;
+            /* Hide CV by default on mobile */
+            .page:nth-child(2) {
+                display: none;
+            }
+
+            /* When show-cv is active, swap visibility */
+            .page-track.show-cv .page:nth-child(1) {
+                display: none;
+            }
+
+            .page-track.show-cv .page:nth-child(2) {
+                display: flex;
+            }
+
+            /* 5. Clean up inner padding for mobile cards */
+            .portfolio, .cv-page-wrap {
+                padding: 1.5rem 1.2rem;
                 border-radius: 20px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.04);
             }
 
-            /* Language switcher */
-            .lang-switcher {
-                top: 0.9rem;
-                right: 0.9rem;
-                padding: 2px;
-            }
+            /* Typography tweaks */
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.3rem; margin-bottom: 1rem; }
+            .subhead { font-size: 1.05rem; margin-bottom: 1rem; }
+            p { font-size: 0.95rem; }
 
-            .lang-switcher button {
-                font-size: 0.72rem;
-                padding: 0.28rem 0.65rem;
-                min-width: 36px;
-                min-height: 32px;
-            }
-
-            /* Typography */
-            h1 {
-                font-size: 2rem;
-            }
-
-            h2 {
-                font-size: 1.2rem;
-                margin-bottom: 1rem;
-            }
-
-            .subhead {
-                font-size: 1rem;
-                margin-bottom: 1rem;
-            }
-
-            p {
-                font-size: 0.95rem;
-            }
-
-            /* Header — tightened, no extra gap below */
+            /* Header fix - remove gap */
             .profile-header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 0.6rem;
-                margin-top: 1.8rem;
-                margin-bottom: 0.8rem;
+                margin-top: 1.5rem;
+                margin-bottom: 0;
             }
 
             .badge-group {
                 gap: 0.35rem;
                 margin-top: 0.5rem;
             }
-
             .badge {
                 font-size: 0.78rem;
                 padding: 0.2rem 0.7rem;
             }
-            
-            /* Intro — use margin-top to control the exact gap, override inline style */
+
+            /* Intro gap fix */
             .portfolio > p[data-i18n="intro"] {
                 font-size: 0.95rem !important;
-                margin-top: 1.2rem !important; /* This sets the gap */
-                margin-bottom: 2rem !important;
+                margin-top: 1.2rem !important;
+                margin-bottom: 1.8rem !important;
             }
 
             /* Projects */
@@ -878,19 +899,9 @@
                 gap: 1.2rem;
                 margin: 1.4rem 0 1.8rem 0;
             }
-
-            .card-content {
-                padding: 1rem 1rem 1.2rem;
-            }
-
-            .project-title {
-                font-size: 1.05rem;
-            }
-
-            .project-desc {
-                font-size: 0.88rem;
-            }
-
+            .card-content { padding: 1rem 1rem 1.2rem; }
+            .project-title { font-size: 1.05rem; }
+            .project-desc { font-size: 0.88rem; }
             .project-link {
                 align-self: stretch;
                 justify-content: center;
@@ -904,14 +915,8 @@
                 gap: 1.5rem;
                 margin: 1.8rem 0 0.5rem 0;
             }
-
-            .item-title {
-                font-size: 0.95rem;
-            }
-
-            .item-sub {
-                font-size: 0.85rem;
-            }
+            .item-title { font-size: 0.95rem; }
+            .item-sub { font-size: 0.85rem; }
 
             /* Skill chips */
             .skill-chips span {
@@ -920,35 +925,17 @@
             }
 
             /* Pricing */
-            .pricing-section {
-                margin-top: 1.8rem;
-            }
-
+            .pricing-section { margin-top: 1.8rem; }
             .pricing-grid {
                 grid-template-columns: 1fr;
                 gap: 1rem;
                 margin-top: 0.8rem;
             }
-
-            .pricing-card {
-                padding: 1.3rem 1.1rem 1.4rem;
-            }
-
-            .pricing-price {
-                font-size: 1.45rem;
-            }
-
-            .pricing-features li {
-                font-size: 0.85rem;
-            }
-
-            .pricing-note {
-                font-size: 0.78rem;
-            }
-
-            .pricing-category {
-                font-size: 0.98rem;
-            }
+            .pricing-card { padding: 1.3rem 1.1rem 1.4rem; }
+            .pricing-price { font-size: 1.45rem; }
+            .pricing-features li { font-size: 0.85rem; }
+            .pricing-note { font-size: 0.78rem; }
+            .pricing-category { font-size: 0.98rem; }
 
             /* Contact */
             .contact-section {
@@ -958,99 +945,31 @@
                 margin-top: 2rem;
                 padding-top: 1.2rem;
             }
+            .contact-links { gap: 0.9rem; flex-wrap: wrap; }
+            .contact-links a { font-size: 0.9rem; }
+            .footer-note { font-size: 0.8rem; }
 
-            .contact-links {
-                gap: 0.9rem;
-                flex-wrap: wrap;
-            }
-
-            .contact-links a {
-                font-size: 0.9rem;
-            }
-
-            .footer-note {
-                font-size: 0.8rem;
-            }
-
-            /* ---- ARROWS: compact vertical pills on edges, vertically centered ---- */
-            .side-arrow {
-                top: 50%;
-                transform: translateY(-50%);
-                width: 40px;
-                min-height: 90px;
-                max-height: 130px;
-                padding: 0.9rem 0.35rem;
-                border-radius: 24px;
-                gap: 0.35rem;
-            }
-
-            .side-arrow .side-arrow-chevron {
-                font-size: 1.4rem;
-                line-height: 1;
-            }
-
-            .side-arrow .side-arrow-label {
-                display: none;
-            }
-
-            .cv-arrow {
-                right: 0.4rem;
-            }
-
-            .portfolio-arrow {
-                left: 0.4rem;
-            }
-
-            /* CV page */
+            /* CV Specifics */
             .cv-header {
                 padding-right: 0;
                 padding-top: 2.2rem;
                 margin-bottom: 1.4rem;
             }
+            .cv-header h2 { font-size: 1.6rem; }
+            .cv-header .cv-role { font-size: 0.85rem; }
+            .cv-contact { font-size: 0.82rem; gap: 0.4rem 0.9rem; }
+            .cv-section { margin-bottom: 1.4rem; }
+            .cv-entry-title { font-size: 0.95rem; }
+            .cv-entry-sub { font-size: 0.82rem; }
+            .cv-entry-desc { font-size: 0.85rem; }
+            .cv-entry-meta { font-size: 0.72rem; }
+            .cv-skill-list span { font-size: 0.76rem; }
 
-            .cv-header h2 {
-                font-size: 1.5rem;
-            }
-
-            .cv-header .cv-role {
-                font-size: 0.82rem;
-            }
-
-            .cv-contact {
-                font-size: 0.82rem;
-                gap: 0.4rem 0.9rem;
-            }
-
-            .cv-section {
-                margin-bottom: 1.4rem;
-            }
-
-            .cv-entry-title {
-                font-size: 0.95rem;
-            }
-
-            .cv-entry-sub {
-                font-size: 0.82rem;
-            }
-
-            .cv-entry-desc {
-                font-size: 0.85rem;
-            }
-
-            .cv-entry-meta {
-                font-size: 0.72rem;
-            }
-
-            .cv-skill-list span {
-                font-size: 0.76rem;
-            }
-
-            /* Avoid sticky hover states on touch */
+            /* Remove sticky hovers */
             .project-card:hover {
                 transform: none;
                 box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01);
             }
-
             .project-card:hover .card-image img {
                 transform: none;
             }
@@ -1058,35 +977,14 @@
 
         /* ---------- SMALL PHONES (<= 380px) ---------- */
         @media (max-width: 380px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .page {
-                padding: 0.6rem 2.2rem;
-            }
-
-            .portfolio,
-            .cv-page-wrap {
-                padding: 1.2rem 0.85rem;
-            }
-
-            .project-tags span,
-            .skill-chips span {
-                font-size: 0.72rem;
-            }
-
-            .side-arrow {
-                width: 36px;
-                min-height: 80px;
-                padding: 0.8rem 0.3rem;
-            }
+            h1 { font-size: 1.9rem; }
+            .page { padding: 1rem 0.8rem 3rem 0.8rem; }
+            .portfolio, .cv-page-wrap { padding: 1.2rem 0.9rem; }
+            .project-tags span, .skill-chips span { font-size: 0.72rem; }
         }
 
         /* focus ring */
-        a:focus-visible,
-        .project-card:focus-within,
-        button:focus-visible {
+        a:focus-visible, .project-card:focus-within, button:focus-visible {
             outline: 2px solid var(--accent);
             outline-offset: 2px;
             border-radius: 8px;
@@ -1101,11 +999,17 @@
 
 <body>
 
+    <!-- MOBILE TAB BAR (Hidden on Desktop) -->
+    <div class="mobile-tabs">
+        <button id="tabPortfolio" class="active">Portfolio</button>
+        <button id="tabCV">CV</button>
+    </div>
+
     <!-- ================= PAGE TRACK ================= -->
     <div class="page-track" id="pageTrack">
 
         <!-- ============ PAGE 1: PORTFOLIO ============ -->
-        <div class="page">
+        <div class="page" id="pagePortfolio">
             <main class="portfolio">
 
                 <!-- LANGUAGE SWITCHER (portfolio) -->
@@ -1118,8 +1022,7 @@
                 <div class="profile-header">
                     <div class="profile-info">
                         <h1>Rizoctdev</h1>
-                        <p class="subhead" data-i18n="subhead">App Developer · e-commerce, POS &amp; sistem multi-user,
-                            ERP, company profile</p>
+                        <p class="subhead" data-i18n="subhead">App Developer · e-commerce, POS &amp; sistem multi-user, ERP, company profile</p>
                         <div class="badge-group">
                             <span class="badge" data-i18n="badge_location">📍 Indonesia</span>
                             <span class="badge" data-i18n="badge_available">🟢 tersedia untuk proyek</span>
@@ -1130,26 +1033,20 @@
 
                 <!-- INTRO -->
                 <p style="font-size: 1.05rem; max-width: 750px; margin-bottom: 2rem;" data-i18n="intro">
-                    Saya membangun aplikasi web dan mobile lengkap dengan Laravel — mulai dari platform e-commerce
-                    dengan
-                    payment gateway QRIS dinamis dan sistem keranjang penuh, company profile dengan SEO lanjutan,
-                    platform
-                    kursus multi-user dengan registrasi OTP WhatsApp, hingga sistem point-of-sale dengan manajemen
-                    inventori.
-                    Saya juga mengembangkan aplikasi mobile cross-platform dengan Flutter dan Supabase/MySQL. Berikut
-                    proyek
+                    Saya membangun aplikasi web dan mobile lengkap dengan Laravel — mulai dari platform e-commerce dengan
+                    payment gateway QRIS dinamis dan sistem keranjang penuh, company profile dengan SEO lanjutan, platform
+                    kursus multi-user dengan registrasi OTP WhatsApp, hingga sistem point-of-sale dengan manajemen inventori.
+                    Saya juga mengembangkan aplikasi mobile cross-platform dengan Flutter dan Supabase/MySQL. Berikut proyek
                     live saya.
                 </p>
 
                 <!-- PROJECTS -->
                 <h2 data-i18n="projects_heading">proyek live</h2>
                 <div class="project-grid">
-
                     <!-- 1. marwavogue.com -->
                     <article class="project-card">
                         <div class="card-image">
-                            <img src="assets/img/projects/marwavogue_1.png" alt="Marwavogue e-commerce project preview"
-                                loading="lazy">
+                            <img src="assets/img/projects/marwavogue_1.png" alt="Marwavogue e-commerce project preview" loading="lazy">
                         </div>
                         <div class="card-content">
                             <span class="project-type" data-i18n="type_ecommerce">E-Commerce</span>
@@ -1165,8 +1062,7 @@
                                 <span data-i18n="tag_admin">Admin</span>
                                 <span>SEO</span>
                             </div>
-                            <a href="https://marwavogue.com" target="_blank" rel="noopener noreferrer"
-                                class="project-link">
+                            <a href="https://marwavogue.com" target="_blank" rel="noopener noreferrer" class="project-link">
                                 <span data-i18n="visit_website">kunjungi website</span> <span class="arrow">↗</span>
                             </a>
                         </div>
@@ -1175,8 +1071,7 @@
                     <!-- 2. yastowingservice.com -->
                     <article class="project-card">
                         <div class="card-image">
-                            <img src="assets/img/projects/yastowing_1.png"
-                                alt="Yasto Wing Service company profile preview" loading="lazy">
+                            <img src="assets/img/projects/yastowing_1.png" alt="Yasto Wing Service company profile preview" loading="lazy">
                         </div>
                         <div class="card-content">
                             <span class="project-type" data-i18n="type_company">Company Profile</span>
@@ -1190,8 +1085,7 @@
                                 <span data-i18n="tag_adv_seo">SEO Lanjutan</span>
                                 <span data-i18n="type_company">Company Profile</span>
                             </div>
-                            <a href="https://yastowingservice.com" target="_blank" rel="noopener noreferrer"
-                                class="project-link">
+                            <a href="https://yastowingservice.com" target="_blank" rel="noopener noreferrer" class="project-link">
                                 <span data-i18n="visit_website">kunjungi website</span> <span class="arrow">↗</span>
                             </a>
                         </div>
@@ -1200,8 +1094,7 @@
                     <!-- 3. jualrokokkretek.com -->
                     <article class="project-card">
                         <div class="card-image">
-                            <img src="assets/img/projects/jualrokokkretek_1.png"
-                                alt="Jual Rokok Kretek e-commerce project preview" loading="lazy">
+                            <img src="assets/img/projects/jualrokokkretek_1.png" alt="Jual Rokok Kretek e-commerce project preview" loading="lazy">
                         </div>
                         <div class="card-content">
                             <span class="project-type" data-i18n="type_ecommerce">E-Commerce</span>
@@ -1217,67 +1110,56 @@
                                 <span data-i18n="tag_admin">Admin</span>
                                 <span>SEO</span>
                             </div>
-                            <a href="https://jualrokokkretek.com" target="_blank" rel="noopener noreferrer"
-                                class="project-link">
+                            <a href="https://jualrokokkretek.com" target="_blank" rel="noopener noreferrer" class="project-link">
                                 <span data-i18n="visit_website">kunjungi website</span> <span class="arrow">↗</span>
                             </a>
                         </div>
                     </article>
-
                 </div>
 
                 <!-- experience + skills -->
                 <div class="two-col-section">
                     <div>
-                        <h2 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-light);"
-                            data-i18n="what_i_do_heading">apa yang bisa saya lakukan</h2>
+                        <h2 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-light);" data-i18n="what_i_do_heading">apa yang bisa saya lakukan</h2>
                         <div class="list-item">
                             <div class="item-header">
                                 <span class="item-title" data-i18n="do_ecommerce_title">Pengembangan E-Commerce</span>
                             </div>
-                            <div class="item-sub" data-i18n="do_ecommerce_desc">Sistem keranjang, galeri produk,
-                                dashboard admin, dan integrasi payment gateway QRIS dinamis.</div>
+                            <div class="item-sub" data-i18n="do_ecommerce_desc">Sistem keranjang, galeri produk, dashboard admin, dan integrasi payment gateway QRIS dinamis.</div>
                         </div>
                         <div class="list-item">
                             <div class="item-header">
                                 <span class="item-title" data-i18n="do_company_title">Company Profile</span>
                             </div>
-                            <div class="item-sub" data-i18n="do_company_desc">Website company profile dengan desain
-                                modern dan fungsionalitas lengkap.</div>
+                            <div class="item-sub" data-i18n="do_company_desc">Website company profile dengan desain modern dan fungsionalitas lengkap.</div>
                         </div>
                         <div class="list-item">
                             <div class="item-header">
                                 <span class="item-title" data-i18n="do_seo_title">SEO &amp; Performa</span>
                             </div>
-                            <div class="item-sub" data-i18n="do_seo_desc">Implementasi SEO standar dan lanjutan untuk
-                                visibilitas pencarian yang lebih baik.</div>
+                            <div class="item-sub" data-i18n="do_seo_desc">Implementasi SEO standar dan lanjutan untuk visibilitas pencarian yang lebih baik.</div>
                         </div>
                         <div class="list-item">
                             <div class="item-header">
-                                <span class="item-title" data-i18n="do_pos_title">Sistem Kasir (POS) &amp; Manajemen
-                                    Inventori</span>
+                                <span class="item-title" data-i18n="do_pos_title">Sistem Kasir (POS) &amp; Manajemen Inventori</span>
                             </div>
-                            <div class="item-sub" data-i18n="do_pos_desc">Solusi penanganan kas dan pelacakan penjualan
-                                yang efisien.</div>
+                            <div class="item-sub" data-i18n="do_pos_desc">Solusi penanganan kas dan pelacakan penjualan yang efisien.</div>
                         </div>
                         <div class="list-item">
                             <div class="item-header">
                                 <span class="item-title" data-i18n="do_multiuser_title">Sistem Multi-User</span>
                             </div>
-                            <div class="item-sub" data-i18n="do_multiuser_desc">Kontrol akses berbasis role untuk
-                                berbagai tipe pengguna.</div>
+                            <div class="item-sub" data-i18n="do_multiuser_desc">Kontrol akses berbasis role untuk berbagai tipe pengguna.</div>
                         </div>
                         <div class="list-item">
                             <div class="item-header">
                                 <span class="item-title" data-i18n="do_mobile_title">Aplikasi Mobile</span>
                             </div>
-                            <div class="item-sub" data-i18n="do_mobile_desc">Aplikasi mobile cross-platform untuk iOS
-                                dan Android.</div>
+                            <div class="item-sub" data-i18n="do_mobile_desc">Aplikasi mobile cross-platform untuk iOS dan Android.</div>
                         </div>
                     </div>
                     <div>
-                        <h2 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-light);"
-                            data-i18n="tech_stack_heading">tech stack</h2>
+                        <h2 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-light);" data-i18n="tech_stack_heading">tech stack</h2>
                         <div class="skill-chips" style="margin-top: 0.5rem;">
                             <span>Laravel</span>
                             <span>PHP</span>
@@ -1301,8 +1183,7 @@
                             <span data-i18n="chip_cart">Sistem Keranjang</span>
                         </div>
                         <p style="margin-top: 1.5rem; font-size: 0.95rem;" data-i18n="tech_stack_desc">
-                            Saya fokus membangun aplikasi Laravel siap produksi yang cepat, aman, dan mudah dikelola
-                            klien.
+                            Saya fokus membangun aplikasi Laravel siap produksi yang cepat, aman, dan mudah dikelola klien.
                         </p>
                     </div>
                 </div>
@@ -1315,7 +1196,6 @@
                     <div class="pricing-group">
                         <h3 class="pricing-category" data-i18n="cat_company">Company Profile</h3>
                         <div class="pricing-grid">
-
                             <article class="pricing-card">
                                 <div class="pricing-name" data-i18n="cp_static_name">Static</div>
                                 <div class="pricing-price">
@@ -1329,8 +1209,7 @@
                                     <li data-i18n="cp_static_f4">Integrasi kontak &amp; WhatsApp</li>
                                     <li data-i18n="cp_static_f5">Konten disediakan klien</li>
                                 </ul>
-                                <a href="https://wa.me/6287859925122?text=Halo%20Rizoct%2C%20saya%20tertarik%20dengan%20paket%20Company%20Profile%20Static."
-                                    target="_blank" rel="noopener noreferrer" class="project-link">
+                                <a href="https://wa.me/6287859925122?text=Halo%20Rizoct%2C%20saya%20tertarik%20dengan%20paket%20Company%20Profile%20Static." target="_blank" rel="noopener noreferrer" class="project-link">
                                     <span data-i18n="inquire">tanya</span> <span class="arrow">↗</span>
                                 </a>
                             </article>
@@ -1348,12 +1227,10 @@
                                     <li data-i18n="cp_content_f4">Pencarian &amp; optimasi gambar</li>
                                     <li data-i18n="cp_content_f5">Panel admin untuk konten</li>
                                 </ul>
-                                <a href="https://wa.me/6287859925122?text=Halo%20Rizoct%2C%20saya%20tertarik%20dengan%20paket%20Company%20Profile%20dengan%20Pembuatan%20Konten."
-                                    target="_blank" rel="noopener noreferrer" class="project-link">
+                                <a href="https://wa.me/6287859925122?text=Halo%20Rizoct%2C%20saya%20tertarik%20dengan%20paket%20Company%20Profile%20dengan%20Pembuatan%20Konten." target="_blank" rel="noopener noreferrer" class="project-link">
                                     <span data-i18n="inquire">tanya</span> <span class="arrow">↗</span>
                                 </a>
                             </article>
-
                         </div>
                     </div>
 
@@ -1361,7 +1238,6 @@
                     <div class="pricing-group">
                         <h3 class="pricing-category" data-i18n="cat_ecommerce">E-Commerce</h3>
                         <div class="pricing-grid">
-
                             <article class="pricing-card featured" data-featured-label="paling populer">
                                 <div class="pricing-name" data-i18n="ec_std_name">Standard</div>
                                 <div class="pricing-price">
@@ -1376,12 +1252,10 @@
                                     <li data-i18n="ec_std_f5">Optimasi SEO standar</li>
                                     <li data-i18n="ec_std_f6">Manajemen pesanan</li>
                                 </ul>
-                                <a href="https://wa.me/6287859925122?text=Halo%20Rizoct%2C%20saya%20tertarik%20dengan%20paket%20E-Commerce%20Standard."
-                                    target="_blank" rel="noopener noreferrer" class="project-link">
+                                <a href="https://wa.me/6287859925122?text=Halo%20Rizoct%2C%20saya%20tertarik%20dengan%20paket%20E-Commerce%20Standard." target="_blank" rel="noopener noreferrer" class="project-link">
                                     <span data-i18n="inquire">tanya</span> <span class="arrow">↗</span>
                                 </a>
                             </article>
-
                         </div>
                     </div>
 
@@ -1389,7 +1263,6 @@
                     <div class="pricing-group">
                         <h3 class="pricing-category" data-i18n="cat_custom">Sistem Custom</h3>
                         <div class="pricing-grid">
-
                             <article class="pricing-card">
                                 <div class="pricing-name" data-i18n="custom_name">POS &amp; Sistem Custom</div>
                                 <div class="pricing-price">
@@ -1403,12 +1276,10 @@
                                     <li data-i18n="custom_f4">Integrasi &amp; laporan custom</li>
                                     <li data-i18n="custom_f5">Aplikasi mobile (Flutter) opsional</li>
                                 </ul>
-                                <a href="https://wa.me/6287859925122?text=Halo%20Rizoct%2C%20saya%20ingin%20minta%20penawaran%20untuk%20sistem%20custom."
-                                    target="_blank" rel="noopener noreferrer" class="project-link">
+                                <a href="https://wa.me/6287859925122?text=Halo%20Rizoct%2C%20saya%20ingin%20minta%20penawaran%20untuk%20sistem%20custom." target="_blank" rel="noopener noreferrer" class="project-link">
                                     <span data-i18n="request_quote">minta penawaran</span> <span class="arrow">↗</span>
                                 </a>
                             </article>
-
                         </div>
                     </div>
 
@@ -1433,7 +1304,7 @@
         </div>
 
         <!-- ============ PAGE 2: CV ============ -->
-        <div class="page">
+        <div class="page" id="pageCV">
             <main class="cv-page-wrap">
 
                 <!-- LANGUAGE SWITCHER (CV) -->
@@ -1457,10 +1328,8 @@
                 <section class="cv-section">
                     <h3 data-i18n="cv_summary_heading">Profil Singkat</h3>
                     <p class="cv-entry-desc" data-i18n="cv_summary_text">
-                        Full Stack Developer dan AI Automation Engineer dengan pengalaman lintas peran — Business
-                        Analyst,
-                        Project Manager, dan Mobile Developer. Berpengalaman membangun ERP internal, otomasi AI,
-                        aplikasi
+                        Full Stack Developer dan AI Automation Engineer dengan pengalaman lintas peran — Business Analyst, 
+                        Project Manager, dan Mobile Developer. Berpengalaman membangun ERP internal, otomasi AI, aplikasi 
                         mobile Flutter, dan platform e-commerce siap produksi dengan Laravel.
                     </p>
                 </section>
@@ -1468,18 +1337,15 @@
                 <!-- Work Experience -->
                 <section class="cv-section">
                     <h3 data-i18n="cv_experience_heading">Pengalaman Kerja</h3>
-
                     <div class="cv-entry">
                         <div class="cv-entry-header">
                             <span class="cv-entry-title" data-i18n="cv_job1_title">PT Tridente Berkah Abadi</span>
                             <span class="cv-entry-meta" data-i18n="cv_job1_period">2024 – Sekarang</span>
                         </div>
-                        <div class="cv-entry-sub" data-i18n="cv_job1_company">Business Analyst · Project Manager · Full
-                            Stack Developer · AI Automation Engineer · Mobile Developer</div>
+                        <div class="cv-entry-sub" data-i18n="cv_job1_company">Business Analyst · Project Manager · Full Stack Developer · AI Automation Engineer · Mobile Developer</div>
                         <p class="cv-entry-desc" data-i18n="cv_job1_desc">
-                            Mengembangkan aplikasi internal perusahaan: sistem ERP, otomasi AI (AI Automation),
-                            aplikasi mobile dengan Flutter, dan website e-commerce. Menangani peran dari analisis
-                            bisnis,
+                            Mengembangkan aplikasi internal perusahaan: sistem ERP, otomasi AI (AI Automation), 
+                            aplikasi mobile dengan Flutter, dan website e-commerce. Menangani peran dari analisis bisnis, 
                             manajemen proyek, hingga pengembangan full-stack dan mobile.
                         </p>
                     </div>
@@ -1491,9 +1357,21 @@
                         </div>
                         <div class="cv-entry-sub" data-i18n="cv_job2_company">Remote · Indonesia</div>
                         <p class="cv-entry-desc" data-i18n="cv_job2_desc">
-                            Mengerjakan berbagai proyek aplikasi, termasuk Warship Engine Simulator untuk
-                            Akademi Angkatan Laut Surabaya, website Company Profile dengan SEO,
+                            Mengerjakan berbagai proyek aplikasi, termasuk Warship Engine Simulator untuk 
+                            Akademi Angkatan Laut Surabaya, website Company Profile dengan SEO, 
                             School Management System, dan platform E-Commerce.
+                        </p>
+                    </div>
+
+                    <div class="cv-entry">
+                        <div class="cv-entry-header">
+                            <span class="cv-entry-title" data-i18n="cv_job3_title">BBPPMPV BOE Malang (PPPPTK VEDC Malang)</span>
+                            <span class="cv-entry-meta" data-i18n="cv_job3_period">2021 – 2022</span>
+                        </div>
+                        <div class="cv-entry-sub" data-i18n="cv_job3_company">Internship App Developer</div>
+                        <p class="cv-entry-desc" data-i18n="cv_job3_desc">
+                            Mengembangkan aplikasi internal seperti Dorm Management App (Aplikasi Manajemen Asrama) 
+                            dan Teacher Training Management App (Aplikasi Manajemen Pelatihan Guru).
                         </p>
                     </div>
                 </section>
@@ -1501,7 +1379,6 @@
                 <!-- Education -->
                 <section class="cv-section">
                     <h3 data-i18n="cv_education_heading">Pendidikan</h3>
-
                     <div class="cv-entry">
                         <div class="cv-entry-header">
                             <span class="cv-entry-title" data-i18n="cv_edu1_title">S1 Teknik Informatika</span>
@@ -1539,7 +1416,7 @@
 
     </div>
 
-    <!-- ================= FIXED SIDE ARROWS ================= -->
+    <!-- ================= FIXED SIDE ARROWS (DESKTOP) ================= -->
     <button class="side-arrow cv-arrow" id="cvArrow" aria-label="Open CV">
         <span class="side-arrow-chevron">‹</span>
         <span class="side-arrow-label" data-i18n="cv_arrow_label">CV</span>
@@ -1568,7 +1445,7 @@
                 tag_admin: "Admin",
                 tag_adv_seo: "SEO Lanjutan",
                 visit_website: "kunjungi website",
-                what_i_do_heading: "apa yang saya lakukan",
+                what_i_do_heading: "apa yang bisa saya lakukan",
                 do_ecommerce_title: "Pengembangan E-Commerce",
                 do_ecommerce_desc: "Sistem keranjang, galeri produk, dashboard admin, dan integrasi payment gateway QRIS dinamis.",
                 do_company_title: "Company Profile",
@@ -1635,16 +1512,15 @@
                 cv_job1_title: "PT Tridente Berkah Abadi",
                 cv_job1_period: "2024 – Sekarang",
                 cv_job1_company: "Business Analyst · Project Manager · Full Stack Developer · AI Automation Engineer · Mobile Developer",
-                cv_job1_role1: "Business Analyst",
-                cv_job1_role2: "Project Manager",
-                cv_job1_role3: "Full Stack Developer",
-                cv_job1_role4: "AI Automation Engineer",
-                cv_job1_role5: "Mobile Developer",
                 cv_job1_desc: "Mengembangkan aplikasi internal perusahaan: sistem ERP, otomasi AI (AI Automation), aplikasi mobile dengan Flutter, dan website e-commerce. Menangani peran dari analisis bisnis, manajemen proyek, hingga pengembangan full-stack dan mobile.",
                 cv_job2_title: "Freelance App Developer",
                 cv_job2_period: "2022 – Sekarang",
                 cv_job2_company: "Remote · Indonesia",
                 cv_job2_desc: "Mengerjakan berbagai proyek aplikasi, termasuk Warship Engine Simulator untuk Akademi Angkatan Laut Surabaya, website Company Profile dengan SEO, School Management System, dan platform E-Commerce.",
+                cv_job3_title: "BBPPMPV BOE Malang (PPPPTK VEDC Malang)",
+                cv_job3_period: "2021 – 2022",
+                cv_job3_company: "Internship App Developer",
+                cv_job3_desc: "Mengembangkan aplikasi internal seperti Dorm Management App (Aplikasi Manajemen Asrama) dan Teacher Training Management App (Aplikasi Manajemen Pelatihan Guru).",
                 cv_education_heading: "Pendidikan",
                 cv_edu1_title: "S1 Teknik Informatika",
                 cv_edu1_period: "GPA 3.58",
@@ -1734,16 +1610,15 @@
                 cv_job1_title: "PT Tridente Berkah Abadi",
                 cv_job1_period: "2024 – Present",
                 cv_job1_company: "Business Analyst · Project Manager · Full Stack Developer · AI Automation Engineer · Mobile Developer",
-                cv_job1_role1: "Business Analyst",
-                cv_job1_role2: "Project Manager",
-                cv_job1_role3: "Full Stack Developer",
-                cv_job1_role4: "AI Automation Engineer",
-                cv_job1_role5: "Mobile Developer",
                 cv_job1_desc: "Developed internal company applications: ERP system, AI Automation, Flutter mobile apps, and e-commerce website. Handled roles from business analysis and project management through full-stack and mobile development.",
                 cv_job2_title: "Freelance App Developer",
                 cv_job2_period: "2022 – Present",
                 cv_job2_company: "Remote · Indonesia",
                 cv_job2_desc: "Delivered various application projects, including a Warship Engine Simulator for the Indonesian Naval Academy (Akademi Angkatan Laut) Surabaya, SEO-optimized Company Profile websites, School Management Systems, and E-Commerce platforms.",
+                cv_job3_title: "BBPPMPV BOE Malang (PPPPTK VEDC Malang)",
+                cv_job3_period: "2021 – 2022",
+                cv_job3_company: "Internship App Developer",
+                cv_job3_desc: "Developed internal applications such as Dorm Management App and Teacher Training Management App.",
                 cv_education_heading: "Education",
                 cv_edu1_title: "Bachelor of Informatics Engineering",
                 cv_edu1_period: "GPA 3.58",
@@ -1794,25 +1669,51 @@
             btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
         });
 
-        /* ---------- PAGE SLIDE LOGIC ---------- */
+        /* ---------- PAGE SLIDE & TAB LOGIC ---------- */
         const pageTrack = document.getElementById('pageTrack');
         const cvArrow = document.getElementById('cvArrow');
         const portfolioArrow = document.getElementById('portfolioArrow');
+        
+        // Mobile Tab elements
+        const tabPortfolio = document.getElementById('tabPortfolio');
+        const tabCV = document.getElementById('tabCV');
+        
+        // Detect if mobile
+        const isMobile = () => window.matchMedia("(max-width: 700px)").matches;
 
         function showCV() {
             pageTrack.classList.add('show-cv');
-            const cvPage = pageTrack.children[1];
-            if (cvPage) cvPage.scrollTop = 0;
-            portfolioArrow.focus();
+            
+            if (isMobile()) {
+                tabPortfolio.classList.remove('active');
+                tabCV.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                const cvPage = pageTrack.children[1];
+                if (cvPage) cvPage.scrollTop = 0;
+                portfolioArrow.focus();
+            }
         }
 
         function showPortfolio() {
             pageTrack.classList.remove('show-cv');
-            cvArrow.focus();
+            
+            if (isMobile()) {
+                tabCV.classList.remove('active');
+                tabPortfolio.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                cvArrow.focus();
+            }
         }
 
+        // Arrow clicks (Desktop)
         cvArrow.addEventListener('click', showCV);
         portfolioArrow.addEventListener('click', showPortfolio);
+
+        // Tab clicks (Mobile)
+        tabPortfolio.addEventListener('click', showPortfolio);
+        tabCV.addEventListener('click', showCV);
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && pageTrack.classList.contains('show-cv')) {
@@ -1820,6 +1721,7 @@
             }
         });
 
+        // Touch gestures on arrows
         let cvTouchX = 0;
         cvArrow.addEventListener('touchstart', (e) => {
             cvTouchX = e.touches[0].clientX;
@@ -1836,16 +1738,6 @@
         portfolioArrow.addEventListener('touchend', (e) => {
             const dx = e.changedTouches[0].clientX - pfTouchX;
             if (dx > 20) showPortfolio();
-        }, { passive: true });
-
-        const cvPageEl = pageTrack.children[1];
-        let cvPageTouchX = 0;
-        cvPageEl.addEventListener('touchstart', (e) => {
-            cvPageTouchX = e.touches[0].clientX;
-        }, { passive: true });
-        cvPageEl.addEventListener('touchend', (e) => {
-            const dx = e.changedTouches[0].clientX - cvPageTouchX;
-            if (dx > 60) showPortfolio();
         }, { passive: true });
     </script>
 </body>
