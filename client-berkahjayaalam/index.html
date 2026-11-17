@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berkah Jaya Alam | Kayu Premium & Solusi Kayu</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f6f0;
+            color: #2e2b27;
+            line-height: 1.5;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header / Nav — light background so the logo pops */
+        .navbar {
+            background-color: #f5f1e8;
+            color: #1e3a2f;
+            padding: 12px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-bottom: 3px solid #c7a86b;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: nowrap;
+            position: relative;
+        }
+
+        /* Logo image + text */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .logo img {
+            height: 44px;
+            width: auto;
+            display: block;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            color: #1e3a2f;
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+
+        .logo-text span {
+            color: #a07d43;
+            font-style: italic;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #1e3a2f;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: #a07d43;
+            border-bottom-color: #a07d43;
+        }
+
+        /* Hamburger button — hidden on desktop */
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #1e3a2f;
+            font-size: 1.6rem;
+            cursor: pointer;
+            padding: 6px 10px;
+            line-height: 1;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .menu-toggle:hover {
+            background: rgba(30, 58, 47, 0.08);
+        }
+
+        /* Hero — Full screen */
+        .hero {
+            background: linear-gradient(rgba(20, 30, 25, 0.65), rgba(20, 30, 25, 0.65)), url('assets/img/img-1.jpeg') center/cover no-repeat;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+            scroll-margin-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 24px;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+        }
+
+        .hero p {
+            font-size: 1.35rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #c7a86b;
+            color: #1e3a2f;
+            font-weight: 600;
+            padding: 16px 42px;
+            border-radius: 40px;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            font-size: 1.05rem;
+            letter-spacing: 0.3px;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            border-color: #c7a86b;
+            color: #f2efe9;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid #c7a86b;
+            color: #f2efe9;
+        }
+
+        .btn-outline:hover {
+            background-color: #c7a86b;
+            color: #1e3a2f;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #f2efe9;
+            font-size: 1.4rem;
+            opacity: 0.75;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 0;
+            scroll-margin-top: 80px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            color: #1e3a2f;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #5c5a56;
+            max-width: 700px;
+            margin: 0 auto 48px auto;
+            font-size: 1.1rem;
+        }
+
+        /* Products Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            background-color: #d9d0c0;
+        }
+
+        .product-info {
+            padding: 22px 20px 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+            color: #1e3a2f;
+        }
+
+        .product-info p {
+            color: #5f5d58;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        .product-price {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #a07d43;
+            margin-bottom: 12px;
+        }
+
+        .product-price small {
+            font-weight: 400;
+            font-size: 0.8rem;
+            color: #7a776f;
+        }
+
+        .product-info .btn-small {
+            background: #1e3a2f;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            text-align: center;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+            border: none;
+            align-self: flex-start;
+        }
+
+        .product-info .btn-small:hover {
+            background: #c7a86b;
+            color: #1e3a2f;
+        }
+
+        /* Gallery */
+        .gallery-section {
+            background-color: #f2efe9;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 4 / 3;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(20, 30, 25, 0.85), rgba(20, 30, 25, 0) 60%);
+            color: #f2efe9;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 22px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            opacity: 1;
+        }
+
+        .gallery-caption h3 {
+            font-size: 1.3rem;
+            color: #e9d9b8;
+            margin-bottom: 4px;
+        }
+
+        .gallery-caption p {
+            font-size: 0.9rem;
+            color: #ddd9d1;
+        }
+
+        /* Visi Misi */
+        .visi-misi {
+            background-color: #1e3a2f;
+            color: #f2efe9;
+            border-radius: 40px;
+            padding: 60px 40px;
+            margin: 40px 0;
+        }
+
+        .visi-misi .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .visi-card, .misi-card {
+            flex: 1 1 300px;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 36px 32px;
+            border-radius: 24px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .visi-card i, .misi-card i {
+            font-size: 2.5rem;
+            color: #c7a86b;
+            margin-bottom: 20px;
+        }
+
+        .visi-card h3, .misi-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #e9d9b8;
+        }
+
+        .visi-card p, .misi-card ul {
+            color: #ddd9d1;
+            line-height: 1.7;
+        }
+
+        .misi-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .misi-card li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .misi-card li i {
+            font-size: 1rem;
+            margin-top: 5px;
+            color: #c7a86b;
+        }
+
+        /* Company Profile */
+        .profile-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .profile-text {
+            flex: 1 1 350px;
+        }
+
+        .profile-text h3 {
+            font-size: 1.9rem;
+            margin-bottom: 16px;
+            color: #1e3a2f;
+        }
+
+        .profile-text p {
+            margin-bottom: 20px;
+            color: #4d4b46;
+            font-size: 1.05rem;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 24px;
+        }
+
+        .stat-item h4 {
+            font-size: 2rem;
+            color: #a07d43;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-item p {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6b6861;
+        }
+
+        .profile-img {
+            flex: 1 1 300px;
+            height: 320px;
+            background: url('assets/img/img-2.jpeg') center/cover no-repeat;
+            border-radius: 24px;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.15);
+            border: 8px solid white;
+        }
+
+        /* Contact / Buy */
+        .contact-section {
+            background: #f2efe9;
+            border-radius: 40px;
+            padding: 60px 40px;
+            margin-top: 40px;
+        }
+
+        .contact-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 50px;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .contact-info {
+            flex: 1 1 480px;
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 24px;
+            color: #1e3a2f;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .contact-detail i {
+            font-size: 1.5rem;
+            color: #a07d43;
+            width: 36px;
+            text-align: center;
+        }
+
+        .contact-detail p {
+            font-size: 1rem;
+            color: #2e2b27;
+        }
+
+        .contact-detail a {
+            color: #1e3a2f;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px solid #c7a86b;
+        }
+
+        /* Social Media Links */
+        .social-links {
+            margin-top: 32px;
+        }
+
+        .social-links h4 {
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            color: #1e3a2f;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.3rem;
+            text-decoration: none;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+            opacity: 0.9;
+        }
+
+        .social-icon.instagram {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+        }
+
+        .social-icon.whatsapp {
+            background-color: #25D366;
+        }
+
+        .social-icon.facebook {
+            background-color: #1877F2;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e3a2f;
+            color: #bbb7ae;
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        footer i {
+            color: #c7a86b;
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .footer-social a {
+            color: #c7a86b;
+            font-size: 1.3rem;
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+
+        .footer-social a:hover {
+            color: #e9d9b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            /* Hamburger menu appears */
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: calc(100% + 12px);
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                gap: 0;
+                background-color: #f5f1e8;
+                border: 1px solid #e0d8c8;
+                border-top: 3px solid #c7a86b;
+                border-radius: 0 0 16px 16px;
+                box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+                padding: 8px 0;
+                z-index: 200;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 14px 24px;
+                border-bottom: none;
+                font-size: 1rem;
+                color: #1e3a2f;
+            }
+
+            .nav-links a:hover {
+                background: rgba(30, 58, 47, 0.06);
+                border-bottom-color: transparent;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.6rem; }
+            .hero p { font-size: 1.1rem; }
+            .section-title { font-size: 2rem; }
+            .visi-misi { padding: 40px 20px; }
+            .profile-stats { flex-wrap: wrap; gap: 20px; }
+            section { scroll-margin-top: 80px; }
+            .hero { scroll-margin-top: 80px; }
+            .contact-section { padding: 40px 24px; }
+            .gallery-item { aspect-ratio: 3 / 2; }
+            .logo img { height: 38px; }
+            .logo-text { font-size: 1.2rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2rem; }
+            .btn { padding: 14px 28px; font-size: 0.95rem; }
+            .gallery-caption { opacity: 1; background: linear-gradient(to top, rgba(20, 30, 25, 0.9), rgba(20, 30, 25, 0) 70%); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigasi -->
+    <div class="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="assets/img/logo.png" alt="Logo Berkah Jaya Alam">
+                <div class="logo-text">Berkah <span>Jaya</span> Alam</div>
+            </a>
+            <button class="menu-toggle" aria-label="Buka menu navigasi" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#products">Produk</a></li>
+                <li><a href="#gallery">Galeri</a></li>
+                <li><a href="#visi-misi">Visi & Misi</a></li>
+                <li><a href="#profile">Perusahaan</a></li>
+                <li><a href="#contact">Kontak & Pembelian</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Hero Section — Full screen -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Kayu Premium untuk<br>Kreasi Abadi</h1>
+            <p>Bersumber secara berkelanjutan, digergaji dengan ahli, dan siap untuk proyek Anda berikutnya.</p>
+            <div class="hero-buttons">
+                <a href="#products" class="btn">Jelajahi Kayu</a>
+                <a href="#contact" class="btn btn-outline">Hubungi untuk Membeli</a>
+            </div>
+        </div>
+        <a href="#products" class="scroll-indicator" aria-label="Gulir ke produk">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- Bagian Produk -->
+    <section id="products">
+        <div class="container">
+            <h2 class="section-title">Koleksi Kayu Kami</h2>
+            <p class="section-subtitle">Balok, papan, dan kayu pilihan — setiap potongan dinilai berdasarkan kekuatan, keindahan, dan daya tahan.</p>
+            <div class="product-grid">
+                <!-- Produk 1 -->
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('assets/img/img-3.jpeg');"></div>
+                    <div class="product-info">
+                        <h3>Decking Merbau</h3>
+                        <p>Kayu keras padat dan tahan lama dengan warna coklat kemerahan yang kaya. Cocok untuk decking dan lantai luar ruangan.</p>
+                        <div class="product-price">Rp 285.000 <small>/ meter linear</small></div>
+                        <a href="#contact" class="btn-small">Tanya</a>
+                    </div>
+                </div>
+                <!-- Produk 2 -->
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('assets/img/img-4.jpeg');"></div>
+                    <div class="product-info">
+                        <h3>Balok Struktural Oak</h3>
+                        <p>Oak Eropa dikeringkan dengan oven, serat lurus, ideal untuk balok ekspos dan konstruksi berat.</p>
+                        <div class="product-price">Rp 495.000 <small>/ meter linear</small></div>
+                        <a href="#contact" class="btn-small">Tanya</a>
+                    </div>
+                </div>
+                <!-- Produk 3 -->
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('assets/img/img-1.jpeg');"></div>
+                    <div class="product-info">
+                        <h3>Papan Jati</h3>
+                        <p>Papan jati coklat keemasan yang tahan air alami untuk furnitur dan aplikasi maritim.</p>
+                        <div class="product-price">Rp 695.000 <small>/ board ft</small></div>
+                        <a href="#contact" class="btn-small">Tanya</a>
+                    </div>
+                </div>
+                <!-- Produk 4 -->
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('assets/img/img-2.jpeg');"></div>
+                    <div class="product-info">
+                        <h3>Kayu Pinus Dimensi</h3>
+                        <p>Kayu lunak serbaguna dan terjangkau, dikeringkan dengan oven dan diserut halus untuk rangka atau DIY.</p>
+                        <div class="product-price">Rp 105.000 <small>/ potong</small></div>
+                        <a href="#contact" class="btn-small">Tanya</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bagian Galeri -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">Galeri Kami</h2>
+            <p class="section-subtitle">Sekilas tentang hasil karya, proses penggergajian, proses pengiriman dan keindahan kayu yang kami sediakan.</p>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="assets/img/img-1.jpeg" alt="Penggergajian kayu">
+                    <div class="gallery-caption">
+                        <h3>Proses Penggergajian</h3>
+                        <p>Presisi di setiap potongan</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/img/img-2.jpeg" alt="Tumpukan kayu di gudang">
+                    <div class="gallery-caption">
+                        <h3>Stok Gudang</h3>
+                        <p>Kayu pilihan siap kirim</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/img/img-3.jpeg" alt="Decking kayu merbau">
+                    <div class="gallery-caption">
+                        <h3>Decking Merbau</h3>
+                        <p>Hasil pemasangan rapi dan tahan lama</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/img/img-4.jpeg" alt="Balok kayu oak">
+                    <div class="gallery-caption">
+                        <h3>Balok Struktural</h3>
+                        <p>Kekuatan untuk konstruksi berat</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/img/img-5.jpeg" alt="Papan kayu jati">
+                    <div class="gallery-caption">
+                        <h3>Papan Jati</h3>
+                        <p>Keindahan alami untuk furnitur</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/img/img-6.jpeg" alt="Kayu pinus dimensi">
+                    <div class="gallery-caption">
+                        <h3>Kayu Pinus</h3>
+                        <p>Serbaguna untuk rangka dan DIY</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/img/img-7.jpeg" alt="Proyek kayu Berkah Jaya Alam">
+                    <div class="gallery-caption">
+                        <h3>Proyek Selesai</h3>
+                        <p>Hasil karya pelanggan kami</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bagian Visi & Misi -->
+    <section id="visi-misi" style="padding: 40px 0;">
+        <div class="container">
+            <h2 class="section-title" style="color:#1e3a2f;">Visi & Misi Kami</h2>
+            <div class="visi-misi">
+                <div class="container">
+                    <div class="visi-card">
+                        <i class="fas fa-eye"></i>
+                        <h3>Visi</h3>
+                        <p>Menjadi pemasok kayu terkemuka di wilayah ini, diakui karena praktik berkelanjutan, kualitas luar biasa, dan kemitraan jangka panjang yang membangun lingkungan terbangun yang lebih baik.</p>
+                    </div>
+                    <div class="misi-card">
+                        <i class="fas fa-bullseye"></i>
+                        <h3>Misi</h3>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Menyumberkan 100% kayu dari hutan yang dikelola secara bertanggung jawab.</li>
+                            <li><i class="fas fa-check-circle"></i> Menyediakan produk kayu bermutu tinggi yang konsisten dengan ketertelusuran penuh.</li>
+                            <li><i class="fas fa-check-circle"></i> Memberikan saran ahli dan layanan andal kepada setiap pelanggan.</li>
+                            <li><i class="fas fa-check-circle"></i> Terus mengurangi jejak lingkungan kami melalui inovasi.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bagian Profil Perusahaan -->
+    <section id="profile">
+        <div class="container">
+            <h2 class="section-title">Profil Perusahaan</h2>
+            <p class="section-subtitle">Dibangun atas dasar keahlian kayu selama puluhan tahun dan komitmen terhadap kualitas.</p>
+            <div class="profile-wrap">
+                <div class="profile-text">
+                    <h3>Berkah Jaya Alam — Berakar pada Integritas</h3>
+                    <p>Didirikan pada tahun 1985, Berkah Jaya Alam telah berkembang dari penggergajian kayu keluarga kecil menjadi pemasok terpercaya produk kayu premium. Kami menggabungkan keahlian tradisional dengan teknologi penggergajian modern untuk menghasilkan kayu yang memenuhi standar tertinggi.</p>
+                    <p>Tim kami bekerja sama erat dengan rimbawan, arsitek, dan pembangun untuk memastikan setiap papan bersumber secara bertanggung jawab dan diproses dengan presisi. Baik Anda membangun dek, merangka rumah, atau membuat furnitur khusus, kami memiliki kayu yang tepat untuk pekerjaan itu.</p>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <h4>35+</h4>
+                            <p>Tahun pengalaman</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>120+</h4>
+                            <p>Spesies kayu</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>98%</h4>
+                            <p>Pelanggan puas</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-img"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bagian Kontak & Pembelian -->
+    <section id="contact" style="padding-top: 20px;">
+        <div class="container">
+            <div class="contact-section">
+                <h2 class="section-title" style="margin-bottom: 32px;">Kontak & Pembelian</h2>
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h3>Mari bicara soal kayu</h3>
+                        <p style="margin-bottom: 28px; color:#4d4b46;">Siap memesan atau butuh penawaran? Hubungi kami langsung — tim kami merespons dalam 24 jam.</p>
+                        <div class="contact-detail">
+                            <i class="fas fa-phone-alt"></i>
+                            <p><a href="tel:+6281234567890">+62 812-3456-7890</a></p>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-envelope"></i>
+                            <p><a href="mailto:sales@berkahjayaalam.co.id">sales@berkahjayaalam.co.id</a></p>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>Jl. Penggergajian No. 245, Jakarta Selatan, DKI Jakarta 12345</p>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-clock"></i>
+                            <p>Senin–Jumat: 08.00 – 17.00 | Sabtu: 09.00 – 13.00</p>
+                        </div>
+
+                        <!-- Tautan Media Sosial -->
+                        <div class="social-links">
+                            <h4>Ikuti & Hubungi Kami</h4>
+                            <div class="social-icons">
+                                <a href="https://instagram.com/berkahjayaalam" class="social-icon instagram" target="_blank" rel="noopener" aria-label="Instagram Berkah Jaya Alam">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://wa.me/6281234567890" class="social-icon whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp Berkah Jaya Alam">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                                <a href="https://facebook.com/berkahjayaalam" class="social-icon facebook" target="_blank" rel="noopener" aria-label="Facebook Berkah Jaya Alam">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p><i class="fas fa-tree"></i> Berkah Jaya Alam — Kayu premium, bersumber berkelanjutan. &nbsp;|&nbsp; © 2025 Berkah Jaya Alam. Hak cipta dilindungi.</p>
+            <div class="footer-social">
+                <a href="https://instagram.com/berkahjayaalam" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://facebook.com/berkahjayaalam" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle menu mobile
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.getElementById('navLinks');
+        const menuIcon = menuToggle.querySelector('i');
+
+        menuToggle.addEventListener('click', () => {
+            const isOpen = navLinks.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', isOpen);
+            menuIcon.classList.toggle('fa-bars', !isOpen);
+            menuIcon.classList.toggle('fa-times', isOpen);
+        });
+
+        // Tutup menu saat link diklik
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                menuIcon.classList.add('fa-bars');
+                menuIcon.classList.remove('fa-times');
+            });
+        });
+    </script>
+</body>
+</html>
