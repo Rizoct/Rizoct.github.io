@@ -40,7 +40,7 @@
             padding: 0 24px;
         }
 
-        /* Header / Nav — light background so the logo pops */
+        /* Header / Nav */
         .navbar {
             background-color: #f5f1e8;
             color: #1e3a2f;
@@ -60,7 +60,6 @@
             position: relative;
         }
 
-        /* Logo image + text */
         .logo {
             display: flex;
             align-items: center;
@@ -112,7 +111,6 @@
             border-bottom-color: #a07d43;
         }
 
-        /* Hamburger button — hidden on desktop */
         .menu-toggle {
             display: none;
             background: transparent;
@@ -130,9 +128,9 @@
             background: rgba(30, 58, 47, 0.08);
         }
 
-        /* Hero — Full screen */
+        /* Hero */
         .hero {
-            background: linear-gradient(rgba(20, 30, 25, 0.65), rgba(20, 30, 25, 0.65)), url('assets/img/img-2.jpeg') center/cover no-repeat;
+            background: linear-gradient(rgba(20, 30, 25, 0.65), rgba(20, 30, 25, 0.65)), url('assets/img/img-3.jpeg') center/cover no-repeat;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -205,7 +203,6 @@
             color: #1e3a2f;
         }
 
-        /* Scroll indicator */
         .scroll-indicator {
             position: absolute;
             bottom: 32px;
@@ -244,26 +241,90 @@
             font-size: 1.1rem;
         }
 
-        /* Products Grid */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
+        /* ====== SHARED CAROUSEL STYLES ====== */
+        .carousel-wrapper {
+            position: relative;
+            padding: 0 56px;
         }
 
+        .carousel-viewport {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 24px;
+            transition: transform 0.45s ease;
+            will-change: transform;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: #1e3a2f;
+            color: #f2efe9;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            transition: background 0.2s, opacity 0.2s;
+            z-index: 5;
+        }
+
+        .carousel-btn:hover {
+            background: #c7a86b;
+            color: #1e3a2f;
+        }
+
+        .carousel-btn.prev { left: 0; }
+        .carousel-btn.next { right: 0; }
+
+        .carousel-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+        }
+
+        .carousel-dots button {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: none;
+            background: #cfc6b6;
+            cursor: pointer;
+            padding: 0;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .carousel-dots button.active {
+            background: #1e3a2f;
+            transform: scale(1.25);
+        }
+
+        /* ====== PRODUCT CARDS ====== */
         .product-card {
+            flex: 0 0 calc((100% - 72px) / 4);
             background: white;
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
             flex-direction: column;
-        }
-
-        .product-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
         }
 
         .product-img {
@@ -312,27 +373,17 @@
             color: #1e3a2f;
         }
 
-        /* Gallery */
-        .gallery-section {
-            background-color: #f2efe9;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-        }
-
-        .gallery-item {
+        /* ====== GALLERY CARDS (image only) ====== */
+        .gallery-card {
+            flex: 0 0 calc((100% - 48px) / 3);
             position: relative;
             border-radius: 16px;
             overflow: hidden;
             aspect-ratio: 4 / 3;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-            cursor: pointer;
         }
 
-        .gallery-item img {
+        .gallery-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -340,36 +391,13 @@
             transition: transform 0.4s ease;
         }
 
-        .gallery-item:hover img {
-            transform: scale(1.08);
+        .gallery-card:hover img {
+            transform: scale(1.06);
         }
 
-        .gallery-caption {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(20, 30, 25, 0.85), rgba(20, 30, 25, 0) 60%);
-            color: #f2efe9;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 22px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .gallery-item:hover .gallery-caption {
-            opacity: 1;
-        }
-
-        .gallery-caption h3 {
-            font-size: 1.3rem;
-            color: #e9d9b8;
-            margin-bottom: 4px;
-        }
-
-        .gallery-caption p {
-            font-size: 0.9rem;
-            color: #ddd9d1;
+        /* Gallery section background */
+        .gallery-section {
+            background-color: #f2efe9;
         }
 
         /* Visi Misi */
@@ -439,6 +467,8 @@
             flex-wrap: wrap;
             gap: 48px;
             align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
         .profile-text {
@@ -461,6 +491,12 @@
             display: flex;
             gap: 30px;
             margin-top: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
         }
 
         .stat-item h4 {
@@ -474,15 +510,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #6b6861;
-        }
-
-        .profile-img {
-            flex: 1 1 300px;
-            height: 320px;
-            background: url('assets/img/img-2.jpeg') center/cover no-repeat;
-            border-radius: 24px;
-            box-shadow: 0 20px 30px rgba(0,0,0,0.15);
-            border: 8px solid white;
         }
 
         /* Contact / Buy */
@@ -584,6 +611,47 @@
             background-color: #1877F2;
         }
 
+        /* ====== FLOATING WHATSAPP BUTTON ====== */
+        .wa-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #25D366;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.9rem;
+            text-decoration: none;
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.45);
+            z-index: 999;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .wa-float::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: rgba(37, 211, 102, 0.45);
+            animation: wa-pulse 2s infinite;
+            z-index: -1;
+        }
+
+        .wa-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 32px rgba(37, 211, 102, 0.6);
+        }
+
+        @keyframes wa-pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            70% { transform: scale(1.6); opacity: 0; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
         /* Footer */
         footer {
             background: #1e3a2f;
@@ -622,7 +690,6 @@
 
         /* Responsive */
         @media (max-width: 992px) {
-            /* Hamburger menu appears */
             .menu-toggle {
                 display: block;
             }
@@ -664,6 +731,14 @@
                 background: rgba(30, 58, 47, 0.06);
                 border-bottom-color: transparent;
             }
+
+            /* Tablet: 3 products / 2 gallery */
+            .product-card {
+                flex: 0 0 calc((100% - 48px) / 3);
+            }
+            .gallery-card {
+                flex: 0 0 calc((100% - 24px) / 2);
+            }
         }
 
         @media (max-width: 768px) {
@@ -675,15 +750,46 @@
             section { scroll-margin-top: 80px; }
             .hero { scroll-margin-top: 80px; }
             .contact-section { padding: 40px 24px; }
-            .gallery-item { aspect-ratio: 3 / 2; }
             .logo img { height: 38px; }
             .logo-text { font-size: 1.2rem; }
+
+            .carousel-wrapper { padding: 0 8px; }
+            .carousel-btn { display: none; }
+
+            /* Mobile: 2 products / 1 gallery */
+            .product-card {
+                flex: 0 0 calc((100% - 24px) / 2);
+            }
+            .gallery-card {
+                flex: 0 0 100%;
+                aspect-ratio: 16 / 10;
+            }
+
+            .wa-float {
+                width: 54px;
+                height: 54px;
+                font-size: 1.6rem;
+                bottom: 18px;
+                right: 18px;
+            }
         }
 
         @media (max-width: 480px) {
             .hero h1 { font-size: 2rem; }
             .btn { padding: 14px 28px; font-size: 0.95rem; }
-            .gallery-caption { opacity: 1; background: linear-gradient(to top, rgba(20, 30, 25, 0.9), rgba(20, 30, 25, 0) 70%); }
+
+            .product-card {
+                flex: 0 0 100%;
+            }
+            .carousel-track { gap: 0; }
+
+            .wa-float {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                bottom: 16px;
+                right: 16px;
+            }
         }
     </style>
 </head>
@@ -708,11 +814,11 @@
         </div>
     </div>
 
-    <!-- Hero Section — Full screen -->
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <h1>Kayu Premium untuk<br>Kreasi Abadi</h1>
-            <p>Bersumber secara berkelanjutan, digergaji dengan ahli, dan siap untuk proyek Anda berikutnya.</p>
+            <p>Digergaji dengan ahli, dan siap untuk proyek Anda berikutnya.</p>
             <div class="hero-buttons">
                 <a href="#products" class="btn">Jelajahi Kayu</a>
                 <a href="#contact" class="btn btn-outline">Hubungi untuk Membeli</a>
@@ -723,133 +829,125 @@
         </a>
     </section>
 
-    <!-- Bagian Produk -->
+    <!-- Bagian Produk — Carousel -->
     <section id="products">
         <div class="container">
             <h2 class="section-title">Koleksi Kayu Kami</h2>
             <p class="section-subtitle">Balok, papan, dan kayu pilihan — setiap potongan dinilai berdasarkan kekuatan, keindahan, dan daya tahan.</p>
-            <div class="product-grid">
-                <!-- Produk 1 -->
-                <div class="product-card">
-                    <div class="product-img" style="background-image: url('assets/img/img-3.jpeg');"></div>
-                    <div class="product-info">
-                        <h3>Decking Merbau</h3>
-                        <p>Kayu keras padat dan tahan lama dengan warna coklat kemerahan yang kaya. Cocok untuk decking dan lantai luar ruangan.</p>
-                        <a href="#contact" class="btn-small">Tanya</a>
-                    </div>
-                </div>
-                <!-- Produk 2 -->
-                <div class="product-card">
-                    <div class="product-img" style="background-image: url('assets/img/img-4.jpeg');"></div>
-                    <div class="product-info">
-                        <h3>Balok Struktural Oak</h3>
-                        <p>Oak Eropa dikeringkan dengan oven, serat lurus, ideal untuk balok ekspos dan konstruksi berat.</p>
-                        <a href="#contact" class="btn-small">Tanya</a>
-                    </div>
-                </div>
-                <!-- Produk 3 -->
-                <div class="product-card">
-                    <div class="product-img" style="background-image: url('assets/img/img-1.jpeg');"></div>
-                    <div class="product-info">
-                        <h3>Papan Jati</h3>
-                        <p>Papan jati coklat keemasan yang tahan air alami untuk furnitur dan aplikasi maritim.</p>
-                        <a href="#contact" class="btn-small">Tanya</a>
-                    </div>
-                </div>
-                <!-- Produk 4 -->
-                <div class="product-card">
-                    <div class="product-img" style="background-image: url('assets/img/img-2.jpeg');"></div>
-                    <div class="product-info">
-                        <h3>Kayu Pinus Dimensi</h3>
-                        <p>Kayu lunak serbaguna dan terjangkau, dikeringkan dengan oven dan diserut halus untuk rangka atau DIY.</p>
-                        <a href="#contact" class="btn-small">Tanya</a>
+
+            <div class="carousel-wrapper">
+                <button class="carousel-btn prev" aria-label="Produk sebelumnya">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-btn next" aria-label="Produk berikutnya">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <div class="carousel-viewport product-carousel" id="productCarousel">
+                    <div class="carousel-track" id="productTrack">
+                        <div class="product-card">
+                            <div class="product-img" style="background-image: url('assets/img/katalog/kayu-mahuni.jpeg');"></div>
+                            <div class="product-info">
+                                <h3>Kayu Mahoni 6x12</h3>
+                                <p>Memiliki kualitas kuat dan kokoh, memiliki tekstur serat kayu yang indah serta warna alami kemerahan khas mahoni.</p>
+                                <a href="#contact" class="btn-small">Tanya</a>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-img" style="background-image: url('assets/img/katalog/kayu-usuk-keras.jpeg');"></div>
+                            <div class="product-info">
+                                <h3>Kayu Usuk Keras Campur 4x6</h3>
+                                <p>Memiliki karakteristik kuat dan kokoh. Cocok digunakan untuk rangka atap, konstruksi bangunan, dan berbagai kebutuhan pertukangan.</p>
+                                <a href="#contact" class="btn-small">Tanya</a>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-img" style="background-image: url('assets/img/katalog/kayu-curai.jpeg');"></div>
+                            <div class="product-info">
+                                <h3>Kayu Curai 4x6</h3>
+                                <p>Cocok digunakan untuk kebutuhan konstruksi bangunan, rangka atap, dan berbagai pekerjaan pertukangan. Kuat dan praktis untuk kebutuhan pembangunan.</p>
+                                <a href="#contact" class="btn-small">Tanya</a>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-img" style="background-image: url('assets/img/katalog/kayu-bambu.jpeg');"></div>
+                            <div class="product-info">
+                                <h3>Bambu 8m dan 4m</h3>
+                                <p>Cocok digunakan untuk kebutuhan konstruksi, rangka bangunan, perancah, serta berbagai keperluan pertukangan. Kuat, ringan, dan praktis digunakan.</p>
+                                <a href="#contact" class="btn-small">Tanya</a>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-img" style="background-image: url('assets/img/katalog/kayu-sengon.jpg');"></div>
+                            <div class="product-info">
+                                <h3>Kayu Sengon 4x6</h3>
+                                <p>Memiliki karakteristik ringan dan mudah dikerjakan. Cocok digunakan untuk rangka atap, usuk, konstruksi ringan, dan berbagai kebutuhan pertukangan.</p>
+                                <a href="#contact" class="btn-small">Tanya</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div class="carousel-dots" id="productDots"></div>
         </div>
     </section>
 
-    <!-- Bagian Galeri -->
+    <!-- Bagian Galeri — Carousel (image only) -->
     <section id="gallery" class="gallery-section">
         <div class="container">
             <h2 class="section-title">Galeri Kami</h2>
             <p class="section-subtitle">Sekilas tentang hasil karya, proses pengiriman dan keindahan kayu yang kami sediakan.</p>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="assets/img/img-1.jpeg" alt="Penggergajian kayu">
-                    <div class="gallery-caption">
-                        <h3>Proses Penggergajian</h3>
-                        <p>Presisi di setiap potongan</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="assets/img/img-2.jpeg" alt="Tumpukan kayu di gudang">
-                    <div class="gallery-caption">
-                        <h3>Stok Gudang</h3>
-                        <p>Kayu pilihan siap kirim</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="assets/img/img-3.jpeg" alt="Decking kayu merbau">
-                    <div class="gallery-caption">
-                        <h3>Decking Merbau</h3>
-                        <p>Hasil pemasangan rapi dan tahan lama</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="assets/img/img-4.jpeg" alt="Balok kayu oak">
-                    <div class="gallery-caption">
-                        <h3>Balok Struktural</h3>
-                        <p>Kekuatan untuk konstruksi berat</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="assets/img/img-5.jpeg" alt="Papan kayu jati">
-                    <div class="gallery-caption">
-                        <h3>Papan Jati</h3>
-                        <p>Keindahan alami untuk furnitur</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="assets/img/img-6.jpeg" alt="Kayu pinus dimensi">
-                    <div class="gallery-caption">
-                        <h3>Kayu Pinus</h3>
-                        <p>Serbaguna untuk rangka dan DIY</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="assets/img/img-7.jpeg" alt="Proyek kayu Berkah Jaya Alam">
-                    <div class="gallery-caption">
-                        <h3>Proyek Selesai</h3>
-                        <p>Hasil karya pelanggan kami</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="assets/img/img-8.jpeg" alt="Proyek kayu Berkah Jaya Alam">
-                    <div class="gallery-caption">
-                        <h3>Proyek Selesai</h3>
-                        <p>Hasil karya pelanggan kami</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="assets/img/img-9.jpeg" alt="Proyek kayu Berkah Jaya Alam">
-                    <div class="gallery-caption">
-                        <h3>Proyek Selesai</h3>
-                        <p>Hasil karya pelanggan kami</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="assets/img/img-10.jpeg" alt="Proyek kayu Berkah Jaya Alam">
-                    <div class="gallery-caption">
-                        <h3>Proyek Selesai</h3>
-                        <p>Hasil karya pelanggan kami</p>
+
+            <div class="carousel-wrapper">
+                <button class="carousel-btn prev" aria-label="Gambar sebelumnya">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-btn next" aria-label="Gambar berikutnya">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <div class="carousel-viewport gallery-carousel" id="galleryCarousel">
+                    <div class="carousel-track" id="galleryTrack">
+                        <div class="gallery-card">
+                            <img src="assets/img/img-1.jpeg" alt="Galeri Berkah Jaya Alam 1">
+                        </div>
+                        <div class="gallery-card">
+                            <img src="assets/img/img-2.jpeg" alt="Galeri Berkah Jaya Alam 2">
+                        </div>
+                        <div class="gallery-card">
+                            <img src="assets/img/img-3.jpeg" alt="Galeri Berkah Jaya Alam 3">
+                        </div>
+                        <div class="gallery-card">
+                            <img src="assets/img/img-4.jpeg" alt="Galeri Berkah Jaya Alam 4">
+                        </div>
+                        <div class="gallery-card">
+                            <img src="assets/img/img-5.jpeg" alt="Galeri Berkah Jaya Alam 5">
+                        </div>
+                        <div class="gallery-card">
+                            <img src="assets/img/img-6.jpeg" alt="Galeri Berkah Jaya Alam 6">
+                        </div>
+                        <div class="gallery-card">
+                            <img src="assets/img/img-7.jpeg" alt="Galeri Berkah Jaya Alam 7">
+                        </div>
+                        <div class="gallery-card">
+                            <img src="assets/img/img-8.jpeg" alt="Galeri Berkah Jaya Alam 8">
+                        </div>
+                        <div class="gallery-card">
+                            <img src="assets/img/img-9.jpeg" alt="Galeri Berkah Jaya Alam 9">
+                        </div>
+                        <div class="gallery-card">
+                            <img src="assets/img/img-10.jpeg" alt="Galeri Berkah Jaya Alam 10">
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div class="carousel-dots" id="galleryDots"></div>
         </div>
     </section>
 
-    <!-- Bagian Visi & Misi -->
+    <!-- Visi & Misi -->
     <section id="visi-misi" style="padding: 40px 0;">
         <div class="container">
             <h2 class="section-title" style="color:#1e3a2f;">Visi & Misi Kami</h2>
@@ -875,7 +973,7 @@
         </div>
     </section>
 
-    <!-- Bagian Profil Perusahaan -->
+    <!-- Profil Perusahaan -->
     <section id="profile">
         <div class="container">
             <h2 class="section-title">Profil Perusahaan</h2>
@@ -886,26 +984,16 @@
                     <p>Didirikan pada tahun 1985, Berkah Jaya Alam telah berkembang dari penggergajian kayu keluarga kecil menjadi pemasok terpercaya produk kayu premium. Kami menggabungkan keahlian tradisional dengan teknologi penggergajian modern untuk menghasilkan kayu yang memenuhi standar tertinggi.</p>
                     <p>Tim kami bekerja sama erat dengan rimbawan, arsitek, dan pembangun untuk memastikan setiap papan bersumber secara bertanggung jawab dan diproses dengan presisi. Baik Anda membangun dek, merangka rumah, atau membuat furnitur khusus, kami memiliki kayu yang tepat untuk pekerjaan itu.</p>
                     <div class="profile-stats">
-                        <div class="stat-item">
-                            <h4>35+</h4>
-                            <p>Tahun pengalaman</p>
-                        </div>
-                        <div class="stat-item">
-                            <h4>120+</h4>
-                            <p>Spesies kayu</p>
-                        </div>
-                        <div class="stat-item">
-                            <h4>98%</h4>
-                            <p>Pelanggan puas</p>
-                        </div>
+                        <div class="stat-item"><h4>35+</h4><p>Tahun pengalaman</p></div>
+                        <div class="stat-item"><h4>120+</h4><p>Spesies kayu</p></div>
+                        <div class="stat-item"><h4>98%</h4><p>Pelanggan puas</p></div>
                     </div>
                 </div>
-                <div class="profile-img"></div>
             </div>
         </div>
     </section>
 
-    <!-- Bagian Kontak & Pembelian -->
+    <!-- Kontak & Pembelian -->
     <section id="contact" style="padding-top: 20px;">
         <div class="container">
             <div class="contact-section">
@@ -914,36 +1002,17 @@
                     <div class="contact-info">
                         <h3>Mari bicara soal kayu</h3>
                         <p style="margin-bottom: 28px; color:#4d4b46;">Siap memesan atau butuh penawaran? Hubungi kami langsung — tim kami merespons dalam 24 jam.</p>
-                        <div class="contact-detail">
-                            <i class="fas fa-phone-alt"></i>
-                            <p><a href="tel:+6281234567890">+62 812-3456-7890</a></p>
-                        </div>
-                        <div class="contact-detail">
-                            <i class="fas fa-envelope"></i>
-                            <p><a href="mailto:sales@berkahjayaalam.co.id">sales@berkahjayaalam.co.id</a></p>
-                        </div>
-                        <div class="contact-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <p>Jl. Penggergajian No. 245, Jakarta Selatan, DKI Jakarta 12345</p>
-                        </div>
-                        <div class="contact-detail">
-                            <i class="fas fa-clock"></i>
-                            <p>Senin–Jumat: 08.00 – 17.00 | Sabtu: 09.00 – 13.00</p>
-                        </div>
+                        <div class="contact-detail"><i class="fas fa-phone-alt"></i><p><a href="tel:+6281234567890">+62 812-3456-7890</a></p></div>
+                        <div class="contact-detail"><i class="fas fa-envelope"></i><p><a href="mailto:sales@berkahjayaalam.co.id">sales@berkahjayaalam.co.id</a></p></div>
+                        <div class="contact-detail"><i class="fas fa-map-marker-alt"></i><p>Jl. Penggergajian No. 245, Jakarta Selatan, DKI Jakarta 12345</p></div>
+                        <div class="contact-detail"><i class="fas fa-clock"></i><p>Senin–Jumat: 08.00 – 17.00 | Sabtu: 09.00 – 13.00</p></div>
 
-                        <!-- Tautan Media Sosial -->
                         <div class="social-links">
                             <h4>Ikuti & Hubungi Kami</h4>
                             <div class="social-icons">
-                                <a href="https://instagram.com/berkahjayaalam" class="social-icon instagram" target="_blank" rel="noopener" aria-label="Instagram Berkah Jaya Alam">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a href="https://wa.me/6281234567890" class="social-icon whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp Berkah Jaya Alam">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
-                                <a href="https://facebook.com/berkahjayaalam" class="social-icon facebook" target="_blank" rel="noopener" aria-label="Facebook Berkah Jaya Alam">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
+                                <a href="https://instagram.com/berkahjayaalam" class="social-icon instagram" target="_blank" rel="noopener" aria-label="Instagram Berkah Jaya Alam"><i class="fab fa-instagram"></i></a>
+                                <a href="https://wa.me/6281234567890" class="social-icon whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp Berkah Jaya Alam"><i class="fab fa-whatsapp"></i></a>
+                                <a href="https://facebook.com/berkahjayaalam" class="social-icon facebook" target="_blank" rel="noopener" aria-label="Facebook Berkah Jaya Alam"><i class="fab fa-facebook-f"></i></a>
                             </div>
                         </div>
                     </div>
@@ -964,8 +1033,17 @@
         </div>
     </footer>
 
+    <!-- Floating WhatsApp button -->
+    <a href="https://wa.me/6281234567890?text=Halo%20Berkah%20Jaya%20Alam%2C%20saya%20ingin%20bertanya%20soal%20produk%20kayu."
+       class="wa-float"
+       target="_blank"
+       rel="noopener"
+       aria-label="Chat WhatsApp Berkah Jaya Alam">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
     <script>
-        // Toggle menu mobile
+        /* ===== Mobile menu toggle ===== */
         const menuToggle = document.querySelector('.menu-toggle');
         const navLinks = document.getElementById('navLinks');
         const menuIcon = menuToggle.querySelector('i');
@@ -977,7 +1055,6 @@
             menuIcon.classList.toggle('fa-times', isOpen);
         });
 
-        // Tutup menu saat link diklik
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
@@ -985,6 +1062,153 @@
                 menuIcon.classList.add('fa-bars');
                 menuIcon.classList.remove('fa-times');
             });
+        });
+
+        /* ===== Generic slide-by-1 carousel factory ===== */
+        function createCarousel({ viewport, track, prevBtn, nextBtn, dotsContainer, getPerView }) {
+            const items = track.children;
+
+            let perView = 4;
+            let index = 0;
+            let maxIndex = 0;
+
+            function stepSize() {
+                const first = items[0];
+                if (!first) return 0;
+                const gap = parseFloat(getComputedStyle(track).gap) || 0;
+                return first.getBoundingClientRect().width + gap;
+            }
+
+            function computeLimits() {
+                perView = getPerView();
+                maxIndex = Math.max(0, items.length - perView);
+                if (index > maxIndex) index = maxIndex;
+            }
+
+            function buildDots() {
+                dotsContainer.innerHTML = '';
+                for (let i = 0; i <= maxIndex; i++) {
+                    const dot = document.createElement('button');
+                    dot.setAttribute('aria-label', `Ke item ${i + 1}`);
+                    dot.addEventListener('click', () => goTo(i));
+                    dotsContainer.appendChild(dot);
+                }
+                updateUI();
+            }
+
+            function goTo(i) {
+                index = Math.max(0, Math.min(i, maxIndex));
+                track.style.transform = `translateX(-${stepSize() * index}px)`;
+                updateUI();
+            }
+
+            function updateUI() {
+                const dots = dotsContainer.querySelectorAll('button');
+                dots.forEach((d, i) => d.classList.toggle('active', i === index));
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === maxIndex;
+            }
+
+            prevBtn.addEventListener('click', () => goTo(index - 1));
+            nextBtn.addEventListener('click', () => goTo(index + 1));
+
+            // Touch swipe
+            let touchStartX = 0;
+            let touchDeltaX = 0;
+            let isDragging = false;
+
+            viewport.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+                touchDeltaX = 0;
+                isDragging = true;
+            }, { passive: true });
+
+            viewport.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                touchDeltaX = e.touches[0].clientX - touchStartX;
+            }, { passive: true });
+
+            viewport.addEventListener('touchend', () => {
+                if (!isDragging) return;
+                isDragging = false;
+                const threshold = 50;
+                if (touchDeltaX <= -threshold && index < maxIndex) goTo(index + 1);
+                else if (touchDeltaX >= threshold && index > 0) goTo(index - 1);
+                touchDeltaX = 0;
+            });
+
+            // Mouse drag (desktop)
+            let mouseDown = false;
+            let mouseStartX = 0;
+            let mouseDeltaX = 0;
+
+            viewport.addEventListener('mousedown', (e) => {
+                mouseDown = true;
+                mouseStartX = e.clientX;
+                mouseDeltaX = 0;
+                viewport.style.cursor = 'grabbing';
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!mouseDown) return;
+                mouseDeltaX = e.clientX - mouseStartX;
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (!mouseDown) return;
+                mouseDown = false;
+                viewport.style.cursor = '';
+                const threshold = 60;
+                if (mouseDeltaX <= -threshold && index < maxIndex) goTo(index + 1);
+                else if (mouseDeltaX >= threshold && index > 0) goTo(index - 1);
+                mouseDeltaX = 0;
+            });
+
+            // Resize
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    computeLimits();
+                    buildDots();
+                    goTo(index);
+                }, 150);
+            });
+
+            computeLimits();
+            buildDots();
+            goTo(0);
+        }
+
+        /* ===== Products carousel ===== */
+        createCarousel({
+            viewport: document.getElementById('productCarousel'),
+            track: document.getElementById('productTrack'),
+            prevBtn: document.querySelector('#products .carousel-btn.prev'),
+            nextBtn: document.querySelector('#products .carousel-btn.next'),
+            dotsContainer: document.getElementById('productDots'),
+            getPerView: () => {
+                const w = window.innerWidth;
+                if (w <= 480) return 1;
+                if (w <= 768) return 2;
+                if (w <= 992) return 3;
+                return 4;
+            }
+        });
+
+        /* ===== Gallery carousel ===== */
+        createCarousel({
+            viewport: document.getElementById('galleryCarousel'),
+            track: document.getElementById('galleryTrack'),
+            prevBtn: document.querySelector('#gallery .carousel-btn.prev'),
+            nextBtn: document.querySelector('#gallery .carousel-btn.next'),
+            dotsContainer: document.getElementById('galleryDots'),
+            getPerView: () => {
+                const w = window.innerWidth;
+                if (w <= 768) return 1;
+                if (w <= 992) return 2;
+                return 3;
+            }
         });
     </script>
 </body>
