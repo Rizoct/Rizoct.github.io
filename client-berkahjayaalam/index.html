@@ -395,7 +395,6 @@
             transform: scale(1.06);
         }
 
-        /* Gallery section background */
         .gallery-section {
             background-color: #f2efe9;
         }
@@ -512,7 +511,7 @@
             color: #6b6861;
         }
 
-        /* Contact / Buy */
+        /* ====== CONTACT / BUY — 2 columns ====== */
         .contact-section {
             background: #f2efe9;
             border-radius: 40px;
@@ -521,21 +520,21 @@
         }
 
         .contact-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 50px;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .contact-info {
-            flex: 1 1 480px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: stretch;
         }
 
         .contact-info h3 {
             font-size: 1.8rem;
             margin-bottom: 24px;
             color: #1e3a2f;
+        }
+
+        .contact-info > p {
+            margin-bottom: 28px;
+            color: #4d4b46;
         }
 
         .contact-detail {
@@ -550,11 +549,13 @@
             color: #a07d43;
             width: 36px;
             text-align: center;
+            flex-shrink: 0;
         }
 
         .contact-detail p {
             font-size: 1rem;
             color: #2e2b27;
+            word-break: break-word;
         }
 
         .contact-detail a {
@@ -609,6 +610,48 @@
 
         .social-icon.facebook {
             background-color: #1877F2;
+        }
+
+        /* ====== MAP COLUMN ====== */
+        .contact-map {
+            display: flex;
+            flex-direction: column;
+            min-height: 420px;
+        }
+
+        .map-frame {
+            flex: 1;
+            width: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+            border: 6px solid white;
+            min-height: 360px;
+        }
+
+        .map-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+
+        .map-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            color: #1e3a2f;
+            font-weight: 600;
+            text-decoration: none;
+            align-self: flex-start;
+            border-bottom: 1px solid #c7a86b;
+            padding-bottom: 2px;
+            transition: color 0.2s;
+        }
+
+        .map-link:hover {
+            color: #a07d43;
         }
 
         /* ====== FLOATING WHATSAPP BUTTON ====== */
@@ -739,6 +782,15 @@
             .gallery-card {
                 flex: 0 0 calc((100% - 24px) / 2);
             }
+
+            /* Contact stacks to 1 column on tablet */
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .contact-map {
+                min-height: 320px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -749,20 +801,24 @@
             .profile-stats { flex-wrap: wrap; gap: 20px; }
             section { scroll-margin-top: 80px; }
             .hero { scroll-margin-top: 80px; }
-            .contact-section { padding: 40px 24px; }
+            .contact-section { padding: 40px 20px; }
             .logo img { height: 38px; }
             .logo-text { font-size: 1.2rem; }
 
             .carousel-wrapper { padding: 0 8px; }
             .carousel-btn { display: none; }
 
-            /* Mobile: 2 products / 1 gallery */
             .product-card {
                 flex: 0 0 calc((100% - 24px) / 2);
             }
             .gallery-card {
                 flex: 0 0 100%;
                 aspect-ratio: 16 / 10;
+            }
+
+            .map-frame {
+                min-height: 280px;
+                border-width: 4px;
             }
 
             .wa-float {
@@ -782,6 +838,14 @@
                 flex: 0 0 100%;
             }
             .carousel-track { gap: 0; }
+
+            .contact-detail {
+                align-items: flex-start;
+            }
+
+            .map-frame {
+                min-height: 240px;
+            }
 
             .wa-float {
                 width: 50px;
@@ -909,36 +973,16 @@
 
                 <div class="carousel-viewport gallery-carousel" id="galleryCarousel">
                     <div class="carousel-track" id="galleryTrack">
-                        <div class="gallery-card">
-                            <img src="assets/img/img-1.jpeg" alt="Galeri Berkah Jaya Alam 1">
-                        </div>
-                        <div class="gallery-card">
-                            <img src="assets/img/img-2.jpeg" alt="Galeri Berkah Jaya Alam 2">
-                        </div>
-                        <div class="gallery-card">
-                            <img src="assets/img/img-3.jpeg" alt="Galeri Berkah Jaya Alam 3">
-                        </div>
-                        <div class="gallery-card">
-                            <img src="assets/img/img-4.jpeg" alt="Galeri Berkah Jaya Alam 4">
-                        </div>
-                        <div class="gallery-card">
-                            <img src="assets/img/img-5.jpeg" alt="Galeri Berkah Jaya Alam 5">
-                        </div>
-                        <div class="gallery-card">
-                            <img src="assets/img/img-6.jpeg" alt="Galeri Berkah Jaya Alam 6">
-                        </div>
-                        <div class="gallery-card">
-                            <img src="assets/img/img-7.jpeg" alt="Galeri Berkah Jaya Alam 7">
-                        </div>
-                        <div class="gallery-card">
-                            <img src="assets/img/img-8.jpeg" alt="Galeri Berkah Jaya Alam 8">
-                        </div>
-                        <div class="gallery-card">
-                            <img src="assets/img/img-9.jpeg" alt="Galeri Berkah Jaya Alam 9">
-                        </div>
-                        <div class="gallery-card">
-                            <img src="assets/img/img-10.jpeg" alt="Galeri Berkah Jaya Alam 10">
-                        </div>
+                        <div class="gallery-card"><img src="assets/img/img-1.jpeg" alt="Galeri Berkah Jaya Alam 1"></div>
+                        <div class="gallery-card"><img src="assets/img/img-2.jpeg" alt="Galeri Berkah Jaya Alam 2"></div>
+                        <div class="gallery-card"><img src="assets/img/img-3.jpeg" alt="Galeri Berkah Jaya Alam 3"></div>
+                        <div class="gallery-card"><img src="assets/img/img-4.jpeg" alt="Galeri Berkah Jaya Alam 4"></div>
+                        <div class="gallery-card"><img src="assets/img/img-5.jpeg" alt="Galeri Berkah Jaya Alam 5"></div>
+                        <div class="gallery-card"><img src="assets/img/img-6.jpeg" alt="Galeri Berkah Jaya Alam 6"></div>
+                        <div class="gallery-card"><img src="assets/img/img-7.jpeg" alt="Galeri Berkah Jaya Alam 7"></div>
+                        <div class="gallery-card"><img src="assets/img/img-8.jpeg" alt="Galeri Berkah Jaya Alam 8"></div>
+                        <div class="gallery-card"><img src="assets/img/img-9.jpeg" alt="Galeri Berkah Jaya Alam 9"></div>
+                        <div class="gallery-card"><img src="assets/img/img-10.jpeg" alt="Galeri Berkah Jaya Alam 10"></div>
                     </div>
                 </div>
             </div>
@@ -993,28 +1037,48 @@
         </div>
     </section>
 
-    <!-- Kontak & Pembelian -->
+    <!-- Kontak & Pembelian — 2 columns + Map -->
     <section id="contact" style="padding-top: 20px;">
         <div class="container">
             <div class="contact-section">
                 <h2 class="section-title" style="margin-bottom: 32px;">Kontak & Pembelian</h2>
                 <div class="contact-grid">
+                    <!-- Column 1: contact info -->
                     <div class="contact-info">
                         <h3>Mari bicara soal kayu</h3>
-                        <p style="margin-bottom: 28px; color:#4d4b46;">Siap memesan atau butuh penawaran? Hubungi kami langsung — tim kami merespons dalam 24 jam.</p>
-                        <div class="contact-detail"><i class="fas fa-phone-alt"></i><p><a href="tel:+6281234567890">+62 812-3456-7890</a></p></div>
+                        <p>Siap memesan atau butuh penawaran? Hubungi kami langsung — tim kami merespons dalam 24 jam.</p>
+                        <div class="contact-detail"><i class="fas fa-phone-alt"></i><p><a href="tel:+628217744661">+62 821-7744-661</a></p></div>
                         <div class="contact-detail"><i class="fas fa-envelope"></i><p><a href="mailto:sales@berkahjayaalam.co.id">sales@berkahjayaalam.co.id</a></p></div>
-                        <div class="contact-detail"><i class="fas fa-map-marker-alt"></i><p>Jl. Penggergajian No. 245, Jakarta Selatan, DKI Jakarta 12345</p></div>
+                        <div class="contact-detail"><i class="fas fa-map-marker-alt"></i><p>Sidorahayu, Kabupaten Malang, Jawa Timur</p></div>
                         <div class="contact-detail"><i class="fas fa-clock"></i><p>Senin–Jumat: 08.00 – 17.00 | Sabtu: 09.00 – 13.00</p></div>
 
                         <div class="social-links">
                             <h4>Ikuti & Hubungi Kami</h4>
                             <div class="social-icons">
                                 <a href="https://instagram.com/berkahjayaalam" class="social-icon instagram" target="_blank" rel="noopener" aria-label="Instagram Berkah Jaya Alam"><i class="fab fa-instagram"></i></a>
-                                <a href="https://wa.me/6281234567890" class="social-icon whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp Berkah Jaya Alam"><i class="fab fa-whatsapp"></i></a>
+                                <a href="https://wa.me/628217744661" class="social-icon whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp Berkah Jaya Alam"><i class="fab fa-whatsapp"></i></a>
                                 <a href="https://facebook.com/berkahjayaalam" class="social-icon facebook" target="_blank" rel="noopener" aria-label="Facebook Berkah Jaya Alam"><i class="fab fa-facebook-f"></i></a>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Column 2: Google Map -->
+                    <div class="contact-map">
+                        <div class="map-frame">
+                            <iframe
+                                src="https://www.google.com/maps?q=-7.999952,112.582649&z=17&output=embed"
+                                title="Lokasi Berkah Jaya Alam di Google Maps"
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <a class="map-link"
+                           href="https://www.google.com/maps/search/?api=1&query=-7.999952,112.582649"
+                           target="_blank"
+                           rel="noopener">
+                            <i class="fas fa-map-marked-alt"></i> Buka di Google Maps
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1027,14 +1091,14 @@
             <p><i class="fas fa-tree"></i> Berkah Jaya Alam — Kayu premium, bersumber berkelanjutan. &nbsp;|&nbsp; © 2025 Berkah Jaya Alam. Hak cipta dilindungi.</p>
             <div class="footer-social">
                 <a href="https://instagram.com/berkahjayaalam" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://wa.me/628217744661" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                 <a href="https://facebook.com/berkahjayaalam" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
             </div>
         </div>
     </footer>
 
     <!-- Floating WhatsApp button -->
-    <a href="https://wa.me/6281234567890?text=Halo%20Berkah%20Jaya%20Alam%2C%20saya%20ingin%20bertanya%20soal%20produk%20kayu."
+    <a href="https://wa.me/628217744661?text=Halo%20Berkah%20Jaya%20Alam%2C%20saya%20ingin%20bertanya%20soal%20produk%20kayu."
        class="wa-float"
        target="_blank"
        rel="noopener"
@@ -1112,7 +1176,6 @@
             prevBtn.addEventListener('click', () => goTo(index - 1));
             nextBtn.addEventListener('click', () => goTo(index + 1));
 
-            // Touch swipe
             let touchStartX = 0;
             let touchDeltaX = 0;
             let isDragging = false;
@@ -1137,7 +1200,6 @@
                 touchDeltaX = 0;
             });
 
-            // Mouse drag (desktop)
             let mouseDown = false;
             let mouseStartX = 0;
             let mouseDeltaX = 0;
@@ -1164,7 +1226,6 @@
                 mouseDeltaX = 0;
             });
 
-            // Resize
             let resizeTimer;
             window.addEventListener('resize', () => {
                 clearTimeout(resizeTimer);
