@@ -82,18 +82,27 @@
       gap: 12px;
     }
 
-    .logo-icon {
-      width: 40px;
-      height: 40px;
+    .logo-img {
+      width: 42px;
+      height: 42px;
+      position: relative;
+      display: block;
+      overflow: hidden;
+      border-radius: 50%;
       border: 1px solid var(--gold);
-      display: grid;
-      place-items: center;
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.1rem;
-      color: var(--gold);
+      background: #fff;
       flex-shrink: 0;
-      background: var(--bg);
+    }
+
+    .logo-img img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 120%;
+      height: 120%;
+      max-width: none;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
     }
 
     .logo-text {
@@ -241,21 +250,55 @@
     }
 
     .hero-image {
-      flex: 0 1 340px;
-      min-width: 260px;
+      flex: 0 1 560px;
+      min-width: 400px;
       margin-bottom: 44px;
       position: relative;
     }
 
-    .hero-image-frame {
-      aspect-ratio: 4 / 5;
-      background: var(--bg-2);
-      border: 1px solid var(--line);
+    /* stacked carousel: centre card on top, side cards half-hidden behind it */
+    .hero-stack {
       position: relative;
-      overflow: hidden;
+      width: 100%;
+      aspect-ratio: 8 / 5;
     }
 
-    .hero-image-frame img {
+    .stack-card {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 50%;
+      aspect-ratio: 4 / 5;
+      padding: 0;
+      border: 1px solid var(--line);
+      background: var(--bg-2);
+      overflow: hidden;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 0.6s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .stack-card.pos-left {
+      transform: translateX(-100%);
+      z-index: 1;
+    }
+
+    .stack-card.pos-center {
+      transform: translateX(-50%);
+      z-index: 3;
+      cursor: default;
+      box-shadow: 0 30px 60px -28px rgba(31, 26, 22, 0.5);
+    }
+
+    .stack-card.pos-right {
+      transform: translateX(0);
+      z-index: 1;
+    }
+
+    .stack-card img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -264,16 +307,40 @@
       transition: transform 0.6s ease;
     }
 
-    .hero-image-frame:hover img {
-      transform: scale(1.03);
+    .stack-card:hover img {
+      transform: scale(1.04);
     }
 
-    .hero-image-frame::after {
+    /* inner frame line (same look as the old hero frame) */
+    .stack-card::after {
       content: "";
       position: absolute;
-      inset: 14px;
+      inset: 10px;
       border: 1px solid rgba(255, 255, 255, 0.35);
       pointer-events: none;
+      z-index: 2;
+    }
+
+    /* dim the side cards so the centre pops — clear on hover, they are clickable */
+    .stack-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(31, 26, 22, 0.32);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .stack-card.pos-left::before,
+    .stack-card.pos-right::before {
+      opacity: 1;
+    }
+
+    .stack-card.pos-left:hover::before,
+    .stack-card.pos-right:hover::before {
+      opacity: 0;
     }
 
     .hero-image-caption {
@@ -286,6 +353,11 @@
       display: flex;
       justify-content: space-between;
       gap: 12px;
+      transition: opacity 0.2s ease;
+    }
+
+    .hero-image-caption.is-fading {
+      opacity: 0;
     }
 
     .hero-image-caption span:last-child {
@@ -633,6 +705,11 @@
       gap: 16px;
     }
 
+    /* Backfills empty cells so mixed tile sizes never leave gaps */
+    .gallery-grid.dense {
+      grid-auto-flow: dense;
+    }
+
     .gallery-item {
       position: relative;
       overflow: hidden;
@@ -727,6 +804,20 @@
     .gallery-note a:hover {
       color: var(--text);
       border-color: var(--text);
+    }
+
+    /* ---------- WORK GRID (PENGERJAAN) ---------- */
+    .work-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .work-grid.pengerjaan {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .work-grid.pengerjaan .work-item {
+      aspect-ratio: 3 / 4;
     }
 
     /* ---------- HOURS ---------- */
@@ -1044,6 +1135,18 @@
       }
     }
 
+    /* hero image area gets its own row so the stack keeps its size */
+    @media (max-width: 900px) {
+      .hero-main h1 {
+        flex: 1 1 100%;
+      }
+      .hero-image {
+        flex: 1 1 100%;
+        min-width: 0;
+        max-width: 560px;
+      }
+    }
+
     @media (max-width: 720px) {
       .wrap {
         padding: 0 22px;
@@ -1068,7 +1171,9 @@
         margin-bottom: 30px;
       }
       .hero-image {
-        flex: 0 1 240px;
+        flex: 1 1 100%;
+        min-width: 0;
+        max-width: 460px;
         margin-bottom: 0;
       }
       .section {
@@ -1114,6 +1219,13 @@
       .gallery-item.wide {
         grid-column: span 2;
       }
+      .work-grid.pengerjaan {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .work-grid.pengerjaan .work-item {
+        aspect-ratio: 4 / 3;
+      }
     }
 
     @media (max-width: 480px) {
@@ -1127,10 +1239,9 @@
       .logo-text {
         font-size: 0.85rem;
       }
-      .logo-icon {
-        width: 34px;
-        height: 34px;
-        font-size: 0.95rem;
+      .logo-img {
+        width: 36px;
+        height: 36px;
       }
       .marquee-item {
         padding: 0 20px;
@@ -1147,6 +1258,13 @@
         grid-row: span 1;
       }
     }
+
+    /* Hasil gallery holds portrait photos — keep tiles tall on small screens */
+    @media (max-width: 720px) {
+      .gallery-grid .work-item {
+        grid-row: span 2;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1155,7 +1273,7 @@
   <nav class="nav" id="navbar">
     <div class="wrap">
       <a href="#" class="logo">
-        <div class="logo-icon">R</div>
+        <span class="logo-img"><img src="assets/img/logo_raw.jpeg" alt="Guna Raya Interior"></span>
         <div class="logo-text">
           Raya Mebel
           <small>& Interior</small>
@@ -1165,6 +1283,8 @@
         <ul class="nav-links">
           <li><a href="#layanan">Layanan</a></li>
           <li><a href="#galeri">Galeri</a></li>
+          <li><a href="#hasil">Hasil</a></li>
+          <li><a href="#pengerjaan">Pengerjaan</a></li>
           <li><a href="#jam">Jam Buka</a></li>
           <li><a href="#kontak">Kontak</a></li>
         </ul>
@@ -1181,16 +1301,52 @@
       <div class="hero-main">
         <h1>Design.<br>Made<br><span class="accent">to last.</span></h1>
         <div class="hero-image">
-          <div class="hero-image-frame">
-            <img
-              src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80"
-              alt="Ruang tamu dengan sofa custom dan interior hangat"
-              loading="eager"
+          <div class="hero-stack" id="heroStack">
+            <button
+              class="stack-card pos-left"
+              type="button"
+              data-title="Ruang Kafe — Interior"
+              data-index="02 / Hasil"
+              aria-label="Tampilkan gambar Ruang Kafe"
             >
+              <img
+                src="assets/img/hasil/hasil-3.jpeg"
+                alt="Interior kafe dengan rak kayu berlampu dan meja custom"
+                loading="lazy"
+                decoding="async"
+              >
+            </button>
+            <button
+              class="stack-card pos-center"
+              type="button"
+              data-title="Kitchen Set — Custom"
+              data-index="01 / Hasil"
+              aria-label="Tampilkan gambar Kitchen Set"
+            >
+              <img
+                src="assets/img/hasil/hasil-1.jpeg"
+                alt="Kitchen set custom dengan kabinet gelap dan rak kayu terbuka"
+                loading="eager"
+              >
+            </button>
+            <button
+              class="stack-card pos-right"
+              type="button"
+              data-title="Kamar Tidur — Custom"
+              data-index="03 / Hasil"
+              aria-label="Tampilkan gambar Kamar Tidur"
+            >
+              <img
+                src="assets/img/hasil/hasil-6.jpeg"
+                alt="Kamar tidur dengan tempat tidur, kabinet atas, dan meja kerja custom"
+                loading="lazy"
+                decoding="async"
+              >
+            </button>
           </div>
-          <div class="hero-image-caption">
-            <span>Ruang Tamu — Custom</span>
-            <span>01 / Showroom</span>
+          <div class="hero-image-caption" id="heroCaption" aria-live="polite">
+            <span id="heroCaptionTitle">Kitchen Set — Custom</span>
+            <span id="heroCaptionIndex">01 / Hasil</span>
           </div>
         </div>
       </div>
@@ -1338,7 +1494,7 @@
   </section>
 
   <!-- GALLERY -->
-  <section class="section" id="galeri">
+  <!-- <section class="section" id="galeri">
     <div class="wrap">
       <div class="section-top">
         <div class="left">
@@ -1423,6 +1579,149 @@
         Ingin melihat lebih banyak? <a href="tel:+6281330749495">Hubungi kami untuk portofolio lengkap</a>
       </div>
     </div>
+  </section> -->
+
+  <!-- HASIL -->
+  <section class="section" id="hasil">
+    <div class="wrap">
+      <div class="section-top">
+        <div class="left">
+          <span class="section-num">02 — Hasil</span>
+          <h2>Hasil<br><em>kerja kami.</em></h2>
+        </div>
+        <div class="right">
+          Proyek yang telah selesai dikerjakan dan siap digunakan — kitchen set, kamar tidur, interior kafe, hingga ruang usaha. Dikerjakan dengan detail dan material pilihan.
+        </div>
+      </div>
+
+      <div class="gallery-grid dense">
+        <div class="gallery-item work-item tall">
+          <img
+            src="assets/img/hasil/hasil-1.jpeg"
+            alt="Kitchen set custom dengan kabinet gelap dan rak kayu terbuka"
+            loading="lazy"
+          >
+          <div class="gallery-caption">
+            <strong>Kitchen Set</strong>
+            <span>Custom</span>
+          </div>
+        </div>
+        <div class="gallery-item work-item">
+          <img
+            src="assets/img/hasil/hasil-2.jpeg"
+            alt="Lobi kantor dengan meja resepsionis marmer dan dinding panel kayu"
+            loading="lazy"
+          >
+          <div class="gallery-caption">
+            <strong>Lobi Kantor</strong>
+            <span>Fit-out</span>
+          </div>
+        </div>
+        <div class="gallery-item work-item">
+          <img
+            src="assets/img/hasil/hasil-3.jpeg"
+            alt="Interior kafe dengan rak kayu berlampu dan meja custom"
+            loading="lazy"
+          >
+          <div class="gallery-caption">
+            <strong>Ruang Kafe</strong>
+            <span>Interior Custom</span>
+          </div>
+        </div>
+        <div class="gallery-item work-item">
+          <img
+            src="assets/img/hasil/hasil-4.jpeg"
+            alt="Kafe dengan partisi rak terbuka, sofa booth, dan meja kayu"
+            loading="lazy"
+          >
+          <div class="gallery-caption">
+            <strong>Kafe &amp; Resto</strong>
+            <span>Furniture Custom</span>
+          </div>
+        </div>
+        <div class="gallery-item work-item wide">
+          <img
+            src="assets/img/hasil/hasil-5.jpeg"
+            alt="Kamar tidur dengan panel kayu, tempat tidur, lemari, dan meja kerja menghadap taman"
+            loading="lazy"
+          >
+          <div class="gallery-caption">
+            <strong>Kamar Tidur</strong>
+            <span>Interior Custom</span>
+          </div>
+        </div>
+        <div class="gallery-item work-item">
+          <img
+            src="assets/img/hasil/hasil-6.jpeg"
+            alt="Kamar tidur dengan tempat tidur, kabinet atas, dan meja kerja custom"
+            loading="lazy"
+          >
+          <div class="gallery-caption">
+            <strong>Kamar Tidur</strong>
+            <span>Set Custom</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-note">
+        Ingin melihat proyek lain? <a href="tel:+6281330749495">Hubungi kami untuk portofolio lengkap</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PENGERJAAN -->
+  <section class="section" id="pengerjaan">
+    <div class="wrap">
+      <div class="section-top">
+        <div class="left">
+          <span class="section-num">03 — Pengerjaan</span>
+          <h2>Di balik<br><em>pengerjaan.</em></h2>
+        </div>
+        <div class="right">
+          Semua dikerjakan langsung di workshop kami — dari pemotongan material, perakitan, hingga finishing. Anda dipersilakan berkunjung untuk melihat prosesnya.
+        </div>
+      </div>
+
+      <div class="work-grid pengerjaan">
+        <div class="gallery-item work-item">
+          <img
+            src="assets/img/pengerjaan/pengerjaan-1.jpeg"
+            alt="Workshop kayu dilihat dari atas dengan tumpukan material"
+            loading="lazy"
+          >
+          <div class="gallery-caption">
+            <strong>Workshop</strong>
+            <span>Produksi</span>
+          </div>
+        </div>
+        <div class="gallery-item work-item">
+          <img
+            src="assets/img/pengerjaan/pengerjaan-2.jpeg"
+            alt="Area produksi dengan tumpukan plywood dan tim yang sedang bekerja"
+            loading="lazy"
+          >
+          <div class="gallery-caption">
+            <strong>Material</strong>
+            <span>Plywood</span>
+          </div>
+        </div>
+        <div class="gallery-item work-item">
+          <img
+            src="assets/img/pengerjaan/pengerjaan-3.jpeg"
+            alt="Tukang merakit panel kabinet di meja kerja workshop"
+            loading="lazy"
+          >
+          <div class="gallery-caption">
+            <strong>Perakitan</strong>
+            <span>Handcrafted</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-note">
+        Ingin melihat prosesnya langsung? <a href="#jam">Kunjungi workshop kami</a>
+      </div>
+    </div>
   </section>
 
   <!-- HOURS -->
@@ -1430,7 +1729,7 @@
     <div class="wrap">
       <div class="hours-wrap">
         <div class="hours-left">
-          <span class="section-num">03 — Jam Buka</span>
+          <span class="section-num">04 — Jam Buka</span>
           <h2>Datang<br><em>langsung.</em></h2>
           <p>Kunjungi workshop dan showroom kami untuk melihat material, contoh pengerjaan, dan berdiskusi mengenai proyek Anda. Kami sarankan membuat janji terlebih dahulu.</p>
           <a href="tel:+6281330749495" class="btn-gold" style="font-size: 0.78rem; padding: 15px 28px;">
@@ -1561,6 +1860,40 @@
         }
       });
     });
+
+    // Hero stacked carousel — click a side card to bring it to the front
+    const heroStack = document.getElementById('heroStack');
+    if (heroStack) {
+      const caption = document.getElementById('heroCaption');
+      const capTitle = document.getElementById('heroCaptionTitle');
+      const capIndex = document.getElementById('heroCaptionIndex');
+      let fadeTimer;
+
+      heroStack.querySelectorAll('.stack-card').forEach(card => {
+        card.addEventListener('click', () => {
+          if (card.classList.contains('pos-center')) return;
+
+          const center = heroStack.querySelector('.stack-card.pos-center');
+          const side = card.classList.contains('pos-left') ? 'pos-left' : 'pos-right';
+
+          // selected card moves to the top of the stack,
+          // the current main image drops behind it on that side
+          card.classList.remove(side);
+          card.classList.add('pos-center');
+          center.classList.remove('pos-center');
+          center.classList.add(side);
+
+          // caption follows the front image (quick fade)
+          clearTimeout(fadeTimer);
+          caption.classList.add('is-fading');
+          fadeTimer = setTimeout(() => {
+            capTitle.textContent = card.dataset.title;
+            capIndex.textContent = card.dataset.index;
+            caption.classList.remove('is-fading');
+          }, 200);
+        });
+      });
+    }
   </script>
 
 </body>
