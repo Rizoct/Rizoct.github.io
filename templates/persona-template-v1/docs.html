@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>RIZOCT // PORTFOLIO — Documentation</title>
+    <meta name="description" content="Official documentation for RIZOCT — the Persona-styled, WebGL-scrolling full-stack developer portfolio." />
+    <meta name="theme-color" content="#0a0a0c" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,700&family=Noto+Sans+JP:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ══════════════════════════════════════════════════════════════
+         RIZOCT // DOCUMENTATION — shared design language
+         black · blood red · off-white, jagged cuts, halftone, skew
+         ══════════════════════════════════════════════════════════════ */
+      :root {
+        --red: #e60012;
+        --red-hot: #ff2436;
+        --red-deep: #7a0009;
+        --ink: #0a0a0c;
+        --ink-2: #131318;
+        --paper: #f6f2e8;
+        --gold: #ffd400;
+        --disp: 'Anton', 'Arial Black', Impact, sans-serif;
+        --body: 'Barlow Condensed', 'Arial Narrow', Helvetica, sans-serif;
+        --jp: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        background: #06060a;
+        color: var(--paper);
+        font-family: var(--body);
+        font-size: 17px;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      ::selection { background: var(--red); color: #fff; }
+
+      a { color: inherit; text-decoration: none; }
+
+      /* ── layout ── */
+      .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+      header.top {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(6, 6, 10, 0.92);
+        border-bottom: 3px solid var(--paper);
+        backdrop-filter: blur(6px);
+      }
+      header.top .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        gap: 16px;
+      }
+      .brand { display: flex; align-items: center; gap: 12px; }
+      .brand svg { width: 34px; height: 34px; }
+      .brand b { font-family: var(--disp); font-size: 20px; letter-spacing: 0.06em; }
+      .brand b em { font-style: normal; color: var(--red); }
+      .brand small { display: block; font-family: var(--body); font-size: 11px; letter-spacing: 0.32em; color: var(--paper); opacity: 0.75; }
+      nav.topnav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+      nav.topnav::-webkit-scrollbar { display: none; }
+      nav.topnav a {
+        font-family: var(--body);
+        font-weight: 600;
+        font-size: 13px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        padding: 8px 12px;
+        white-space: nowrap;
+        color: var(--paper);
+        opacity: 0.75;
+        border: 2px solid transparent;
+      }
+      nav.topnav a:hover { opacity: 1; border-color: var(--red); }
+
+      /* ── hero strip ── */
+      .hero {
+        border-bottom: 3px solid var(--paper);
+        background:
+          radial-gradient(ellipse at 50% 120%, rgba(230, 0, 18, 0.28), transparent 60%),
+          var(--ink);
+        padding: 84px 0 72px;
+        position: relative;
+      }
+      .hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle, rgba(255, 255, 255, 0.5) 1px, transparent 1.4px);
+        background-size: 5px 5px;
+        opacity: 0.18;
+        pointer-events: none;
+      }
+      .hero .kicker {
+        font-size: 13px;
+        letter-spacing: 0.34em;
+        text-transform: uppercase;
+        color: var(--red-hot);
+        font-weight: 700;
+        display: block;
+        margin-bottom: 18px;
+      }
+      .hero h1 {
+        font-family: var(--disp);
+        font-size: clamp(56px, 11vw, 108px);
+        line-height: 0.9;
+        text-transform: uppercase;
+        letter-spacing: 0.01em;
+      }
+      .hero h1 span { color: var(--red); }
+      .hero .sub {
+        margin-top: 22px;
+        max-width: 560px;
+        font-size: 19px;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+      }
+      .hero .sub em { color: var(--red-hot); font-style: normal; font-weight: 700; }
+      .hero .jp { font-family: var(--jp); font-weight: 900; color: var(--paper); opacity: 0.85; letter-spacing: 0.2em; }
+
+      /* ── sections ── */
+      section { padding: 72px 0; border-bottom: 3px solid var(--paper); scroll-margin-top: 90px; }
+      section:last-of-type { border-bottom: none; }
+      .sec-head { display: flex; align-items: baseline; gap: 18px; border-bottom: 3px solid var(--paper); padding-bottom: 14px; margin-bottom: 34px; }
+      .sec-no { font-family: var(--disp); font-size: 30px; color: var(--red); }
+      .sec-title { font-family: var(--disp); font-size: clamp(34px, 6vw, 52px); text-transform: uppercase; letter-spacing: 0.03em; }
+      .sec-title span { color: var(--red); }
+      .sec-kicker { font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--paper); opacity: 0.7; font-weight: 700; }
+
+      h2 { font-family: var(--disp); font-size: clamp(30px, 5vw, 44px); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 22px; }
+      h2 span { color: var(--red); }
+      h3 { font-family: var(--disp); font-size: 24px; text-transform: uppercase; letter-spacing: 0.04em; margin: 40px 0 14px; color: var(--paper); }
+      h3 span { color: var(--red); }
+
+      p { margin-bottom: 16px; max-width: 70ch; }
+      p em { color: var(--red-hot); font-style: normal; font-weight: 700; }
+      ul { margin: 0 0 18px 0; padding-left: 22px; max-width: 70ch; }
+      li { margin-bottom: 8px; }
+      strong { color: var(--paper); }
+      code { font-family: ui-monospace, 'Courier New', monospace; font-size: 0.86em; background: var(--ink-2); padding: 2px 6px; border: 1px solid #2a2a33; color: var(--paper); }
+
+      /* ── cards / grid ── */
+      .grid { display: grid; gap: 18px; margin: 26px 0; }
+      .card {
+        border: 3px solid var(--paper);
+        background: var(--ink-2);
+        padding: 22px 22px 18px;
+        position: relative;
+        transition: transform 0.25s var(--ease), border-color 0.25s var(--ease);
+      }
+      .card:hover { transform: skew(-1deg, -1deg); border-color: var(--red); }
+      .card h4 { font-family: var(--disp); font-size: 21px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+      .card h4 span { color: var(--red); }
+      .card p { font-size: 15.5px; margin-bottom: 0; }
+      .card .tagrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+      .chip { font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; border: 2px solid var(--paper); padding: 4px 10px; }
+      .chip.red { border-color: var(--red); color: var(--red-hot); }
+
+      /* ── code ── */
+      pre {
+        background: #050508;
+        border: 3px solid var(--paper);
+        padding: 18px;
+        overflow-x: auto;
+        margin: 20px 0;
+        position: relative;
+        white-space: pre;
+      }
+      pre code { background: none; border: none; padding: 0; color: var(--paper); font-family: ui-monospace, 'Courier New', monospace; font-size: 14px; line-height: 1.55; white-space: pre; display: block; }
+      pre .c { color: #8a8a96; }
+      .code-block { position: relative; margin: 20px 0; }
+      .code-block pre { margin-top: 0; }
+      .code-block .code-label {
+        position: static;
+        display: block;
+        width: fit-content;
+        background: var(--red);
+        color: #fff;
+        font-family: var(--body);
+        font-weight: 700;
+        font-size: 11px;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        padding: 3px 12px;
+        margin-bottom: 12px;
+      }
+
+      /* ── tables ── */
+      table { width: 100%; border-collapse: collapse; margin: 24px 0; max-width: 80ch; }
+      th, td { border: 2px solid #2a2a33; padding: 10px 12px; text-align: left; font-size: 15px; vertical-align: top; }
+      th { background: var(--ink-2); font-family: var(--disp); font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--red-hot); }
+      td:first-child { font-weight: 700; white-space: nowrap; }
+
+      /* ── tree ── */
+      .tree { background: #050508; border: 3px solid var(--paper); padding: 20px 22px; overflow-x: auto; font-family: ui-monospace, 'Courier New', monospace; font-size: 13.5px; line-height: 1.7; }
+      .tree .dim { color: #8a8a96; }
+      .tree .red { color: var(--red-hot); }
+      .tree .paper { color: var(--paper); }
+
+      /* ── notes ── */
+      .note { border-left: 6px solid var(--red); background: var(--ink-2); padding: 18px 20px; margin: 26px 0; }
+      .note h4 { font-family: var(--disp); font-size: 18px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+      .note p { font-size: 15.5px; margin-bottom: 0; }
+
+      /* ── footer ── */
+      footer.end { padding: 60px 0 90px; text-align: center; }
+      footer.end .foot-word { font-family: var(--disp); font-size: clamp(44px, 8vw, 72px); color: var(--red); text-transform: uppercase; }
+      footer.end .foot-sub { margin-top: 12px; letter-spacing: 0.3em; text-transform: uppercase; font-size: 12px; opacity: 0.7; }
+
+      /* ── responsive ── */
+      @media (max-width: 720px) {
+        header.top .wrap { flex-direction: column; align-items: flex-start; }
+        nav.topnav { width: 100%; }
+        .hero { padding: 60px 0 52px; }
+        section { padding: 54px 0; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ══════════ HEADER / STICKY NAV ══════════ -->
+    <header class="top">
+      <div class="wrap">
+        <div class="brand">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M6 58 34 6h24L30 58z" fill="#e60012" />
+            <path d="M34 58 62 6h2L36 58z" fill="#f6f2e8" />
+          </svg>
+          <div>
+            <b>RIZOCT<em>/DOC</em></b>
+            <small>PERSONA DOSSIER</small>
+          </div>
+        </div>
+        <nav class="topnav" aria-label="Documentation">
+          <a href="#overview">01 · Overview</a>
+          <a href="#features">02 · Features</a>
+          <a href="#stack">03 · Stack</a>
+          <a href="#getting-started">04 · Getting Started</a>
+          <a href="#structure">05 · Structure</a>
+          <a href="#editing">06 · Editing Content</a>
+          <a href="#world">07 · The 3D World</a>
+          <a href="#behaviour">08 · Behaviour</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ══════════ HERO STRIP ══════════ -->
+    <div class="hero">
+      <div class="wrap">
+        <span class="kicker">Infiltration manual — v2.0</span>
+        <h1>RIZO<span>CT</span></h1>
+        <p class="sub">
+          A documentation dossier for the <em>RIZOCT</em> portfolio — a full-stack developer
+          site dressed as a Persona palace: jagged red panels, halftone, kinetic type and a real
+          <em>WebGL 3D world</em> you scroll through like a palace corridor.
+        </p>
+        <p class="jp">ペルソナスタイルポートフォリオ</p>
+      </div>
+    </div>
+
+    <main class="wrap">
+
+      <!-- ─────────── 01 · OVERVIEW ─────────── -->
+      <section id="overview">
+        <div class="sec-head">
+          <span class="sec-no">01</span>
+          <h2 class="sec-title"><span>OVERVIEW</span></h2>
+          <span class="sec-kicker">Dossier file</span>
+        </div>
+
+        <p>
+          <strong>RIZOCT</strong> is a personal portfolio site styled after <strong>Persona 5</strong> —
+          jagged red / black / off-white panels, halftone texture, scanlines, vignette and skewed
+          kinetic typography — paired with an actual <strong>Three.js WebGL world</strong> that the
+          page scrolls through: a palace corridor of jagged monoliths, rings to fly through, floating
+          shards and halftone dust. The camera rides the scroll; crossing into a new section fires a
+          signature <em>impact punch</em>.
+        </p>
+        <p>
+          Built with <strong>Vite + Three.js</strong>. No framework, no CSS framework — just
+          hand-written vanilla JS and CSS. Everything content-related lives in one file.
+        </p>
+
+        <div class="grid">
+          <div class="card">
+            <h4>Theme <span>#01</span></h4>
+            <p>Persona-inspired design system — blood red <code>#e60012</code>, ink black <code>#0a0a0c</code>, paper <code>#f6f2e8</code>, halftone overlays, jagged section borders.</p>
+          </div>
+          <div class="card">
+            <h4>World <span>#02</span></h4>
+            <p>Scroll-driven camera through a 300-unit palace corridor with fog, floor grid, 14 rings, 240 shards and 2,600 dust particles.</p>
+          </div>
+          <div class="card">
+            <h4>Soul <span>#03</span></h4>
+            <p>Custom cursor, WebAudio menu blips, hover tilt, staggered reveals, depth gauge, loader, impact punch — the <em>game feel</em> layer.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─────────── 02 · FEATURES ─────────── -->
+      <section id="features">
+        <div class="sec-head">
+          <span class="sec-no">02</span>
+          <h2 class="sec-title"><span>FEATURES</span></h2>
+          <span class="sec-kicker">Capabilities</span>
+        </div>
+
+        <ul>
+          <li><strong>Scroll-driven 3D camera</strong> — smooth lerp (<code>0.075</code>) along a scroll progress value clamped to <code>0 → 1</code>.</li>
+          <li><strong>Section impact punch</strong> — switching sections fires a FOV punch (<code>+9</code>°), light burst and ring scale pop.</li>
+          <li><strong>Persona UI</strong> — loader, HUD chips, side nav, depth gauge, halftone / scanline / vignette FX.</li>
+          <li><strong>Kinetic type</strong> — skewed stacked hero title with animated <code>data-text</code> layers.</li>
+          <li><strong>3D card tilt</strong> via <code>pointermove</code> on <code>[data-tilt]</code> cards.</li>
+          <li><strong>Staggered reveals</strong> via <code>IntersectionObserver</code> (<code>threshold: 0.18</code>).</li>
+          <li><strong>WebAudio blips</strong> — tiny synth menu sounds on nav hover / click, start unlocked after first interaction.</li>
+          <li><strong>Graceful degradation</strong> — flat page fallback when WebGL is unavailable.</li>
+        </ul>
+
+        <div class="note">
+          <h4>Design decision</h4>
+          <p>
+            Motion is treated as information. The scroll position doubles as camera progress AND
+            "palace depth" (<code>#depth-val</code>), and the section that owns the middle of the
+            viewport becomes the <em>active</em> nav target — the same way confidant ranks surface
+            through the story.
+          </p>
+        </div>
+      </section>
+
+      <!-- ─────────── 03 · STACK ─────────── -->
+      <section id="stack">
+        <div class="sec-head">
+          <span class="sec-no">03</span>
+          <h2 class="sec-title"><span>TECH&nbsp;STACK</span></h2>
+          <span class="sec-kicker">Under the hood</span>
+        </div>
+
+        <table>
+          <thead>
+            <tr><th>Layer</th><th>Choice</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Build</td><td>Vite 6</td><td>ESM-first, instant HMR; polling watch (Windows drive).</td></tr>
+            <tr><td>3D</td><td>Three.js r170</td><td>WebGLRenderer, InstancedMesh, Points w/ CanvasTexture, FogExp2.</td></tr>
+            <tr><td>Language</td><td>Vanilla JS (ES modules)</td><td><code>src/main.js</code>, <code>src/scene.js</code>, <code>src/data.js</code>.</td></tr>
+            <tr><td>Styles</td><td>Hand-written CSS</td><td>Design tokens in <code>:root</code>; no framework.</td></tr>
+            <tr><td>Fonts</td><td>Google Fonts</td><td>Anton, Barlow Condensed, Noto Sans JP.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ─────────── 04 · GETTING STARTED ─────────── -->
+      <section id="getting-started">
+        <div class="sec-head">
+          <span class="sec-no">04</span>
+          <h2 class="sec-title"><span>GETTING&nbsp;STARTED</span></h2>
+          <span class="sec-kicker">Setup</span>
+        </div>
+
+        <h3>Prerequisites</h3>
+        <p>Node.js 18+ and npm. No other tooling required.</p>
+
+        <h3>Install &amp; run</h3>
+        <div class="code-block">
+          <span class="code-label">terminal</span>
+          <pre><code><span class="c"># install dependencies</span>
+npm install
+
+<span class="c"># dev server → http://localhost:5173</span>
+npm run dev
+
+<span class="c"># production build → dist/</span>
+npm run build
+
+<span class="c"># serve the production build</span>
+npm run preview</code></pre>
+        </div>
+
+        <h3>Project layout</h3>
+        <div class="tree">
+          <span class="paper">portfolio-web-v2/</span><br />
+          <span class="red">├──</span> index.html              <span class="dim">all sections (hero, about, projects, skills, contact)</span><br />
+          <span class="red">├──</span> src/<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="red">├──</span> main.js             <span class="dim">boot / loader, reveals, nav, cursor, UI blips, scroll loop</span><br />
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="red">├──</span> scene.js            <span class="dim">the Three.js world + camera-on-scroll + section “impact” punch</span><br />
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="red">├──</span> data.js             <span class="red">← edit your content here</span><br />
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="red">└──</span> style.css           <span class="dim">the whole design system</span><br />
+          <span class="red">├──</span> assets/img/projects/    <span class="dim">project screenshots (imported by src/data.js)</span><br />
+          <span class="red">├──</span> dist/                  <span class="dim">production build output</span><br />
+          <span class="red">└──</span> vite.config.js        <span class="dim">build config, base path, watch polling</span>
+        </div>
+
+        <div class="note">
+          <h4>Deploy note</h4>
+          <p>
+            <code>vite.config.js</code> sets <code>base: '/templates/persona-template-v1/'</code> so the
+            build can be dropped into any sub-folder / host. Adjust it for your own deployment path.
+          </p>
+        </div>
+      </section>
+
+      <!-- ─────────── 05 · STRUCTURE ─────────── -->
+      <section id="structure">
+        <div class="sec-head">
+          <span class="sec-no">05</span>
+          <h2 class="sec-title"><span>FILE&nbsp;STRUCTURE</span></h2>
+          <span class="sec-kicker">Where things live</span>
+        </div>
+
+        <h3>Entry &amp; content</h3>
+        <table>
+          <thead>
+            <tr><th>File</th><th>Responsibility</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>index.html</code></td><td>All sections markup: hero, about, projects, skills, contact, loader, HUD, cursor, nav, footer.</td></tr>
+            <tr><td><code>src/main.js</code></td><td>Content injection, boot loader, scroll reveals, section tracking, scroll loop, card tilt, cursor, UI sound.</td></tr>
+            <tr><td><code>src/scene.js</code></td><td>Three.js world, camera-on-scroll, impact punch, resize / visibility handling.</td></tr>
+            <tr><td><code>src/data.js</code></td><td>Content source of truth: <code>PROJECTS</code>, <code>STATS</code>, <code>ARSENAL</code>, <code>CONTACT</code>.</td></tr>
+            <tr><td><code>src/style.css</code></td><td>Complete design system: tokens, layout, FX overlays, HUD, cards, stats, responsive.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Assets</h3>
+        <p>
+          Project screenshots live in <code>assets/img/projects/</code> and are imported into
+          <code>src/data.js</code> (e.g. <code>import jualRokok from '../assets/img/projects/jualrokokkretek_1.png'</code>).
+          Add new screenshots there and reference them in the matching <code>PROJECTS</code> entry.
+        </p>
+      </section>
+
+      <!-- ─────────── 06 · EDITING CONTENT ─────────── -->
+      <section id="editing">
+        <div class="sec-head">
+          <span class="sec-no">06</span>
+          <h2 class="sec-title"><span>EDITING&nbsp;CONTENT</span></h2>
+          <span class="sec-kicker">Copy &amp; data</span>
+        </div>
+
+        <p>
+          Everything content-related lives in <strong><code>src/data.js</code></strong>. The UI reads
+          straight from these exports — no hunting through markup for copy.
+        </p>
+
+        <table>
+          <thead>
+            <tr><th>Export</th><th>What it drives</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>PROJECTS</code></td><td>Project cards: title, jp subtitle, tag, year, image, blurb, stack, link.</td></tr>
+            <tr><td><code>STATS</code></td><td>Persona stat bars (name, jp, rank, value, role).</td></tr>
+            <tr><td><code>ARSENAL</code></td><td>Tech tag cloud.</td></tr>
+            <tr><td><code>CONTACT</code></td><td>Email / GitHub / LinkedIn — injected into the calling card.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Other edit points</h3>
+        <ul>
+          <li><strong>Name / role / bio copy</strong> → <code>index.html</code> (<code>#hero</code>, <code>#about</code>, <code>.calling</code>).</li>
+          <li><strong>Colors / fonts</strong> → <code>src/style.css</code> → <code>:root</code> (<code>--red</code>, <code>--disp</code>, <code>--body</code>).</li>
+          <li><strong>3D world density &amp; distance</strong> → <code>src/scene.js</code> (<code>PATH</code>, <code>SHARDS</code>, <code>DUST</code>, monolith loop).</li>
+          <li><strong>Scroll smoothing</strong> → <code>src/scene.js</code> → <code>smooth += (target - smooth) * 0.075</code>.</li>
+        </ul>
+      </section>
+
+      <!-- ─────────── 07 · THE 3D WORLD ─────────── -->
+      <section id="world">
+        <div class="sec-head">
+          <span class="sec-no">07</span>
+          <h2 class="sec-title"><span>THE&nbsp;3D&nbsp;WORLD</span></h2>
+          <span class="sec-kicker">Under the hood</span>
+        </div>
+
+        <p>
+          The world is a scroll-driven camera through a long palace corridor. As scroll progress
+          (<code>0 → 1</code>) rises, the camera path is computed per frame:
+        </p>
+        <div class="code-block">
+          <span class="code-label">pathAt(t)</span>
+          <pre><code>{
+  x: Math.sin(t * Math.PI * 3.0) * 2.4,
+  y: Math.sin(t * Math.PI * 2.0 + 0.5) * 1.5 + 0.5,
+  z: 10 - t * PATH,
+}</code></pre>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h4>Corridor <span>#01</span></h4>
+            <p>78 jagged monoliths (random height / width / depth / rotation) with red edge lines, plus a wireframe floor grid.</p>
+          </div>
+          <div class="card">
+            <h4>Rings <span>#02</span></h4>
+            <p>14 torus rings to fly through, breathing and rotating as the camera advances.</p>
+          </div>
+          <div class="card">
+            <h4>Shards &amp; dust <span>#03</span></h4>
+            <p>240 drifting spinning shards (solid + wireframe InstancedMesh) and 2,600 additive halftone dust particles.</p>
+          </div>
+        </div>
+
+        <div class="note">
+          <h4>Impact punch</h4>
+          <p>
+            Fired from <code>main.js</code> → <code>scene.impact()</code> whenever a new section takes
+            over. The punch drives FOV (<code>58 → 67</code>), lamp intensity and ring/shard scale,
+            then decays over time.
+          </p>
+        </div>
+      </section>
+
+      <!-- ─────────── 08 · BEHAVIOUR ─────────── -->
+      <section id="behaviour">
+        <div class="sec-head">
+          <span class="sec-no">08</span>
+          <h2 class="sec-title"><span>BEHAVIOUR</span></h2>
+          <span class="sec-kicker">Systems</span>
+        </div>
+
+        <h3>Boot &amp; loader</h3>
+        <ul>
+          <li>Loader animates fill + percentage over <code>1250ms</code> (<code>250ms</code> when <code>prefers-reduced-motion</code>).</li>
+          <li>On complete: fires the first <em>impact</em>, starts reveals, updates section state, removes loader.</li>
+        </ul>
+
+        <h3>Scroll loop (<code>src/main.js → scrollLoop</code>)</h3>
+        <ul>
+          <li>Computes page scroll progress <code>0 → 1</code> and feeds it to the scene.</li>
+          <li>Updates the <strong>palace depth</strong> gauge only when the rounded value changes.</li>
+          <li>Runs hero parallax elements via inline <code>--py</code> custom property.</li>
+        </ul>
+
+        <h3>Active section detection</h3>
+        <p>
+          The middle of the viewport (<code>innerHeight * 0.42</code>) owns the current section; it
+          drives nav highlighting and the 3D impact.
+        </p>
+
+        <div class="note">
+          <h4>Accessibility &amp; fallbacks</h4>
+          <ul style="margin-bottom: 0;">
+            <li>Respects <code>prefers-reduced-motion</code> — no smooth camera, no tilt, no impact punch.</li>
+            <li>Custom cursor + tilt only on <code>(hover: hover) and (pointer: fine)</code>.</li>
+            <li>WebAudio context unlocked on first pointer / key interaction.</li>
+            <li>If WebGL is unavailable the canvas hides and the page works flat.</li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ══════════ ENDING ══════════ -->
+    <footer class="end">
+      <div class="wrap">
+        <div class="foot-word">Game Over</div>
+        <div class="foot-sub">Thanks for playing — © 2026 RIZOCT · Documentation Dossier</div>
+      </div>
+    </footer>
+
+  </body>
+</html>
