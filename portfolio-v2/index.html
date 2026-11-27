@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>RIZOCT — Full-Stack Developer // Persona Portfolio</title>
+    <meta
+      name="description"
+      content="RIZOCT, full-stack developer. A Persona-inspired, 3D-scrolling portfolio: confidants, palaces and calling cards."
+    />
+    <meta name="theme-color" content="#0a0a0c" />
+    <meta property="og:title" content="RIZOCT — Full-Stack Developer" />
+    <meta property="og:description" content="Persona-styled 3D portfolio. Infiltrate the site." />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,700&family=Noto+Sans+JP:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23e60012'/%3E%3Cpath d='M14 50 30 14h12L26 50z' fill='%23fff'/%3E%3Cpath d='M34 50 50 14h6L40 50z' fill='%230a0a0c'/%3E%3C/svg%3E"
+    />
+    <script type="module" crossorigin src="/assets/index-BCxs0uv7.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D2pv4YMy.css">
+  </head>
+
+  <body>
+    <!-- ══════════ BOOT / LOADER ══════════ -->
+    <div id="loader" role="status" aria-live="polite">
+      <div class="loader-bars" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="loader-inner">
+        <span class="loader-kicker">SHADOW NETWORK</span>
+        <strong class="loader-word">LOADING<span class="loader-dots">…</span></strong>
+        <div class="loader-track"><span id="loader-fill"></span></div>
+        <span class="loader-pct" id="loader-pct">00%</span>
+      </div>
+    </div>
+
+    <!-- ══════════ 3D WORLD ══════════ -->
+    <canvas id="webgl" aria-hidden="true"></canvas>
+    <div class="fx-vignette" aria-hidden="true"></div>
+    <div class="fx-halftone" aria-hidden="true"></div>
+    <div class="fx-scan" aria-hidden="true"></div>
+
+    <!-- custom cursor -->
+    <div id="cursor" aria-hidden="true"><i></i><b></b></div>
+
+    <!-- ══════════ HUD ══════════ -->
+    <header class="hud">
+      <a class="hud-logo" href="#hero" data-blip>
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M6 58 34 6h24L30 58z" fill="#e60012" />
+          <path d="M34 58 62 6h2L36 58z" fill="#f6f2e8" />
+        </svg>
+        <span>RIZOCT<em>/DEV</em></span>
+      </a>
+
+      <div class="hud-stats" aria-hidden="true">
+        <span class="chip chip-red">LV.99</span>
+        <span class="chip">HP 999</span>
+        <span class="chip">SP 500</span>
+      </div>
+    </header>
+
+    <!-- side menu -->
+    <nav class="menu" aria-label="Section navigation">
+      <ul>
+        <li><a href="#hero" data-nav="hero" data-blip><b>01</b><span>START</span></a></li>
+        <li><a href="#about" data-nav="about" data-blip><b>02</b><span>CONFIDANT</span></a></li>
+        <li><a href="#projects" data-nav="projects" data-blip><b>03</b><span>VAULT</span></a></li>
+        <li><a href="#skills" data-nav="skills" data-blip><b>04</b><span>AWAKENING</span></a></li>
+        <li><a href="#contact" data-nav="contact" data-blip><b>05</b><span>CONTACT</span></a></li>
+      </ul>
+    </nav>
+
+    <!-- depth gauge -->
+    <div class="depth" aria-hidden="true">
+      <span class="depth-label">PALACE DEPTH</span>
+      <span class="depth-track"><i id="depth-fill"></i></span>
+      <span class="depth-val" id="depth-val">0%</span>
+    </div>
+
+    <!-- ══════════ CONTENT ══════════ -->
+    <main id="content">
+      <!-- ─────────── HERO ─────────── -->
+      <section id="hero" class="sec sec-hero" data-section="hero">
+        <span class="hero-slab" data-parallax="-0.12" aria-hidden="true"></span>
+        <span class="hero-ring" data-parallax="0.18" aria-hidden="true"></span>
+
+        <div class="hero-inner">
+          <p class="hero-eyebrow" data-reveal>
+            <span class="tag">PERSONA</span> portfolio v2.0 — infiltration mode
+            <span class="jp">ペルソナ</span>
+          </p>
+
+          <h1 class="hero-title" data-reveal>
+            <span class="stack" data-text="RIZOCT">RIZOCT</span>
+          </h1>
+
+          <div class="hero-role" data-reveal>
+            <span class="role-bar">FULL-STACK DEVELOPER</span>
+            <span class="role-jp">フルスタック開発者</span>
+          </div>
+
+          <p class="hero-lead" data-reveal>
+            I steal seconds from slow load times and hand them back to users —
+            from the database all the way to the last pixel.
+          </p>
+
+          <div class="hero-cta" data-reveal>
+            <a class="btn btn-primary" href="#projects" data-blip>
+              <span>VIEW THE VAULT</span>
+            </a>
+            <a class="btn btn-ghost" href="#contact" data-blip>
+              <span>CALLING CARD</span>
+            </a>
+          </div>
+
+          <ul class="hero-meta" data-reveal>
+            <li><b>CLASS</b> Developer</li>
+            <li><b>ROUTE</b> Web / Realtime</li>
+            <li><b>STATUS</b> Open to work</li>
+          </ul>
+        </div>
+
+        <div class="scroll-hint" aria-hidden="true">
+          <span>SCROLL TO INFILTRATE</span>
+          <i></i>
+        </div>
+      </section>
+
+      <!-- ─────────── ABOUT / CONFIDANT ─────────── -->
+      <section id="about" class="sec sec-about" data-section="about">
+        <div class="sec-head" data-reveal>
+          <span class="sec-kicker">SOCIAL LINK — RANK ★★★★☆</span>
+          <h2 class="sec-title"><span>CONFIDANT</span></h2>
+        </div>
+
+        <div class="confidant" data-reveal>
+          <div class="confidant-portrait" aria-hidden="true">
+            <div class="portrait-mask"></div>
+            <span class="portrait-initial">R</span>
+            <span class="portrait-badge">FIRST MET</span>
+          </div>
+
+          <div class="confidant-body">
+            <h3>RIZOCT <em>— FULL-STACK DEVELOPER</em></h3>
+            <p class="confidant-rank">
+              <span>CONFIDANT RANK</span>
+              <b>★★★★<i>★</i></b>
+            </p>
+            <p>
+              I build products end to end: designing the data model, wiring the API,
+              then shaping the interface until it feels inevitable. I care about
+              performance budgets, accessible markup and interactions that have
+              weight to them.
+            </p>
+            <p>
+              When a project needs a dash of drama, I reach for motion and 3D —
+              like the world you're scrolling through right now.
+            </p>
+
+            <dl class="confidant-stats">
+              <div><dt>EXP</dt><dd>6+ YRS</dd></div>
+              <div><dt>SHIPPED</dt><dd>30+ APPS</dd></div>
+              <div><dt>STACK</dt><dd>LARAVEL / FLUTTER / UNITY</dd></div>
+              <div><dt>MODE</dt><dd>REMOTE</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─────────── PROJECTS / VAULT ─────────── -->
+      <section id="projects" class="sec sec-projects" data-section="projects">
+        <div class="sec-head" data-reveal>
+          <span class="sec-kicker">PALACE — TREASURE ROOM</span>
+          <h2 class="sec-title"><span>PROJECTS</span></h2>
+        </div>
+
+        <div class="vault" id="vault"><!-- cards injected by src/data.js --></div>
+      </section>
+
+      <!-- ─────────── SKILLS / AWAKENING ─────────── -->
+      <section id="skills" class="sec sec-skills" data-section="skills">
+        <div class="sec-head" data-reveal>
+          <span class="sec-kicker">PERSONA AWAKENED — STAT SCREEN</span>
+          <h2 class="sec-title"><span>SKILLS</span></h2>
+        </div>
+
+        <div class="stats">
+          <ul class="stat-list" id="stat-list"><!-- injected --></ul>
+
+          <div class="arsenal" data-reveal>
+            <h3 class="arsenal-title">PERSONA ARSENAL</h3>
+            <ul class="arsenal-tags" id="arsenal-tags"><!-- injected --></ul>
+            <div class="masks" aria-hidden="true">
+              <span class="mask m1"></span><span class="mask m2"></span><span class="mask m3"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─────────── CONTACT / CALLING CARD ─────────── -->
+      <section id="contact" class="sec sec-contact" data-section="contact">
+        <div class="sec-head" data-reveal>
+          <span class="sec-kicker">MESSAGE BOARD — POSTED IN PERSONA</span>
+          <h2 class="sec-title"><span>CALLING CARD</span></h2>
+        </div>
+
+        <div class="calling" data-reveal>
+          <div class="calling-stamp" aria-hidden="true">WANTED</div>
+          <p class="calling-line">THE PHANTOM DEVELOPER WANTS <em>YOU</em></p>
+          <p class="calling-sub">
+            Got a product, a rescue mission or an idea that deserves to exist?
+            Send the calling card — I answer within a day.
+          </p>
+
+          <div class="calling-links">
+            <a class="btn btn-primary" href="mailto:rizoctdev@gmail.com" data-blip>
+              <span>RIZOCTDEV@GMAIL.COM</span>
+            </a>
+            <a class="btn btn-ghost" href="https://github.com/rizoct" target="_blank" rel="noreferrer" data-blip>
+              <span>GITHUB</span>
+            </a>
+            <a class="btn btn-ghost" href="https://www.linkedin.com/in/rizky-octavian" target="_blank" rel="noreferrer" data-blip>
+              <span>LINKEDIN</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer class="foot">
+        <span class="foot-word">GAME OVER</span>
+        <span class="foot-sub">thanks for playing — © 2026 RIZOCT</span>
+      </footer>
+    </main>
+
+  </body>
+</html>
